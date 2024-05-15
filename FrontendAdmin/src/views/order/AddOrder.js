@@ -1,0 +1,270 @@
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@mui/styles";
+
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+// import {  ToggleButton, ToggleButtonGroup } from '@material-ui/core';
+import { CheckBox } from "@mui/icons-material";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
+import { getAllOrders, addOrder } from "../../api/apiService";
+import MenuItem from "@mui/material/MenuItem";
+import { Select, ToggleButton, ToggleButtonGroup } from "@mui/material";
+// import { Checkbox } from "@mui/material";
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+        marginTop: 20,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        margin: "auto",
+        maxWidth: 600,
+    },
+    title: {
+        fontSize: 30,
+        textAlign: "center",
+    },
+    txtInput: {
+        width: "98%",
+        margin: "10px",
+    },
+    submit: {
+        margin: theme.spacing(3, 0, 2),
+    },
+}));
+
+export default function AddOrder() {
+    const classes = useStyles();
+    const [checkAdd, setCheckAdd] = useState(false);
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
+    const [totalPrice, setTotalPrice] = useState("");
+    const [status, setStatus] = useState("true");
+    const [listIdCart, setListIdCart] = useState("");
+
+    const navigate = useNavigate();
+
+    const handleAddOrder = (event) => {
+        event.preventDefault();
+        if (
+            lastName !== "" &&
+            firstName !== "" &&
+            userName !== "" &&
+            email !== "" &&
+            phone !== "" &&
+            address !== "" &&
+            totalPrice !== "" &&
+            listIdCart !== ""
+        ) 
+        
+        {
+
+            const idCartArray = listIdCart.split(',');
+            // Chuyển đổi mỗi id giỏ hàng thành số nguyên
+            const idCartIntegers = idCartArray.map(id => parseInt(id.trim(), 10));
+            const order = {
+                lastName,
+                firstName,
+                userName,
+                email,
+                phone,
+                address,
+                totalPrice,
+                status : status,
+                listIdCart: idCartIntegers,
+            };
+            console.log(order);
+            addOrder("orders", order).then((item) => {
+                console.log("added", item);
+                if (item.status === 201) {
+                    setCheckAdd(true);
+                } else {
+                    alert("Thêm đơn hàng không thành công!");
+                }
+            });
+        } else {
+            alert("Bạn chưa nhập đủ thông tin!");
+        }
+    };
+
+    useEffect(() => {
+        if (checkAdd) {
+            const timeout = setTimeout(() => {
+                navigate("/Order/all-order");
+            }, 1000); // Thời gian chờ trước khi chuyển hướng (miliseconds)
+
+            // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
+            return () => clearTimeout(timeout);
+        }
+    }, [checkAdd, navigate]);
+    return (
+        <div className={classes.root}>
+            <Grid container spacing={3}>
+                <Grid item xs={12}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} variant="h4">
+                            Thêm Đơn Hàng
+                        </Typography>
+
+                        <Grid item xs={12} container>
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Họ
+                                </Typography>
+                                <TextField
+                                    id="lastName"
+                                    onChange={(e) => setLastName(e.target.value)}
+                                    // value={productName}
+                                    name="lastName"
+                                    variant="outlined"
+                                    className={classes.txtInput}
+                                    size="small"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Tên
+                                </Typography>
+                                <TextField
+                                    id="firstName"
+                                    onChange={(e) => setFirstName(e.target.value)}
+                                    // value={productName}
+                                    name="firstName"
+                                    variant="outlined"
+                                    className={classes.txtInput}
+                                    size="small"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Họ và tên
+                                </Typography>
+                                <TextField
+                                    id="userName"
+                                    onChange={(e) => setUserName(e.target.value)}
+                                    // value={productName}
+                                    name="userName"
+                                    variant="outlined"
+                                    className={classes.txtInput}
+                                    size="small"
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Số điện thoại
+                                </Typography>
+                                <TextField
+                                    id="phone"
+                                    onChange={(e) => setPhone(e.target.value)}
+                                    // value={productDescription}
+                                    name="phone"
+                                    variant="outlined"
+                                    className={classes.txtInput}
+                                    size="small"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Email
+                                </Typography>
+                                <TextField
+                                    id="email"
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    // value={productDescription}
+                                    name="email"
+                                    variant="outlined"
+                                    className={classes.txtInput}
+                                    size="small"
+                                />
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Địa chỉ
+                                </Typography>
+                                <TextField
+                                    id="address"
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    // value={productDescription}
+                                    name="address"
+                                    className={classes.txtInput}
+                                    multiline
+                                    rows={4}
+                                    variant="outlined"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Tổng tiền
+                                </Typography>
+                                <TextField
+                                    id="totalPrice"
+                                    onChange={(e) => setTotalPrice(e.target.value)}
+                                    // value={productDescription}
+                                    name="totalPrice"
+                                    variant="outlined"
+                                    className={classes.txtInput}
+                                    size="small"
+                                />
+                            </Grid>
+                          
+                            {/* Other fields */}
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Trạng thái đơn hàng
+                                </Typography>
+                                <Select
+                                    value={status}
+                                    onChange={(e) => setStatus(e.target.value)}
+                                    variant="outlined"
+                                    className={classes.txtInput}
+                                    size="small"
+                                    fullWidth
+                                >
+                                    <MenuItem value="true">Chưa thanh toán</MenuItem>
+                                    <MenuItem value="false">Đã thanh toán</MenuItem>
+                                </Select>
+                            </Grid>
+
+                            <Grid item xs={12}>
+                                <Typography gutterBottom variant="subtitle1">
+                                    Id giỏ hàng
+                                </Typography>
+                                <TextField
+                                    id="listIdCart"
+                                    onChange={(e) => setListIdCart(e.target.value)}
+                                    // value={productDescription}
+                                    name="totalPrice"
+                                    variant="outlined"
+                                    className={classes.txtInput}
+                                    size="small"
+                                />
+                            </Grid>
+                            {/*  */}
+                            <Grid item xs={12} style={{ marginTop: "30px" }}>
+                                <Button
+                                    type="button"
+                                    onClick={handleAddOrder}
+                                    fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.submit}
+                                >
+                                    Thêm Thông tin Khách hàng
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Grid>
+            </Grid>
+        </div>
+    );
+}

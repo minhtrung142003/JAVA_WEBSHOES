@@ -1,32 +1,41 @@
-import React, { useEffect, useRef } from 'react'
-
+import React, { useEffect, useRef, useState } from 'react'
 import { CChartLine } from '@coreui/react-chartjs'
 import { getStyle } from '@coreui/utils'
+import { getAllOrders } from '../../api/apiService'
+// Import the function to fetch orders data from your API file
 
 const MainChart = () => {
   const chartRef = useRef(null)
+  const [orderData, setOrderData] = useState([])
 
   useEffect(() => {
-    document.documentElement.addEventListener('ColorSchemeChange', () => {
-      if (chartRef.current) {
-        setTimeout(() => {
-          chartRef.current.options.scales.x.grid.borderColor = getStyle(
-            '--cui-border-color-translucent',
-          )
-          chartRef.current.options.scales.x.grid.color = getStyle('--cui-border-color-translucent')
-          chartRef.current.options.scales.x.ticks.color = getStyle('--cui-body-color')
-          chartRef.current.options.scales.y.grid.borderColor = getStyle(
-            '--cui-border-color-translucent',
-          )
-          chartRef.current.options.scales.y.grid.color = getStyle('--cui-border-color-translucent')
-          chartRef.current.options.scales.y.ticks.color = getStyle('--cui-body-color')
-          chartRef.current.update()
-        })
-      }
-    })
-  }, [chartRef])
+    
+    getAllOrders('orders') // Giả sử 'đơn hàng' là điểm cuối để tìm nạp dữ liệu đơn hàng
+      .then(response => {
+        // Giả sử reply.data chứa dữ liệu đơn hàng theo định dạng bạn đã cung cấp
+        setOrderData(response.data)
+      })
+      .catch(error => {
+        console.error('Failed to fetch orders data:', error)
+      })
+  }, [])
 
-  const random = () => Math.round(Math.random() * 100)
+  const getOrderCountsByMonth = () => {
+    // Khởi tạo một mảng để lưu trữ số lượng đơn hàng mỗi tháng
+    const orderCounts = new Array(12).fill(0);
+
+    // Lặp lại dữ liệu đơn hàng và cập nhật mảng đếm đơn hàng
+    orderData.forEach(order => {
+      // Trích xuất tháng từ trường 'createdAt' của đơn hàng
+      const createdAt = new Date(order.createdAt);
+      const month = createdAt.getMonth();
+
+      // Tăng quantiy order theo tháng tương ứng
+      orderCounts[month]++;
+    });
+
+    return orderCounts;
+  }
 
   return (
     <>
@@ -34,49 +43,16 @@ const MainChart = () => {
         ref={chartRef}
         style={{ height: '300px', marginTop: '40px' }}
         data={{
-          labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+          labels: ['Tháng 1', 'Tháng 2', 'Tháng 3', 'Tháng 4', 'Tháng 5', 'Tháng 6', 'Tháng 7', 'Tháng 8', 'Tháng 9', 'Tháng 10', 'Tháng 11', 'Tháng 12'],
           datasets: [
             {
-              label: 'My First dataset',
+              label: 'Number of Orders',
               backgroundColor: `rgba(${getStyle('--cui-info-rgb')}, .1)`,
               borderColor: getStyle('--cui-info'),
               pointHoverBackgroundColor: getStyle('--cui-info'),
               borderWidth: 2,
-              data: [
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-              ],
+              data: getOrderCountsByMonth(), // Use api đếm order
               fill: true,
-            },
-            {
-              label: 'My Second dataset',
-              backgroundColor: 'transparent',
-              borderColor: getStyle('--cui-success'),
-              pointHoverBackgroundColor: getStyle('--cui-success'),
-              borderWidth: 2,
-              data: [
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-                random(50, 200),
-              ],
-            },
-            {
-              label: 'My Third dataset',
-              backgroundColor: 'transparent',
-              borderColor: getStyle('--cui-danger'),
-              pointHoverBackgroundColor: getStyle('--cui-danger'),
-              borderWidth: 1,
-              borderDash: [8, 5],
-              data: [65, 65, 65, 65, 65, 65, 65],
             },
           ],
         }}
@@ -105,11 +81,11 @@ const MainChart = () => {
               grid: {
                 color: getStyle('--cui-border-color-translucent'),
               },
-              max: 250,
+              max: Math.max(...getOrderCountsByMonth()), // Set value tối đa dựa theo quantiy order
               ticks: {
                 color: getStyle('--cui-body-color'),
                 maxTicksLimit: 5,
-                stepSize: Math.ceil(250 / 5),
+                stepSize: Math.ceil(Math.max(...getOrderCountsByMonth()) / 5),
               },
             },
           },

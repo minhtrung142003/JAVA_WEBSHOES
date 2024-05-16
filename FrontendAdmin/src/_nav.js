@@ -19,12 +19,12 @@ import { MdOutlineProductionQuantityLimits } from 'react-icons/md';
 const _nav = [
   {
     component: CNavItem,
-    name: 'Dashboard',
+    name: 'Bảng Điều Khiển',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
     badge: {
       color: 'info',
-      text: 'NEW',
+      text: 'Mới',
     },
   },
   // {

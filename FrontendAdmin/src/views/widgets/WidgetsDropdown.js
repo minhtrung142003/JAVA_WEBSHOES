@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from 'react'
-import PropTypes from 'prop-types'
-
+import React, { useEffect, useRef, useState } from 'react';
+import PropTypes from 'prop-types';
+import { getAllUsers, getAllOrders, getAllVisitors } from '../../api/apiService'; // Adjust the import paths as needed
 import {
   CRow,
   CCol,
@@ -9,48 +9,74 @@ import {
   CDropdownItem,
   CDropdownToggle,
   CWidgetStatsA,
-} from '@coreui/react'
-import { getStyle } from '@coreui/utils'
-import { CChartBar, CChartLine } from '@coreui/react-chartjs'
-import CIcon from '@coreui/icons-react'
-import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons'
+} from '@coreui/react';
+import { getStyle } from '@coreui/utils';
+import { CChartBar, CChartLine } from '@coreui/react-chartjs';
+import CIcon from '@coreui/icons-react';
+import { cilArrowBottom, cilArrowTop, cilOptions } from '@coreui/icons';
 
 const WidgetsDropdown = (props) => {
-  const widgetChartRef1 = useRef(null)
-  const widgetChartRef2 = useRef(null)
+  const widgetChartRef1 = useRef(null);
+  const widgetChartRef2 = useRef(null);
 
+  // khai bao gia tri khoi tao 
+  const [usersCount, setUsersCount] = useState(0);
+  const [ordersCount, setOrdersCount] = useState(0);
+  const [totalProfit, setTotalProfit] = useState(0);
+  const [visitorsCount, setVisitorsCount] = useState(0);
+
+  // callapi get all information
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const usersResponse = await getAllUsers('users');
+        setUsersCount(usersResponse.data.length);
+
+        const ordersResponse = await getAllOrders('orders');
+        setOrdersCount(ordersResponse.data.length);
+
+        const visitorsResponse = await getAllVisitors('visitors');
+        setVisitorsCount(visitorsResponse.data.length);
+
+        const profit = ordersResponse.data.reduce((sum, order) => sum + order.totalPrice, 0);
+        setTotalProfit(profit);
+      } catch (error) {
+        console.error("Error fetching data", error);
+      }
+    };
+
+    fetchData();
+
     document.documentElement.addEventListener('ColorSchemeChange', () => {
       if (widgetChartRef1.current) {
         setTimeout(() => {
-          widgetChartRef1.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-primary')
-          widgetChartRef1.current.update()
-        })
+          widgetChartRef1.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-primary');
+          widgetChartRef1.current.update();
+        });
       }
 
       if (widgetChartRef2.current) {
         setTimeout(() => {
-          widgetChartRef2.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-info')
-          widgetChartRef2.current.update()
-        })
+          widgetChartRef2.current.data.datasets[0].pointBackgroundColor = getStyle('--cui-info');
+          widgetChartRef2.current.update();
+        });
       }
-    })
-  }, [widgetChartRef1, widgetChartRef2])
+    });
+  }, [widgetChartRef1, widgetChartRef2]);
 
   return (
+
+    // check co bao nhieu user
     <CRow className={props.className} xs={{ gutter: 4 }}>
       <CCol sm={6} xl={4} xxl={3}>
         <CWidgetStatsA
           color="primary"
           value={
             <>
-              26K{' '}
-              <span className="fs-6 fw-normal">
-                (-12.4% <CIcon icon={cilArrowBottom} />)
-              </span>
+              {usersCount} <span className="fs-6 fw-normal">(-12.4% <CIcon icon={cilArrowBottom} />)</span>
             </>
           }
-          title="Users"
+          title="Khách hàng"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -129,18 +155,17 @@ const WidgetsDropdown = (props) => {
           }
         />
       </CCol>
+
+      
       <CCol sm={6} xl={4} xxl={3}>
         <CWidgetStatsA
           color="info"
           value={
             <>
-              $6.200{' '}
-              <span className="fs-6 fw-normal">
-                (40.9% <CIcon icon={cilArrowTop} />)
-              </span>
+              {ordersCount} <span className="fs-6 fw-normal">(40.9% <CIcon icon={cilArrowTop} />)</span>
             </>
           }
-          title="Income"
+          title="Đơn hàng"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -223,85 +248,13 @@ const WidgetsDropdown = (props) => {
           color="warning"
           value={
             <>
-              2.49%{' '}
+              {totalProfit.toFixed(2)}{' '}
               <span className="fs-6 fw-normal">
                 (84.7% <CIcon icon={cilArrowTop} />)
               </span>
             </>
           }
-          title="Conversion Rate"
-          action={
-            <CDropdown alignment="end">
-              <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
-                <CIcon icon={cilOptions} />
-              </CDropdownToggle>
-              <CDropdownMenu>
-                <CDropdownItem>Action</CDropdownItem>
-                <CDropdownItem>Another action</CDropdownItem>
-                <CDropdownItem>Something else here...</CDropdownItem>
-                <CDropdownItem disabled>Disabled action</CDropdownItem>
-              </CDropdownMenu>
-            </CDropdown>
-          }
-          chart={
-            <CChartLine
-              className="mt-3"
-              style={{ height: '70px' }}
-              data={{
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                datasets: [
-                  {
-                    label: 'My First dataset',
-                    backgroundColor: 'rgba(255,255,255,.2)',
-                    borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40],
-                    fill: true,
-                  },
-                ],
-              }}
-              options={{
-                plugins: {
-                  legend: {
-                    display: false,
-                  },
-                },
-                maintainAspectRatio: false,
-                scales: {
-                  x: {
-                    display: false,
-                  },
-                  y: {
-                    display: false,
-                  },
-                },
-                elements: {
-                  line: {
-                    borderWidth: 2,
-                    tension: 0.4,
-                  },
-                  point: {
-                    radius: 0,
-                    hitRadius: 10,
-                    hoverRadius: 4,
-                  },
-                },
-              }}
-            />
-          }
-        />
-      </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
-        <CWidgetStatsA
-          color="danger"
-          value={
-            <>
-              44K{' '}
-              <span className="fs-6 fw-normal">
-                (-23.6% <CIcon icon={cilArrowBottom} />)
-              </span>
-            </>
-          }
-          title="Sessions"
+          title="Tổng lợi nhuận"
           action={
             <CDropdown alignment="end">
               <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
@@ -340,10 +293,12 @@ const WidgetsDropdown = (props) => {
                 ],
                 datasets: [
                   {
-                    label: 'My First dataset',
+                    label: 'Sales',
                     backgroundColor: 'rgba(255,255,255,.2)',
                     borderColor: 'rgba(255,255,255,.55)',
-                    data: [78, 81, 80, 45, 34, 12, 40, 85, 65, 23, 12, 98, 34, 84, 67, 82],
+                    data: [
+                      78, 81, 80, 45, 34, 12, 40, 80, 34, 12, 40, 80, 78, 81, 80, 45, 34,
+                    ],
                     barPercentage: 0.6,
                   },
                 ],
@@ -366,9 +321,6 @@ const WidgetsDropdown = (props) => {
                     },
                   },
                   y: {
-                    border: {
-                      display: false,
-                    },
                     grid: {
                       display: false,
                       drawBorder: false,
@@ -384,13 +336,94 @@ const WidgetsDropdown = (props) => {
           }
         />
       </CCol>
+      <CCol sm={6} xl={4} xxl={3}>
+        <CWidgetStatsA
+          color="danger"
+          value={
+            <>
+              {visitorsCount}{' '}
+              <span className="fs-6 fw-normal">
+                (23.5% <CIcon icon={cilArrowBottom} />)
+              </span>
+            </>
+          }
+          title="Người truy cập"
+          action={
+            <CDropdown alignment="end">
+              <CDropdownToggle color="transparent" caret={false} className="text-white p-0">
+                <CIcon icon={cilOptions} />
+              </CDropdownToggle>
+              <CDropdownMenu>
+                <CDropdownItem>Action</CDropdownItem>
+                <CDropdownItem>Another action</CDropdownItem>
+                <CDropdownItem>Something else here...</CDropdownItem>
+                <CDropdownItem disabled>Disabled action</CDropdownItem>
+              </CDropdownMenu>
+            </CDropdown>
+          }
+          chart={
+            <CChartLine
+              className="mt-3"
+              style={{ height: '70px' }}
+              data={{
+                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                datasets: [
+                  {
+                    label: 'Visitors',
+                    backgroundColor: 'rgba(255,255,255,.2)',
+                    borderColor: 'rgba(255,255,255,.55)',
+                    data: [65, 59, 84, 84, 51, 55, 40],
+                    fill: true,
+                  },
+                ],
+              }}
+              options={{
+                maintainAspectRatio: false,
+                plugins: {
+                  legend: {
+                    display: false,
+                  },
+                },
+                scales: {
+                  x: {
+                    grid: {
+                      display: false,
+                    },
+                    ticks: {
+                      display: false,
+                    },
+                  },
+                  y: {
+                    grid: {
+                      display: false,
+                    },
+                    ticks: {
+                      display: false,
+                    },
+                  },
+                },
+                elements: {
+                  line: {
+                    borderWidth: 2,
+                    tension: 0.4,
+                  },
+                  point: {
+                    radius: 0,
+                    hitRadius: 10,
+                    hoverRadius: 4,
+                  },
+                },
+              }}
+            />
+          }
+        />
+      </CCol>
     </CRow>
-  )
-}
+  );
+};
 
 WidgetsDropdown.propTypes = {
   className: PropTypes.string,
-  withCharts: PropTypes.bool,
-}
+};
 
-export default WidgetsDropdown
+export default WidgetsDropdown;

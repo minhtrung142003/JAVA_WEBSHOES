@@ -35,7 +35,7 @@ public class GalleryController {
     private GalleryService galleryService;
 
     // get gallery by productId
-    private final String UPLOAD_DIR = "E:/WEB_SPRINGBOOT/FullStack_WebShoes/backend/src/main/resources/static/upload";
+    private final String UPLOAD_DIR = "E:/WEB_SPRINGBOOT/JAVA_WEBSHOES/backend/src/main/resources/static/upload";
 
     @GetMapping("/product/{productId}")
     public ResponseEntity<List<Gallery>> getImagesByProductId(@PathVariable Long productId) {

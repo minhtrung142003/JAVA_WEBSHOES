@@ -5,7 +5,6 @@ import {
   cilSpeedometer,
 } from '@coreui/icons'
 import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
-import { FaProductHunt } from 'react-icons/fa';
 import { MdOutlineProductionQuantityLimits } from 'react-icons/md';
 const _nav = [
   {

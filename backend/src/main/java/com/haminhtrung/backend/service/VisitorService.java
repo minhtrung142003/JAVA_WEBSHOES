@@ -12,4 +12,6 @@ public interface VisitorService {
     Visitor updateVisitor(Long id, Visitor visitor);
     void deleteVisitor(Long id);
     Visitor getVisitorByDate(Date date);
+    int getVisitorsCount();
+    int incrementVisitorsCount(); // Thêm phương thức để tăng số lượng người truy cập
 }

@@ -12,14 +12,17 @@ public class UserDto {
     private String phone_number;
     private String address;
     private String password;
+    private String token;
 
-    public UserDto(Long id, String fullname, String email, String phone_number, String address, String password) {
+    public UserDto(Long id, String fullname, String email, String phone_number, String address, String password, String token) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
         this.phone_number = phone_number;
         this.address = address;
         this.password = password;
+        this.token = token;
+
     }
    
    

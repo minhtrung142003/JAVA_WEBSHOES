@@ -55,7 +55,7 @@ const User = () => {
             setCheckDeleteUser(true)
             setDataChanged(!dataChanged);
             setUsers(users.filter((key) => key.id !== id))
-            window.location.reload()
+            // window.location.reload();
           }
         })
       } 

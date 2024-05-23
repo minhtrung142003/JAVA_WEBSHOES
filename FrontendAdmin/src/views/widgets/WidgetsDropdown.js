@@ -23,7 +23,7 @@ const WidgetsDropdown = (props) => {
   const [usersCount, setUsersCount] = useState(0);
   const [ordersCount, setOrdersCount] = useState(0);
   const [totalProfit, setTotalProfit] = useState(0);
-  const [visitorsCount, setVisitorsCount] = useState(0);
+  const [visitorsCount, setVisitorsCount] = useState(0); // Khai báo state cho số lượng người truy cập
 
   // callapi get all information
   useEffect(() => {

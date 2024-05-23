@@ -9,4 +9,5 @@ import com.haminhtrung.backend.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByFullname(String fullname);
 
+
 }

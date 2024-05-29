@@ -31,14 +31,6 @@ const Category = () => {
         getAllCategories('categories').then((item) => setCategories(item.data))
       }, [navigate])
 
-      const RawHTML = (body, className) => (
-        <div
-          className={className}
-          dangerouslySetInnerHTML={{
-            __html: body ? body.replace(/\n/g, '<br />') : '',
-          }}
-        />
-      )
 
       const handleChangePage = (event, newPage) => {
         setPage(newPage)

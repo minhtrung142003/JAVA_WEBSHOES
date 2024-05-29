@@ -26,7 +26,7 @@ public class OrderDto {
     private LocalDateTime deliveredCustomerAt;
     private LocalDateTime createdAt;
     private String status;
-    private Long userId;
+    private String userId;
     
     private List<OrderItemDto> orderItemDto;
     

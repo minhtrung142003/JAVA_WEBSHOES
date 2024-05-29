@@ -11,7 +11,6 @@ import MenuItem from '@mui/material/MenuItem'
 import { Image } from 'react-bootstrap'
 import axios from 'axios'
 import { getAllCategories, IMAGE_URL, editProduct, getProductById } from '../../api/apiService'
-import { FormControl, Select } from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +55,7 @@ const EditProduct = () => {
   const [images, setImages] = useState([])
   const [selectedImages, setSelectedImages] = useState([])
   const [imageFiles, setImageFiles] = useState([])
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate()
   const handleResetImages = () => {
     setSelectedImages([])
@@ -127,15 +127,28 @@ const EditProduct = () => {
       alert('Đã xảy ra lỗi khi upload ảnh!') // Xử lý khi có lỗi xảy ra trong quá trình upload
     }
   }
+  // check validation
+  const validateFields = () => {
+    const newErrors = {};
+    if (isNaN(price)) {
+      newErrors.price = "Giá tiền phải là số.";
+    }
+    if (isNaN(discount)) {
+      newErrors.discount = "Giảm giá phải là số.";
+    }
+    if (isNaN(quantity)) {
+      newErrors.quantity = "Số lượng phải là số.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
   const handleEditProduct = async (event) => {
     event.preventDefault()
 
     if (
-      title !== '' &&
-      description !== '' &&
-      price !== 0 &&
-      discount !== 0 &&
-      categories.length > 0
+      validateFields()
     ) {
       const product = {
         title,
@@ -244,6 +257,8 @@ const EditProduct = () => {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.price}
+                  helperText={errors.price}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -258,6 +273,8 @@ const EditProduct = () => {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.discount}
+                  helperText={errors.discount}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -272,6 +289,8 @@ const EditProduct = () => {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.quantity}
+                  helperText={errors.quantity}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -293,7 +312,7 @@ const EditProduct = () => {
 
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
-                  Mã số
+                  Ghi chú
                 </Typography>
                 <TextField
                   id="shortDescription"
@@ -305,7 +324,7 @@ const EditProduct = () => {
                   size="small"
                 />
               </Grid>
-             
+
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
                   Chọn danh mục

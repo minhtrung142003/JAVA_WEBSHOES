@@ -2,8 +2,6 @@ package com.haminhtrung.backend.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.experimental.NonFinal;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,17 +24,22 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
 @Service
 @AllArgsConstructor
 public class UserServiceImpl implements UserService {
 
+     // Regex for validating email
+    private static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
+
     private UserRepository userRepository;
     private static final Logger log = Logger.getLogger(UserServiceImpl.class.getName());
     @NonFinal
-    protected static final String SiGNER_KEY = 
-        "IQ8SMYaokz+WF9kVhs+AYr1MxM6YliKLvFR0nYV57221Gs9x+LuFzyicJfFvj76A"; 
-                        
+    protected static final String SiGNER_KEY = "IQ8SMYaokz+WF9kVhs+AYr1MxM6YliKLvFR0nYV57221Gs9x+LuFzyicJfFvj76A";
+
     @Override
     public User createUser(User user) {
         return userRepository.save(user);
@@ -55,17 +58,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        User existingUser = userRepository.findById(user.getId()).get();
+        User existingUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
         existingUser.setFullname(user.getFullname());
         existingUser.setEmail(user.getEmail());
         existingUser.setPhone_number(user.getPhone_number());
         existingUser.setAddress(user.getAddress());
-        existingUser.setPassword(user.getPassword());
-        existingUser.setCreated_at(user.getCreated_at());
-        existingUser.setUpdated_at(user.getUpdated_at());
-        // existingUser.setTokens(user.getTokens());
-        // existingUser.setRole(user.getRole());
-
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            existingUser.setPassword(encodedPassword);
+        }
         User updateUser = userRepository.save(existingUser);
         return updateUser;
     }
@@ -77,47 +80,54 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User registerUser(UserDto userDto) {
+          // Validate email
+          if (!isEmailValid(userDto.getEmail())) {
+            throw new IllegalArgumentException("Email không hợp lệ");
+        }
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
         String encodedPassword = passwordEncoder.encode(userDto.getPassword());
-        
+
         User newUser = new User(userDto.getFullname(), userDto.getEmail(), userDto.getPhone_number(),
                 userDto.getAddress(), encodedPassword);
-        
+
         return userRepository.save(newUser);
     }
-    
+     // Method to validate email
+     private boolean isEmailValid(String email) {
+        Matcher matcher = EMAIL_PATTERN.matcher(email);
+        return matcher.matches();
+    }
 
     @Override
-public UserDto loginUser(UserDto userDto) {
-    User userInDb = userRepository.findByFullname(userDto.getFullname());
-    if (userInDb != null) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (passwordEncoder.matches(userDto.getPassword(), userInDb.getPassword())) {
-            // Tạo mã JWT token
-            String token = generateToken(userDto.getFullname());
+    public UserDto loginUser(UserDto userDto) {
+        User userInDb = userRepository.findByFullname(userDto.getFullname());
+        if (userInDb != null) {
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (passwordEncoder.matches(userDto.getPassword(), userInDb.getPassword())) {
+                // Tạo mã JWT token
+                String token = generateToken(userDto.getFullname());
 
-            // Tạo một đối tượng UserDto mới với mã token đã được thêm vào
-            UserDto loggedInUserDto = new UserDto(
-                userInDb.getId(), 
-                userInDb.getFullname(), 
-                userInDb.getEmail(),
-                userInDb.getPhone_number(), 
-                userInDb.getAddress(), 
-                userInDb.getPassword(),
-                token
-            );
+                // Tạo một đối tượng UserDto mới với mã token đã được thêm vào
+                UserDto loggedInUserDto = new UserDto(
+                        userInDb.getId(),
+                        userInDb.getFullname(),
+                        userInDb.getEmail(),
+                        userInDb.getPhone_number(),
+                        userInDb.getAddress(),
+                        userInDb.getPassword(),
+                        token);
 
-            // Trả về đối tượng UserDto đã được cập nhật với mã token
-            return loggedInUserDto;
+                // Trả về đối tượng UserDto đã được cập nhật với mã token
+                return loggedInUserDto;
+            }
         }
+        // Trả về null hoặc một giá trị khác để biểu thị không có người dùng nào được
+        // đăng nhập
+        return null;
     }
-    // Trả về null hoặc một giá trị khác để biểu thị không có người dùng nào được đăng nhập
-    return null;
-}
-
 
     // hàm handle token
-     private String generateToken(String fullname) {
+    private String generateToken(String fullname) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
@@ -142,6 +152,5 @@ public UserDto loginUser(UserDto userDto) {
             throw new RuntimeException(e);
         }
     }
-    
 
 }

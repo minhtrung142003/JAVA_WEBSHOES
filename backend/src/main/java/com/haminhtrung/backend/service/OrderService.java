@@ -21,6 +21,6 @@ public interface OrderService {
 
     void deleteOrder(Long orderId);
 
-    List<Order> getOrdersByUserId(Long userId);
+    List<Order> getOrdersByUserId(String userId);
 
 }

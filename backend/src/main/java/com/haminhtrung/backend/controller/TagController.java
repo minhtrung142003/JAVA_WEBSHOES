@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.haminhtrung.backend.entity.Tag;
+import com.haminhtrung.backend.entity.Category;
 import com.haminhtrung.backend.entity.Tag;
 import com.haminhtrung.backend.service.TagService;
 
@@ -23,6 +23,17 @@ public class TagController {
     public ResponseEntity<List<Tag>> getAllTags() {
         List<Tag> tags = tagService.getAllTags();
         return ResponseEntity.ok(tags);
+    }
+
+      // get theo id
+    @GetMapping("/{id}")
+    public ResponseEntity<Tag> getTagById(@PathVariable("id") Long tagId) {
+        Tag tag = tagService.getTagById(tagId);
+        if (tag != null) {
+            return new ResponseEntity<>(tag, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping

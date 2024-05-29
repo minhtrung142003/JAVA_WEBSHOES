@@ -1,7 +1,6 @@
 package com.haminhtrung.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -44,7 +43,7 @@ public class OrderController {
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<List<OrderDto>> getOrdersByUserId(
-            @PathVariable("userId") Long userId) {
+            @PathVariable("userId") String userId) {
         // Lấy danh sách các đơn hàng của nhân viên với ID tương ứng
         List<Order> orders = orderService.getOrdersByUserId(userId);
 

@@ -1,23 +1,13 @@
 package com.haminhtrung.backend.controller;
-
-import lombok.AllArgsConstructor;
-
 import org.springframework.http.HttpStatus;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpHeaders;
-import org.springframework.data.domain.Pageable;
-
 import com.haminhtrung.backend.dto.ProductDTO;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.service.ProductService;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 // import com.haminhtrung.backend.repository.ProductRepository;
@@ -94,17 +84,8 @@ public class ProductController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long productId) {
         productService.deleteProduct(productId);
-        return new ResponseEntity<>("Product successfully deleted!", HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
-
-    // // product new
-    // @GetMapping("/getlatest")
-    // public ResponseEntity<List<Product>> getProductsNew(
-    //         @RequestParam(name = "categoryid", required = false) Long category,
-    //         @RequestParam(name = "pagesize", required = false, defaultValue = "5") int pagesize) {
-    //     List<Product> products = productService.getLatestProductsInCategory(category, pagesize);
-    //     return ResponseEntity.ok(products);
-    // }
 
     // Phương thức chuyển đổi từ Entity sang DTO
     private ProductDTO convertToDTO(Product product) {

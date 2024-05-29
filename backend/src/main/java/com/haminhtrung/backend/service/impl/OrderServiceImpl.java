@@ -131,7 +131,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
         @Override
-    public List<Order> getOrdersByUserId(Long userId) {
+    public List<Order> getOrdersByUserId(String userId) {
         // Lấy danh sách các đơn hàng của nhân viên dựa trên ID nhân viên từ cơ sở dữ liệu
         return orderRepository.findByUserId(userId);
     }

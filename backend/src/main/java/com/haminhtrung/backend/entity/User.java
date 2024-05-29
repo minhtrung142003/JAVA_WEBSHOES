@@ -25,20 +25,16 @@ public class User {
     private String phone_number;
     private String address;
     private String password;
-    private Date created_at;  
-    private Date updated_at;
-    
+    private Date createdAt;
+
     public User(String fullname, String email, String phone_number, String address, String password) {
         this.fullname = fullname;
         this.email = email;
         this.phone_number = phone_number;
         this.address = address;
         this.password = password;
+        this.createdAt = new Date(System.currentTimeMillis()); // Khởi tạo ngày tạo là thời điểm hiện tại
     }
 
-    // @ManyToOne
-    // private Role role;
-    // @JsonIgnore
-    // @OneToMany(mappedBy = "user")
-    // private List<Token> tokens;
 }
+

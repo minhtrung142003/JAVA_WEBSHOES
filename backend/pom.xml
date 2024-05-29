@@ -56,11 +56,11 @@
 			<artifactId>nimbus-jose-jwt</artifactId>
 			<version>9.39.1</version>
 		</dependency>
-		<!-- 
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency> -->
+		</dependency>
 		
 			<!-- thêm dpependency  -->
 			<dependency>
@@ -69,6 +69,7 @@
 				<version>${org.mapstruct.version}</version>
 				<scope>provided</scope>
 			</dependency>
+			
 			<dependency>
 				<groupId>org.mapstruct</groupId>
 				<artifactId>mapstruct</artifactId>

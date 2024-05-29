@@ -58,7 +58,7 @@ const EditTag = () => {
   }, [idTag])
   const handleEditTag = async (event) => {
     event.preventDefault()
-    if (
+    if (  
         name !== "" &&
         icon !== ""
     ) {

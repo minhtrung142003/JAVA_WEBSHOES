@@ -54,14 +54,14 @@ public class CartController {
     // Get all products in cart by staff account ID
     @GetMapping("/users/{userId}")
     public ResponseEntity<List<CartProductDto>> getAllProductsInCartByUserId(
-            @PathVariable("userId") Long userId) {
+            @PathVariable("userId") String userId) {
         return ResponseEntity.ok(cartService.getAllProductsInCartByUserId(userId));
     }
 
     // api update quantity
     @PutMapping("/{userId}/products/{productId}")
     public ResponseEntity<String> updateQuantity(
-            @PathVariable Long userId,
+            @PathVariable String userId,
             @PathVariable Long productId,
             @RequestParam Integer newQuantity) {
 

@@ -6,21 +6,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-//  import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
-// get và set dùng để tự động tạo các trường bằng lombok
 @Getter
 @Setter
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 
 public class Category {
   @Id
-    @GeneratedValue(strategy = GenerationType.AUTO) // day la 1 anotation chi dinh lam primary key
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // day la 1 anotation chi dinh lam primary key
     @Column(name = "id")
     private Long id;
 
@@ -35,9 +31,6 @@ public class Category {
 
     @Column(name = "icon")
     private String icon;
-    
-    @Column(name = "isHome")
-    private int isHome;
 
     @ManyToMany(mappedBy = "categories")
     @JsonIgnore

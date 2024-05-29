@@ -4,8 +4,6 @@ import { makeStyles } from "@mui/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-// import {  ToggleButton, ToggleButtonGroup } from '@material-ui/core';
-import { CheckBox } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +11,7 @@ import { getAllCategories, addProduct } from "../../api/apiService";
 import MenuItem from "@mui/material/MenuItem";
 import { Image } from "react-bootstrap";
 import axios from "axios";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-// import { Checkbox } from "@mui/material";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -54,10 +51,13 @@ export default function Product() {
   const [selectedImages, setSelectedImages] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+
   const handleResetImages = () => {
     setSelectedImages([]);
     setImageFiles([]);
   };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -78,9 +78,6 @@ export default function Product() {
     imageFiles.forEach((image) => {
       formData.append("files", image);
     });
-    formData.forEach((value, key) => {
-      console.log(`${key}: ${value}`);
-    });
 
     try {
       const response = await axios.post(
@@ -88,32 +85,63 @@ export default function Product() {
         formData,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Đặt header Content-Type là multipart/form-data
+            "Content-Type": "multipart/form-data",
           },
         }
       );
 
-      console.log("added ga", response);
       if (response.status === 200) {
-        setCheckAdd(true); // Nếu upload thành công, setCheckAdd thành true
+        setCheckAdd(true);
       } else {
-        alert("Bạn chưa nhập đủ thông tin!"); // Nếu có lỗi, hiển thị thông báo
+        alert("Đã xảy ra lỗi khi upload ảnh!");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Đã xảy ra lỗi khi upload ảnh!"); // Xử lý khi có lỗi xảy ra trong quá trình upload
+      alert("Đã xảy ra lỗi khi upload ảnh!");
     }
   };
+
+  const validateFields = () => {
+    const newErrors = {};
+
+    // Kiểm tra nếu không chọn ảnh
+    if (imageFiles.length === 0) {
+      newErrors.images = "Bạn phải chọn ít nhất một ảnh.";
+    }
+
+    if (isNaN(price) || price === null || price === "") {
+      newErrors.price = "Giá tiền phải là số và không được để trống.";
+    }
+    if (isNaN(discount) || discount === null || discount === "") {
+      newErrors.discount = "Giảm giá phải là số và không được để trống.";
+    }
+    if (isNaN(quantity) || quantity === null || quantity === "") {
+      newErrors.quantity = "Số lượng phải là số và không được để trống.";
+    }
+    if (!title) {
+      newErrors.title = "Tên sản phẩm không được để trống.";
+    }
+    if (!description) {
+      newErrors.description = "Mô tả không được để trống.";
+    }
+    if (categories.length === 0) {
+      newErrors.categories = "Bạn phải chọn ít nhất một danh mục.";
+    }
+    if (tags.length === 0) {
+      newErrors.tags = "Bạn phải chọn ít nhất một thương hiệu.";
+    }
+    if (!shortDescription) {
+      newErrors.shortDescription = "Mã số không được để trống.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleAddProduct = (event) => {
     event.preventDefault();
 
-    if (
-      title !== "" &&
-      description !== "" &&
-      price !== 0 &&
-      discount !== 0 &&
-      categories.length > 0
-    ) {
+    if (validateFields()) {
       const product = {
         title,
         price,
@@ -124,10 +152,7 @@ export default function Product() {
         categories: categories.map((c) => ({ id: c })),
         tags: tags.map((c) => ({ id: c })),
       };
-      console.log(product);
-      console.log("images", selectedImages);
       addProduct("products", product).then((item) => {
-        console.log("added", item);
         if (item.status === 201) {
           handleUploadImages(item.data.id);
           setCheckAdd(true);
@@ -139,28 +164,22 @@ export default function Product() {
       alert("Bạn chưa nhập đủ thông tin!");
     }
   };
+
   useEffect(() => {
     if (checkAdd) {
       const timeout = setTimeout(() => {
         navigate("/Product/all-product");
-      }, 1000); // Thời gian chờ trước khi chuyển hướng (miliseconds)
+      }, 1000);
 
-      // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
       return () => clearTimeout(timeout);
     }
   }, [checkAdd, navigate]);
+
   const handleChangeCategories = (event) => {
     const selectedIds = event.target.value;
-    console.log(selectedIds);
     setCategories(selectedIds);
   };
-  // published
-  const handlePublishedChange = (event, newPublished) => {
-    if (newPublished !== null) {
-      setPublished(newPublished === 'true');
-    }
-  };
-  // 
+
   const handleChangeTags = (event) => {
     const selectedIds = event.target.value;
     setTags(selectedIds);
@@ -170,27 +189,35 @@ export default function Product() {
     const files = event.target.files;
     const imagesArray = [];
     const filesArray = [];
+    // Mảng các phần mở rộng được chấp nhận
+    const acceptedExtensions = ["jpg", "jpeg", "png", "gif"];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
 
+      // Kiểm tra phần mở rộng của tệp
+      const extension = file.name.split(".").pop().toLowerCase();
+      if (!acceptedExtensions.includes(extension)) {
+        alert("Chỉ chấp nhận các tệp JPG, JPEG, PNG, GIF.");
+        continue; // Bỏ qua tệp không hợp lệ và tiếp tục với tệp tiếp theo
+      }
+
       reader.onloadend = () => {
         imagesArray.push(reader.result);
         if (imagesArray.length === files.length) {
-          setSelectedImages([...selectedImages, ...imagesArray]); // Cập nhật mảng hiển thị hình ảnh
-          setImageFiles([...imageFiles, ...filesArray]); // Cập nhật mảng các file hình ảnh
-
-          // Sắp xếp lại mảng selectedImages để đảm bảo thứ tự đún
+          setSelectedImages([...selectedImages, ...imagesArray]);
+          setImageFiles([...imageFiles, ...filesArray]);
         }
       };
 
       if (file) {
         reader.readAsDataURL(file);
-        filesArray.push(file); // Thêm file vào mảng các file
+        filesArray.push(file);
       }
     }
   };
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -208,11 +235,11 @@ export default function Product() {
                 <TextField
                   id="title"
                   onChange={(e) => setTitle(e.target.value)}
-                  // value={productName}
-                  name="title"
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.title}
+                  helperText={errors.title}
                 />
               </Grid>
 
@@ -223,11 +250,11 @@ export default function Product() {
                 <TextField
                   id="price"
                   onChange={(e) => setPrice(e.target.value)}
-                  // value={regularPrice}
-                  name="price"
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.price}
+                  helperText={errors.price}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -237,26 +264,26 @@ export default function Product() {
                 <TextField
                   id="discount"
                   onChange={(e) => setDiscount(e.target.value)}
-                  // value={discountPrice}
-                  name="discount"
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.discount}
+                  helperText={errors.discount}
                 />
               </Grid>
 
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
-                  quantity
+                  Số lượng
                 </Typography>
                 <TextField
                   id="quantity"
                   onChange={(e) => setQuantity(e.target.value)}
-                  // value={regularPrice}
-                  name="quantity"
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.quantity}
+                  helperText={errors.quantity}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -266,27 +293,27 @@ export default function Product() {
                 <TextField
                   id="description"
                   onChange={(e) => setDescription(e.target.value)}
-                  // value={productDescription}
-                  name="description"
                   className={classes.txtInput}
                   multiline
                   rows={4}
                   variant="outlined"
+                  error={!!errors.description}
+                  helperText={errors.description}
                 />
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
-                  Mã số 
+                Ghi chú
                 </Typography>
                 <TextField
                   id="shortDescription"
                   onChange={(e) => setShortDescription(e.target.value)}
-                  // value={productDescription}
-                  name="shortDescription"
                   className={classes.txtInput}
                   multiline
                   rows={4}
                   variant="outlined"
+                  error={!!errors.shortDescription}
+                  helperText={errors.shortDescription}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -313,6 +340,8 @@ export default function Product() {
                   }}
                   variant="outlined"
                   className={classes.txtInput}
+                  error={!!errors.categories}
+                  helperText={errors.categories}
                 >
                   {categoryAll.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
@@ -334,17 +363,17 @@ export default function Product() {
                   SelectProps={{
                     multiple: true,
                     renderValue: (selected) => {
-                      const selectedCategories = selected.map((id) => {
-                        const category = tagAll.find(
-                          (category) => category.id === id
-                        );
-                        return category ? category.name : "";
+                      const selectedTags = selected.map((id) => {
+                        const tag = tagAll.find((tag) => tag.id === id);
+                        return tag ? tag.name : "";
                       });
-                      return selectedCategories.join(", ");
+                      return selectedTags.join(", ");
                     },
                   }}
                   variant="outlined"
                   className={classes.txtInput}
+                  error={!!errors.tags}
+                  helperText={errors.tags}
                 >
                   {tagAll.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
@@ -381,7 +410,11 @@ export default function Product() {
                     Làm mới ảnh
                   </Button>
                 </label>
-
+                {errors.images && (
+                  <Typography color="error" variant="subtitle2">
+                    {errors.images}
+                  </Typography>
+                )}
                 {selectedImages.map((image, index) => (
                   <div key={index}>
                     <Image src={image} alt={`Selected ${index}`} width={80} />

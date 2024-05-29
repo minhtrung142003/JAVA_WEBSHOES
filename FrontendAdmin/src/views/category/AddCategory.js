@@ -10,11 +10,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { getAllCategories, addCategory } from "../../api/apiService";
-import MenuItem from "@mui/material/MenuItem";
-import { Image } from "react-bootstrap";
-import axios from "axios";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-// import { Checkbox } from "@mui/material";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,

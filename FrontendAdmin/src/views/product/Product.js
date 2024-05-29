@@ -31,15 +31,6 @@ const Product = () => {
         getAllProducts('products').then((item) => setProducts(item.data))
       }, [navigate])
 
-      const RawHTML = (body, className) => (
-        <div
-          className={className}
-          dangerouslySetInnerHTML={{
-            __html: body ? body.replace(/\n/g, '<br />') : '',
-          }}
-        />
-      )
-
       const handleChangePage = (event, newPage) => {
         setPage(newPage)
       }
@@ -54,8 +45,8 @@ const Product = () => {
           console.log(item)
           if (item.status === 204) {
             setCheckDeleteProduct(true)
-            setDataChanged(!dataChanged);
             setProducts(products.filter((key) => key.id !== id))
+            setDataChanged(!dataChanged);
             window.location.reload()
           }
         })
@@ -111,7 +102,7 @@ const Product = () => {
 
                   <TableCell align="center">Số lượng </TableCell>
                   <TableCell align="center">Mô tả </TableCell>
-                  <TableCell align="center">Mã số</TableCell>
+                  <TableCell align="center">Ghi chú</TableCell>
                   <TableCell align="center">Hình ảnh</TableCell>
 
                   <TableCell align="center">Danh mục</TableCell>
@@ -137,10 +128,10 @@ const Product = () => {
                       </TableCell>
 
                       <TableCell align="center">
-                        <strong>${Number(row.price).toLocaleString('vi-VN')}.00</strong>
+                        <strong>{Number(row.price).toLocaleString('vi-VN')}.VNĐ</strong>
                       </TableCell>
                       <TableCell align="center">
-                        <strong>${Number(row.discount).toLocaleString('vi-VN')}.00</strong>
+                        <strong>{Number(row.discount).toLocaleString('vi-VN')}.VNĐ</strong>
                       </TableCell>
 
                       <TableCell width={260} component="th" scope="row">

@@ -1,23 +1,17 @@
 package com.haminhtrung.backend.service.impl;
 
-import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.haminhtrung.backend.repository.CategoryRepository;
+import com.haminhtrung.backend.repository.GalleryRepository;
 import com.haminhtrung.backend.repository.ProductRepository;
 import com.haminhtrung.backend.repository.TagRepository;
 import com.haminhtrung.backend.entity.Category;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.entity.Tag;
-import com.haminhtrung.backend.service.GalleryService;
 import com.haminhtrung.backend.service.ProductService;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -28,22 +22,20 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     private ProductRepository productRepository;
 
-    // @Autowired
-    // private GalleryService galleryService;
-
     @Autowired
     private CategoryRepository categoryRepository;
-    
+
     @Autowired
     private TagRepository tagRepository;
 
+    @Autowired
+    private GalleryRepository galleryRepository;
 
     // search
     @Override
     public List<Product> searchProducts(String searchTerm) {
         return productRepository.findByTitleContaining(searchTerm);
     }
-
 
     // get product by tag name
     @Override
@@ -57,9 +49,9 @@ public class ProductServiceImpl implements ProductService {
         }
         return Collections.emptyList();
     }
-    
+
     // get product by category name
-  
+
     @Override
     public List<Product> getProductsByCategoryName(String categoryName) {
         Category category = categoryRepository.findByCategoryName(categoryName);
@@ -71,17 +63,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return Collections.emptyList();
     }
-    // public List<Product> getProductsByCondition(String title, Long category) {
-    //     if (title != null && category != null) {
-    //         return productRepository.findByTitleAndCategoryId(title, category);
-    //     } else if (title != null) {
-    //         return productRepository.findByTitle(title);
-    //     } else if (category != null) {
-    //         return productRepository.findByCategoryId(category);
-    //     } else {
-    //         return new ArrayList<>(); // TRẢ VỀ DANH SÁCH trống nếu ko có điều kiện
-    //     }
-    // }
 
     // get product by id
     @Override
@@ -101,7 +82,8 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
-    // put  products
+
+    // put products
     @Override
     public Product updateProduct(Product product) {
         Product existingProduct = productRepository.findById(product.getId()).get();
@@ -118,21 +100,12 @@ public class ProductServiceImpl implements ProductService {
         Product updateProduct = productRepository.save(existingProduct);
         return updateProduct;
     }
-    
+
     // delete product
     @Override
     public void deleteProduct(Long productId) {
+        galleryRepository.deleteByProductId(productId);
         productRepository.deleteById(productId);
     }
-
-    // public List<Product> getLatestProductsInCategory(Long categoryId, int pageSize) {
-    //     PageRequest pageRequest = PageRequest.of(0, pageSize, Sort.by(Sort.Direction.DESC, "created_at"));
-    //     return productRepository.findLatestProductsInCategory(categoryId, pageRequest);
-    // }
-
-    // @Override
-    // public Page<Product> getProductsByCategoryId(Long categoryId, Pageable pageable) {
-    //     return productRepository.findProductsByCategoryId(categoryId, pageable);
-    // }
 
 }

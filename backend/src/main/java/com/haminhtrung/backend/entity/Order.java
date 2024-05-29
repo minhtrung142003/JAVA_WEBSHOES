@@ -45,7 +45,7 @@ public class Order {
     private String status;
 
     @Column(name = "user_id")
-    private Long userId;
+    private String userId;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private Set<OrderItem> items = new HashSet<>();

@@ -10,11 +10,6 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { getAllUsers, addUser } from "../../api/apiService";
-import MenuItem from "@mui/material/MenuItem";
-import { Image } from "react-bootstrap";
-import axios from "axios";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-// import { Checkbox } from "@mui/material";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -46,16 +41,46 @@ export default function AddUser() {
   const [phone_number, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
+  // check validation
+  const validateFields = () => {
+    const newErrors = {};
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!fullname) {
+      newErrors.fullname = "Tên không được để trống.";
+    }
+    else if(/\d/.test(fullname)) {
+      newErrors.fullname = "Tên không được chứa số.";
+    }
+    if (!email) {
+      newErrors.email = "email không được để trống.";
+    }
+    else if(!emailRegex.test(email)) {
+      newErrors.email = "email phải nhập đúng định dạng.";
+    }
+    if (!phone_number) {
+      newErrors.phone_number = "Số điện thoại không được để trống.";
+    } else if (isNaN(phone_number)) {
+      newErrors.phone_number = "Số điện thoại phải là số.";
+    } else if (phone_number.length !== 10) {
+      newErrors.phone_number = "Số điện thoại chỉ có đúng 10 số.";
+    }
+    if (!address) {
+      newErrors.address = "Địa chỉ không được để trống.";
+    }
+    if (!password) {
+      newErrors.password = "Mật khẩu không được để trống.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
   const handleAddUser = (event) => {
     event.preventDefault();
     if (
-        fullname !== "" &&
-        email !== "" &&
-        phone_number !== "" &&
-        address !== "" &&
-        password !== "" 
+      validateFields()
     ) {
       const user = {
         fullname,
@@ -73,8 +98,6 @@ export default function AddUser() {
           alert("Bạn chưa nhập đủ thông tin!");
         }
       });
-    } else {
-      alert("Bạn chưa nhập đủ thông tin!");
     }
   };
   useEffect(() => {
@@ -109,6 +132,8 @@ export default function AddUser() {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.fullname}
+                  helperText={errors.fullname}
                 />
               </Grid>
 
@@ -124,6 +149,8 @@ export default function AddUser() {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.email}
+                  helperText={errors.email}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -138,11 +165,13 @@ export default function AddUser() {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.phone_number}
+                  helperText={errors.phone_number}
                 />
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
-                Địa chỉ
+                  Địa chỉ
                 </Typography>
                 <TextField
                   id="address"
@@ -153,6 +182,8 @@ export default function AddUser() {
                   multiline
                   rows={4}
                   variant="outlined"
+                  error={!!errors.address}
+                  helperText={errors.address}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -167,6 +198,8 @@ export default function AddUser() {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.password}
+                  helperText={errors.password}
                 />
               </Grid>
 

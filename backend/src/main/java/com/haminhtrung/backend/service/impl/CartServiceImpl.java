@@ -39,7 +39,7 @@ public class CartServiceImpl implements CartService {
 
     // hàm get all cart theo id user
     @Override
-    public List<CartProductDto> getAllCartsByUserId(Long UserId) {
+    public List<CartProductDto> getAllCartsByUserId(String UserId) {
         List<Cart> carts = cartRepository.findAllByUserId(UserId);
         List<CartProductDto> cartProductDtos = new ArrayList<>();
 
@@ -56,7 +56,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     // hàm trả về list cart
-    public List<CartProductDto> getAllProductsInCartByUserId(Long userId) {
+    public List<CartProductDto> getAllProductsInCartByUserId(String userId) {
     List<Cart> carts = cartRepository.findAllByUserId(userId);
     List<CartProductDto> cartProductDtos = new ArrayList<>();
     for (Cart cart : carts) {
@@ -93,7 +93,8 @@ public class CartServiceImpl implements CartService {
 
     // hàm update quantiy
     @Override
-    public void updateQuantity(Long UserId, Long productId, Integer newQuantity) {
+    public void updateQuantity(String UserId, Long productId, Integer newQuantity) {
+        
         List<Cart> carts = cartRepository.findByUserIdAndProductId(UserId, productId);
         if (!carts.isEmpty()) {
             Cart cart = carts.get(0);

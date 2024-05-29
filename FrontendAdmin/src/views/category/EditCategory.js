@@ -6,12 +6,7 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useNavigate, useParams } from 'react-router-dom'
-
-import MenuItem from '@mui/material/MenuItem'
-import { Image } from 'react-bootstrap'
-import axios from 'axios'
 import {  editCatgory, getCategoryById } from '../../api/apiService'
-import { FormControl, Select } from '@mui/material'
 
 const useStyles = makeStyles((theme) => ({
   root: {

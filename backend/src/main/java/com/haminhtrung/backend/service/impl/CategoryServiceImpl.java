@@ -26,6 +26,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
         return categoryRepository.save(category);
     }
+    
     // get id category service
     @Override
     public Category getCategoryById(Long categoryId) {
@@ -55,7 +56,6 @@ public class CategoryServiceImpl implements CategoryService {
         existingCategory.setCategoryDescription(category.getCategoryDescription());
         existingCategory.setIcon(category.getIcon());
         existingCategory.setParentId(category.getParentId());
-         existingCategory.setIsHome(category.getIsHome());
         Category updatedCategory = categoryRepository.save(existingCategory);
         return updatedCategory;
     }

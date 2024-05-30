@@ -139,11 +139,17 @@ const EditProduct = () => {
     if (isNaN(quantity)) {
       newErrors.quantity = "Số lượng phải là số.";
     }
+    if (categories.length === 0) {
+      newErrors.categories = "Bạn phải chọn ít nhất một danh mục.";
+    }
+    if (tags.length === 0) {
+      newErrors.tags = "Bạn phải chọn ít nhất một thương hiệu.";
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
+
   const handleEditProduct = async (event) => {
     event.preventDefault()
 
@@ -202,10 +208,19 @@ const EditProduct = () => {
     const files = event.target.files
     const imagesArray = []
     const filesArray = []
+    // Mảng các phần mở rộng được chấp nhận
+    const acceptedExtensions = ["jpg", "jpeg", "png", "gif"];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
       const reader = new FileReader()
+
+      // Kiểm tra phần mở rộng của tệp
+      const extension = file.name.split(".").pop().toLowerCase();
+      if (!acceptedExtensions.includes(extension)) {
+        alert("Chỉ chấp nhận các tệp JPG, JPEG, PNG, GIF.");
+        continue; 
+      }
 
       reader.onloadend = () => {
         imagesArray.push(reader.result)
@@ -347,6 +362,8 @@ const EditProduct = () => {
                   }}
                   variant="outlined"
                   className={classes.txtInput}
+                  error={!!errors.categories}
+                  helperText={errors.categories}
                 >
                   {categoryAll.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
@@ -377,6 +394,8 @@ const EditProduct = () => {
                   }}
                   variant="outlined"
                   className={classes.txtInput}
+                  error={!!errors.tags}
+                  helperText={errors.tags}
                 >
                   {tagAll.map((option) => (
                     <MenuItem key={option.id} value={option.id}>
@@ -413,6 +432,7 @@ const EditProduct = () => {
                     Làm Mới Ảnh
                   </Button>
                 </label>
+      
                 {selectedImages.length === 0
                   ? images.map((image, index) => (
                     <div key={index}>

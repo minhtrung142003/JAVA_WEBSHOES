@@ -18,10 +18,7 @@ import com.haminhtrung.backend.repository.OrderItemRepository;
 import com.haminhtrung.backend.repository.OrderRepository;
 import com.haminhtrung.backend.repository.ProductRepository;
 import com.haminhtrung.backend.service.OrderService;
-
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -56,15 +53,17 @@ public class OrderServiceImpl implements OrderService {
         order.setApprovedAt(orderDto.getApprovedAt());
         order.setDeliveredCarrierAt(orderDto.getDeliveredCarrierAt());
         order.setDeliveredCustomerAt(orderDto.getDeliveredCustomerAt());
-        order.setStatus(orderDto.getStatus());
         order.setCreatedAt(orderDto.getCreatedAt());
         order.setUserId(orderDto.getUserId());
-        
+        // Thêm trạng thái đơn hàng dựa trên phương thức thanh toán
+        String paymentMethod = orderDto.getPaymentMethod();
+        String status = paymentMethod != null && paymentMethod.equals("shipcod") ? "Chưa thanh toán" : "Đã thanh toán";
+        order.setStatus(status);
+        order.setPaymentMethod(paymentMethod);
+
         // Lưu đối tượng Order vào cơ sở dữ liệu
         Order savedOrder = orderRepository.save(order);
 
-
-    
         // Kiểm tra xem orderItemDto có khác null không trước khi lặp qua nó
         if (orderDto.getOrderItemDto() != null) {
             // Lặp qua danh sách OrderItemDto và lưu mỗi OrderItem vào cơ sở dữ liệu
@@ -87,11 +86,10 @@ public class OrderServiceImpl implements OrderService {
             Optional<Cart> oDeleteCart = cartRepository.findById(a);
             oDeleteCart.ifPresent(cart -> cartRepository.deleteById(cart.getId()));
         }
-    
+
         // Trả về đối tượng Order đã lưu vào cơ sở dữ liệu
         return new ResponseEntity<>(savedOrder, HttpStatus.CREATED);
     }
-    
 
     @Override
     public Order getOrderById(Long orderId) {
@@ -130,9 +128,10 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
-        @Override
+    @Override
     public List<Order> getOrdersByUserId(String userId) {
-        // Lấy danh sách các đơn hàng của nhân viên dựa trên ID nhân viên từ cơ sở dữ liệu
+        // Lấy danh sách các đơn hàng của nhân viên dựa trên ID nhân viên từ cơ sở dữ
+        // liệu
         return orderRepository.findByUserId(userId);
     }
 

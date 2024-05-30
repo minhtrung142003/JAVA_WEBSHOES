@@ -43,6 +43,9 @@ public class Order {
     private LocalDateTime createdAt;
 
     private String status;
+    
+    @Column(name = "payment_method")
+    private String paymentMethod; // phương thuc thanh toan
 
     @Column(name = "user_id")
     private String userId;

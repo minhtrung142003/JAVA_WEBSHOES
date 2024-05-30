@@ -54,13 +54,6 @@ public class GalleryController {
         }
     }
 
-    // create gallery REST API
-    // @PostMapping
-    // public ResponseEntity<Gallery> createGallery(@RequestBody Gallery gallery) {
-    //     Gallery savedGallery = galleryService.createGallery(gallery);
-    //     return new ResponseEntity<>(savedGallery, HttpStatus.CREATED);
-    // }
-
     // get all
     @GetMapping
     public ResponseEntity<List<Gallery>> getAllGalleries() {

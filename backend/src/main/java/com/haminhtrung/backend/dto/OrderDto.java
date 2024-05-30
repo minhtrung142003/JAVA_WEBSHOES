@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
+import jakarta.persistence.Column;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,11 +27,11 @@ public class OrderDto {
     private LocalDateTime deliveredCustomerAt;
     private LocalDateTime createdAt;
     private String status;
+    private String paymentMethod; // phương thuc thanh toan
     private String userId;
-    
+
     private List<OrderItemDto> orderItemDto;
-    
+
     private List<Long> listIdCart;
 
 }
-

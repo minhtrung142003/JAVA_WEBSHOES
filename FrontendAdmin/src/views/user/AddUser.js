@@ -60,7 +60,7 @@ export default function AddUser() {
     else if(!emailRegex.test(email)) {
       newErrors.email = "email phải nhập đúng định dạng.";
     }
-    if (!phone_number) {
+    if (!phone_number) {  
       newErrors.phone_number = "Số điện thoại không được để trống.";
     } else if (isNaN(phone_number)) {
       newErrors.phone_number = "Số điện thoại phải là số.";

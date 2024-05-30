@@ -131,7 +131,7 @@ const Product = () => {
                         <strong>{Number(row.price).toLocaleString('vi-VN')}.VNĐ</strong>
                       </TableCell>
                       <TableCell align="center">
-                        <strong>{Number(row.discount).toLocaleString('vi-VN')}.VNĐ</strong>
+                        <strong>{Number(row.discount).toLocaleString('vi-VN')}%</strong>
                       </TableCell>
 
                       <TableCell width={260} component="th" scope="row">

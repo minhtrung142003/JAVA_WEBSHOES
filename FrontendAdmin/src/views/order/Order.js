@@ -150,7 +150,7 @@ const Order = () => {
                                                 </TableCell>
 
                                                 <TableCell width={260} component="th" scope="row">
-                                                    {row.status === 'true' ? 'Chưa thanh toán' : 'Đã thanh toán'}
+                                                    {row.paymentMethod  === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán'}
                                                 </TableCell>
 
 

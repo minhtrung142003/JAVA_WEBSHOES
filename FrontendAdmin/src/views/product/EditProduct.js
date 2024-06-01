@@ -6,7 +6,6 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useNavigate, useParams } from 'react-router-dom'
-
 import MenuItem from '@mui/material/MenuItem'
 import { Image } from 'react-bootstrap'
 import axios from 'axios'
@@ -219,7 +218,7 @@ const EditProduct = () => {
       const extension = file.name.split(".").pop().toLowerCase();
       if (!acceptedExtensions.includes(extension)) {
         alert("Chỉ chấp nhận các tệp JPG, JPEG, PNG, GIF.");
-        continue; 
+        continue;
       }
 
       reader.onloadend = () => {
@@ -432,7 +431,7 @@ const EditProduct = () => {
                     Làm Mới Ảnh
                   </Button>
                 </label>
-      
+
                 {selectedImages.length === 0
                   ? images.map((image, index) => (
                     <div key={index}>

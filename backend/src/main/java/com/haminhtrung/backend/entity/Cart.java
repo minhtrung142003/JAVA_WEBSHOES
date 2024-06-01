@@ -1,7 +1,5 @@
 package com.haminhtrung.backend.entity;
 
-import java.util.UUID;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,10 +18,11 @@ import lombok.Setter;
 @Entity
 @Table(name = "carts")
 public class Cart {
-     @Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;  
+    private Long id;
+
     @Column(name = "product_id")
     private Long productId;
 
@@ -30,5 +30,5 @@ public class Cart {
     private String userId;
 
     @Column(name = "quantity")
-    private Integer  quantity;
+    private Integer quantity;
 }

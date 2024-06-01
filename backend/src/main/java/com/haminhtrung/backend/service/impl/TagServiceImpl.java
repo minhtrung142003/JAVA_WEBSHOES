@@ -2,13 +2,9 @@ package com.haminhtrung.backend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.haminhtrung.backend.entity.Tag;
-import com.haminhtrung.backend.entity.User;
 import com.haminhtrung.backend.entity.Tag;
 import com.haminhtrung.backend.repository.TagRepository;
 import com.haminhtrung.backend.service.TagService;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -18,11 +14,7 @@ public class TagServiceImpl implements TagService {
     @Autowired
     private TagRepository tagRepository;
 
-    @Override
-    public Tag addTag(Tag tag) {
-        return tagRepository.save(tag);
-    }
-
+    // get all tags
     @Override
     public List<Tag> getAllTags() {
         return tagRepository.findAll();
@@ -35,11 +27,13 @@ public class TagServiceImpl implements TagService {
         return optionalTag.get();
     }
 
+    // add tag
     @Override
-    public void deleteTag(Long tagId) {
-        tagRepository.deleteById(tagId);
+    public Tag addTag(Tag tag) {
+        return tagRepository.save(tag);
     }
 
+    // put tag
     @Override
     public Tag updateTag(Tag tag) {
         Tag existingTag = tagRepository.findById(tag.getId()).get();
@@ -48,4 +42,12 @@ public class TagServiceImpl implements TagService {
         Tag updatedTag = tagRepository.save(existingTag);
         return updatedTag;
     }
+
+    // delete tag
+    @Override
+    public void deleteTag(Long tagId) {
+        tagRepository.deleteById(tagId);
+    }
+
+  
 }

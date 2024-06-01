@@ -1,30 +1,20 @@
 package com.haminhtrung.backend.controller;
 
 import lombok.AllArgsConstructor;
-
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import com.haminhtrung.backend.service.GalleryService;
-
 import java.util.List;
-import java.util.UUID;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.haminhtrung.backend.entity.Gallery;
-// import com.haminhtrung.backend.repository.GalleryRepository;
 
 @RestController
 @AllArgsConstructor
@@ -32,11 +22,10 @@ import com.haminhtrung.backend.entity.Gallery;
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:3001" }, exposedHeaders = "Content-Range")
 
 public class GalleryController {
+
     private GalleryService galleryService;
 
     // get gallery by productId
-    private final String UPLOAD_DIR = "E:/WEB_SPRINGBOOT/JAVA_WEBSHOES/backend/src/main/resources/static/upload";
-
     @GetMapping("/product/{productId}")
     public ResponseEntity<List<Gallery>> getImagesByProductId(@PathVariable Long productId) {
         List<Gallery> galleries = galleryService.getImagesByProductId(productId);
@@ -83,12 +72,12 @@ public class GalleryController {
         return galleryService.saveImages(productId, files);
     }
     
+    // post gallery by productid
     @PostMapping("/update/{productId}")
     public ResponseEntity<String> updateGallery(@PathVariable Long productId, @RequestParam("files") MultipartFile[] newFiles) {
         try {
             // Xóa toàn bộ ảnh cũ của sản phẩm
             galleryService.deleteGallery(productId);
-
             // Lưu ảnh mới
             galleryService.saveImages(productId, newFiles);
 
@@ -97,15 +86,6 @@ public class GalleryController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to update gallery");
         }
     }
-
-    // update Gallery REST API
-    // @PutMapping("{id}")
-    // // http://localhost:8080/api/gallerys/1
-    // public ResponseEntity<Gallery> updateGallery(@PathVariable("id") Long galleryId, @RequestBody Gallery Gallery) {
-    //     Gallery.setId(galleryId);
-    //     Gallery updateGallery = galleryService.updateGallery(Gallery);
-    //     return new ResponseEntity<>(updateGallery, HttpStatus.OK);
-    // }
 
     // delete gallery REST API
     @DeleteMapping("{id}")

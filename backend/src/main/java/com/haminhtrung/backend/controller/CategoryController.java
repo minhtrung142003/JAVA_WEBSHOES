@@ -1,14 +1,9 @@
 package com.haminhtrung.backend.controller;
 
-import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import com.haminhtrung.backend.service.CategoryService;
-
 import java.util.List;
-import java.util.UUID;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,12 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.haminhtrung.backend.entity.Category;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-// import com.haminhtrung.backend.repository.CategoryRepository;
 
 @RestController
 @RequestMapping("api/categories")
@@ -65,7 +56,7 @@ public class CategoryController {
         }
     }
 
-    // get theo id
+    // get category theo id
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable("id") Long id) {
         Category category = categoryService.getCategoryById(id);
@@ -76,15 +67,14 @@ public class CategoryController {
         }
     }
 
-    // post categories
+    // post category
     @PostMapping
     public ResponseEntity<Category> createCategory(@RequestBody Category category) {
         Category savedCategory = categoryService.createCategory(category);
         return new ResponseEntity<>(savedCategory, HttpStatus.CREATED);
     }
 
-
-    // update Category REST API
+    // put category
     @PutMapping("{id}")
     // http://localhost:8080/api/Categories/1
     public ResponseEntity<Category> updateCategory(@PathVariable("id") Long categoryId,
@@ -94,7 +84,7 @@ public class CategoryController {
         return new ResponseEntity<>(updateCategory, HttpStatus.OK);
     }
 
-    // delete category REST API
+    // delete category
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteCategory(@PathVariable("id") Long id) {
         categoryService.deleteCategory(id);

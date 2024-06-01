@@ -1,4 +1,5 @@
 package com.haminhtrung.backend.controller;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.BeanUtils;
@@ -10,41 +11,39 @@ import com.haminhtrung.backend.service.ProductService;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// import com.haminhtrung.backend.repository.ProductRepository;
-
 @RestController
 @RequestMapping("api/products")
 @CrossOrigin(origins = { "http://localhost:3000", "http://localhost:3001" }, exposedHeaders = "Content-Range")
-
 public class ProductController {
-
     @Autowired
     private ProductService productService;
-    
-    //search
+
+    // search
     @GetMapping("/search")
     public List<ProductDTO> searchProducts(@RequestParam("search") String searchTerm) {
         List<Product> products = productService.searchProducts(searchTerm);
         return products.stream()
-            .map(this::convertToDTO)
-            .collect(Collectors.toList());
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
     }
-    
+
     // get id product theo tag
     @GetMapping("/tag/{tagName}")
     public ResponseEntity<List<ProductDTO>> getProductsByTagName(@PathVariable("tagName") String tagName) {
         List<Product> products = productService.getProductsByTagName(tagName);
         return mapProductListToResponse(products);
     }
+
     // get id product theo category
-  
     @GetMapping("/category/{categoryName}")
-    public ResponseEntity<List<ProductDTO>> getProductsByCategoryName(@PathVariable("categoryName") String categoryName) {
+    public ResponseEntity<List<ProductDTO>> getProductsByCategoryName(
+            @PathVariable("categoryName") String categoryName) {
         List<Product> products = productService.getProductsByCategoryName(categoryName);
         return mapProductListToResponse(products);
     }
+
     // get id product
-    @GetMapping("/{id}")  
+    @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable("id") Long productId) {
         Product product = productService.getProductById(productId);
         if (product != null) {
@@ -73,7 +72,6 @@ public class ProductController {
 
     // put product
     @PutMapping("{id}")
-    // http://localhost:8080/api/Categories/1
     public ResponseEntity<Product> updateProduct(@PathVariable("id") Long productId, @RequestBody Product Product) {
         Product.setId(productId);
         Product updatedProduct = productService.updateProduct(Product);
@@ -87,7 +85,7 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    // Phương thức chuyển đổi từ Entity sang DTO
+    // change Entity sang DTO
     private ProductDTO convertToDTO(Product product) {
         ProductDTO productDTO = new ProductDTO();
         BeanUtils.copyProperties(product, productDTO);
@@ -95,7 +93,7 @@ public class ProductController {
         return productDTO;
     }
 
-    // Phương thức chuyển đổi từ DTO sang Entity
+    // change DTO sang Entity
     private Product convertToEntity(ProductDTO productDTO) {
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
@@ -103,7 +101,7 @@ public class ProductController {
         return product;
     }
 
-    // Phương thức chung để map danh sách sản phẩm sang ResponseEntity
+    // map all product sang ResponseEntity
     private ResponseEntity<List<ProductDTO>> mapProductListToResponse(List<Product> products) {
         if (products != null && !products.isEmpty()) {
             List<ProductDTO> productDTOs = products.stream()

@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
@@ -15,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +43,5 @@ public class Product {
     @OneToMany(mappedBy = "product")
     @JsonIgnore
     private Set<Gallery> galleries = new HashSet<>();
-    // @JsonIgnore
-    // @OneToMany(mappedBy = "product")
-    // private List<OrderDetail> orderDetails;
 
 }

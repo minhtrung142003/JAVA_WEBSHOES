@@ -14,7 +14,8 @@ public class UserDto {
     private String password;
     private String token;
 
-    public UserDto(Long id, String fullname, String email, String phone_number, String address, String password, String token) {
+    public UserDto(Long id, String fullname, String email, String phone_number, String address, String password, String token)
+    {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
@@ -22,8 +23,5 @@ public class UserDto {
         this.address = address;
         this.password = password;
         this.token = token;
-
     }
-   
-   
 }

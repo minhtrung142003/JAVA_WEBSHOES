@@ -32,6 +32,10 @@ function Category() {
             ...prev,
             currentPage: pageNumber,
         }));
+        window.scrollTo({   // thanh cuộn khi change page
+            top: 0,
+            behavior: 'smooth',
+        });
     };
 
     // hàm filter theo price and page change

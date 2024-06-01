@@ -27,6 +27,10 @@ const SearchResults = () => {
             ...prev,
             currentPage: pageNumber
         }));
+        window.scrollTo({   // thanh cuộn khi change page
+            top: 0,
+            behavior: 'smooth',
+        });
     };
     // call api filter theo search
     useEffect(() => {

@@ -1,9 +1,6 @@
 package com.haminhtrung.backend.entity;
 
 import java.sql.Date;
-// import java.util.List;
-// import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,7 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,8 +29,7 @@ public class User {
         this.phone_number = phone_number;
         this.address = address;
         this.password = password;
-        this.createdAt = new Date(System.currentTimeMillis()); // Khởi tạo ngày tạo là thời điểm hiện tại
+        this.createdAt = new Date(System.currentTimeMillis()); // khởi tạo ngày tạo là now
     }
 
 }
-

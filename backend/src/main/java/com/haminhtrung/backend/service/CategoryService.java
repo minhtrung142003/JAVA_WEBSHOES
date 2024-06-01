@@ -2,7 +2,6 @@ package com.haminhtrung.backend.service;
 
 import com.haminhtrung.backend.entity.Category;
 import java.util.List;
-import java.util.UUID;
 
 public interface CategoryService {
     public Category createCategory(Category category);

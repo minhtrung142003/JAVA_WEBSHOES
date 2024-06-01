@@ -15,13 +15,11 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")
-
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private Long id;
-    // thông tin dat hang
     private Double totalPrice;
     private String userName;
     private String firstName;
@@ -43,7 +41,7 @@ public class Order {
     private LocalDateTime createdAt;
 
     private String status;
-    
+
     @Column(name = "payment_method")
     private String paymentMethod; // phương thuc thanh toan
 

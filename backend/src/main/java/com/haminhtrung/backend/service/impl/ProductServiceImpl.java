@@ -2,7 +2,6 @@ package com.haminhtrung.backend.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.haminhtrung.backend.repository.CategoryRepository;
 import com.haminhtrung.backend.repository.GalleryRepository;
 import com.haminhtrung.backend.repository.ProductRepository;
@@ -11,7 +10,6 @@ import com.haminhtrung.backend.entity.Category;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.entity.Tag;
 import com.haminhtrung.backend.service.ProductService;
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;

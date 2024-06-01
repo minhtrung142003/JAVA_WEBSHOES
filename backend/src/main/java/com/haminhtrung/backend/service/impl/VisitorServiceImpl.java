@@ -5,7 +5,6 @@ import com.haminhtrung.backend.repository.VisitorRepository;
 import com.haminhtrung.backend.service.VisitorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -58,12 +57,11 @@ public class VisitorServiceImpl implements VisitorService {
     public int getVisitorsCount() {
         return visitorRepository.countVisitors();
     }
+
     @Override
     public int incrementVisitorsCount() {
-        // Lấy số lượng người truy cập hiện tại
         Visitor latestVisitor = visitorRepository.findFirstByOrderByVisitDateDesc().orElse(null);
         int currentCount = (latestVisitor != null) ? latestVisitor.getVisitorCount() : 0;
-        // Tăng số lượng người truy cập lên 1 và lưu vào cơ sở dữ liệu
         int newCount = currentCount + 1;
         visitorRepository.save(new Visitor(new Date(), newCount));
         return newCount;

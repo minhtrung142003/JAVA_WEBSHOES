@@ -13,26 +13,26 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
 public class Category {
   @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // day la 1 anotation chi dinh lam primary key
-    @Column(name = "id")
-    private Long id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY) // primary key
+  @Column(name = "id")
+  private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id") // chi dinh ten cua cot, lam khoa ngoai cho categories
-    private Category parentId;
-    @Column(name = "name")
-    private String categoryName;
+  @ManyToOne
+  @JoinColumn(name = "parent_id") // lam khoa ngoai cho categories
+  private Category parentId;
 
-    @Column(name = "category_description")
-    private String categoryDescription;
+  @Column(name = "name")
+  private String categoryName;
 
-    @Column(name = "icon")
-    private String icon;
+  @Column(name = "category_description")
+  private String categoryDescription;
 
-    @ManyToMany(mappedBy = "categories")
-    @JsonIgnore
-    private List<Product> products;
+  @Column(name = "icon")
+  private String icon;
+
+  @ManyToMany(mappedBy = "categories")
+  @JsonIgnore
+  private List<Product> products;
 }

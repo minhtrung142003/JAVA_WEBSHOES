@@ -1,9 +1,6 @@
 package com.haminhtrung.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-// import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +19,7 @@ public class Gallery {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "image_path") // BLOB là kiểu dữ liệu nhị phân
+    @Column(name = "image_path")
     private String imagePath;
 
     @ManyToOne

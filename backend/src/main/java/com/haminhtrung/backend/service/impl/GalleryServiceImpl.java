@@ -3,13 +3,11 @@ package com.haminhtrung.backend.service.impl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.haminhtrung.backend.repository.GalleryRepository;
 import com.haminhtrung.backend.repository.ProductRepository;
 import com.haminhtrung.backend.entity.Gallery;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.service.GalleryService;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,51 +27,33 @@ public class GalleryServiceImpl implements GalleryService {
 
     private final String UPLOAD_DIR = "E:/WEB_SPRINGBOOT/JAVA_WEBSHOES/backend/src/main/resources/static/upload";
 
-    // save image
+    // save 1 image
     @Override
     public Gallery saveImage(Long productId, MultipartFile file, int i) {
         try {
-            // Lấy tên gốc của tệp tin ảnh
-            String originalFileName = file.getOriginalFilename();
-
-            // Tạo một UUID để thêm vào tên tệp tin để đảm bảo tính duy nhất
-            String uuid = UUID.randomUUID().toString();
-
-            // Lấy phần mở rộng của tên tệp tin (ví dụ: .jpg, .png)
-            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
-
-            // Tạo tên tệp tin mới bằng cách kết hợp UUID và phần mở rộng của tệp tin gốc
+            String originalFileName = file.getOriginalFilename();    // Lấy tên gốc của tệp tin ảnh
+            String uuid = UUID.randomUUID().toString();     // Tạo một UUID add vào tập tin
+            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // get .file(jpg or png)
             String newFileName = i + uuid + fileExtension;
-
-            // Tạo đường dẫn tuyệt đối tới thư mục upload
-            Path uploadPath = Paths.get(UPLOAD_DIR);
-
-            // Kiểm tra nếu thư mục upload không tồn tại, tạo mới
+            Path uploadPath = Paths.get(UPLOAD_DIR);    // create url tới upload
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
-
-            // Tạo đường dẫn đến tệp tin ảnh
-            Path filePath = uploadPath.resolve(newFileName);
-
-            // Ghi dữ liệu từ file được upload vào đường dẫn đã tạo
-            Files.write(filePath, file.getBytes());
-
-            // Tìm sản phẩm dựa trên productId
+            Path filePath = uploadPath.resolve(newFileName); // create url 
+            Files.write(filePath, file.getBytes()); // ghi data từ file vào url create
+            // filter by productid
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new RuntimeException("Product not found"));
-
-            // Tạo đối tượng Gallery và lưu vào cơ sở dữ liệu
             Gallery gallery = new Gallery();
             gallery.setProduct(product);
-            gallery.setImagePath(newFileName); // Sử dụng tên tệp tin mới
+            gallery.setImagePath(newFileName); // use file name new
             return galleryRepository.save(gallery);
         } catch (IOException e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage(), e);
         }
     }
 
-    // ----------------------------------------------------------------
+    // save many images
     @Override
     public List<Gallery> saveImages(Long productId, MultipartFile[] files) {
         List<Gallery> galleries = new ArrayList<>();
@@ -107,11 +87,8 @@ public class GalleryServiceImpl implements GalleryService {
     // update image by productid
     @Override
     public void update(Long productId, MultipartFile[] newFiles) {
-        // Xóa toàn bộ ảnh cũ của sản phẩm
-        deleteGallery(productId);
-
-        // Lưu ảnh mới
-        saveImages(productId, newFiles);
+        deleteGallery(productId);    // delete image old
+        saveImages(productId, newFiles);    // save image new
     }
 
     // delete gallery
@@ -123,9 +100,8 @@ public class GalleryServiceImpl implements GalleryService {
             galleryRepository.delete(gallery);
         }
     }
-
+    // delete image từ folder or save image outside
     private void deleteImage(String imagePath) {
-        // Xóa ảnh từ thư mục hoặc lưu trữ ảnh bên ngoài
         Path imagePathToDelete = Paths.get(UPLOAD_DIR).resolve(imagePath);
         try {
             Files.deleteIfExists(imagePathToDelete);
@@ -133,5 +109,4 @@ public class GalleryServiceImpl implements GalleryService {
             throw new RuntimeException("Failed to delete image: " + imagePath, e);
         }
     }
-
 }

@@ -1,6 +1,6 @@
 import {
     PayPalScriptProvider,
-    PayPalButtons,
+    PayPalButtons, 
     usePayPalScriptReducer
 } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
@@ -8,8 +8,9 @@ import { addOrder } from "./CartApi";
 import { useNavigate } from "react-router-dom";
 
 const style = { "layout": "vertical" };
+// component con
 const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
-    const [{ isPending, options }, dispatch] = usePayPalScriptReducer();
+    const [{ isPending, options }, dispatch] = usePayPalScriptReducer(); // quản lý trạng thái và update option khi currency change
     const navigate = useNavigate();
     useEffect(() => {
         dispatch({
@@ -20,7 +21,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
         });
     }, [currency, showSpinner]);
 
-
+    // hanle add order
     const handleSaveOrder = async () => {
         try {
             console.log('Payload being sent:', payload);
@@ -31,7 +32,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
             console.error('Error saving order:', error);
         }
     }
-
+    // hàm phê duyệt thanh toán
     const handleOnApprove = (data, actions) => {
         actions.order.capture().then(async (response) => {
             if (response.status === 'COMPLETED') {
@@ -61,9 +62,8 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
     );
 }
 
+// component cha, nhận payload từ component checkout
 export default function Paypal({ amount, payload }) {
-
-    // console.log('Payload in Paypal:', payload);
     return (
         <div style={{ maxWidth: "750px", minHeight: "200px" }}>
             <PayPalScriptProvider options={{ clientId: "Aa4lmbbxY_18hZ2WgglVD_-RUVZBdFsWdoZAw0mfEKob8JCgIq7gV27lV9FOlsNbgDgivbE_sejG6oiP", components: "buttons", currency: "USD" }}>

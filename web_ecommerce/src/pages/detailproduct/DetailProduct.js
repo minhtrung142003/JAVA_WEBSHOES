@@ -14,6 +14,7 @@ const DetailProduct = () => {
     const queryParams = new URLSearchParams(location.search); 
     const productId = queryParams.get("productId");
 
+    // render UI
     useEffect(() => {
         const GET_ID = async (endpoint, id) => { 
             try {
@@ -32,11 +33,13 @@ const DetailProduct = () => {
         .catch((error) => console.error("Error setting product:", error));
     }, [productId]);
 
+    // hàm change quantity
     const handleChange = (e) => {
         let { name, value } = e.target;
         setProduct((pre) => ({ ...pre, [name]: value }));
     };
 
+    // prepare data product cho hàm addtocart
     const convertDataSubmit = (value) => {
         return {
             productId: value?.id,
@@ -45,6 +48,7 @@ const DetailProduct = () => {
         };
     };
 
+    // hàm addCart
     const handleAddToCard = async () => {
         try {
             if (!currentUser?.id) {

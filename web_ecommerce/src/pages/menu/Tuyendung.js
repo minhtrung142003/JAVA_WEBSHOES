@@ -11,25 +11,25 @@ const Tuyendung = () => {
         <div className="job-card">
           <h2 className="job-title">Nhân Viên Bán Hàng</h2>
           <p className="job-description">
-            Chúng tôi cần tuyển Nhân Viên Bán Hàng với kinh nghiệm trong lĩnh vực bán lẻ và chăm sóc khách hàng. 
+            Chúng tôi cần tuyển Nhân Viên Bán Hàng với kinh nghiệm trong lĩnh vực bán lẻ và chăm sóc khách hàng.
             Yêu cầu khả năng giao tiếp tốt và làm việc theo ca.
           </p>
           <button className="apply-button">Ứng Tuyển Ngay</button>
         </div>
-        
+
         <div className="job-card">
           <h2 className="job-title">Nhân Viên Kho</h2>
           <p className="job-description">
-            Tìm kiếm Nhân Viên Kho với kinh nghiệm quản lý hàng hóa và sắp xếp kho. 
+            Tìm kiếm Nhân Viên Kho với kinh nghiệm quản lý hàng hóa và sắp xếp kho.
             Yêu cầu cẩn thận, tỉ mỉ và có sức khỏe tốt.
           </p>
-          <button className="apply-button" style={{marginTop:'20px'}}>Ứng Tuyển Ngay</button>
+          <button className="apply-button" style={{ marginTop: '20px' }}>Ứng Tuyển Ngay</button>
         </div>
 
         <div className="job-card">
           <h2 className="job-title">Nhân Viên Marketing</h2>
           <p className="job-description">
-            Cần tuyển Nhân Viên Marketing sáng tạo và năng động, có kinh nghiệm trong quảng cáo trực tuyến và quản lý mạng xã hội. 
+            Cần tuyển Nhân Viên Marketing sáng tạo và năng động, có kinh nghiệm trong quảng cáo trực tuyến và quản lý mạng xã hội.
             Thành thạo công cụ quảng cáo và có khả năng làm việc độc lập.
           </p>
           <button className="apply-button">Ứng Tuyển Ngay</button>

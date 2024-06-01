@@ -6,12 +6,10 @@ import DetailProduct from '../pages/detailproduct/DetailProduct';
 import Login from '../pages/login/Login';
 import Register from '../pages/register/Register';
 import Cart from '../pages/cart/Cart';
-import Payment from '../pages/payment/Payment';
 import History from '../pages/history/History';
 import SearchResults from '../pages/search/SearchResults';
 import Category from '../pages/category/Category';
 import Checkout from '../pages/payment/Checkout';
-import Verify from '../pages/register/Verify';
 import About from '../pages/menu/About';
 import Blog from '../pages/menu/Blog';
 import Contact from '../pages/menu/Contact';
@@ -26,9 +24,7 @@ const Main = () => {
       <Route path="/detailproduct" element={<DetailProduct />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
-      <Route path="/verify" element={<Verify />} />
       <Route path="/cart" element={<Cart />} />
-      {/* <Route path="/payment" element={<Payment />} /> */}
       <Route path="/history" element={<History />} />
       <Route path="/search" element={<SearchResults />} />
       <Route path="/category" element={<Category />} />

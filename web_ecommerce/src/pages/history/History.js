@@ -6,6 +6,7 @@ function History() {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const [state, setState] = useState({});
 
+    // hàm getOrderItem filter by userId
     const search = async () => {
         try {
             const data = await getOrders(currentUser?.id);
@@ -14,7 +15,7 @@ function History() {
             console.error("Error fetching orders:", error);
         }
     };
-
+    // render UI khi component mount
     useEffect(() => {
         search();
     }, []);
@@ -30,28 +31,28 @@ function History() {
                                     <a href="#" className="float-right">
                                         <i className="fa fa-print" /> Print
                                     </a>
-                                    {/* <span style={{display:'flex'}}>Order Date: {convertDatetimeFormat(order?.createdAt)}</span> */}
+                                    <span style={{ display: 'flex' }}>Ngày đặt hàng: {convertDatetimeFormat(order?.createdAt)}</span>
                                 </header>
                                 <div className="card-body">
                                     <div className="row">
                                         <div className="col-md-8">
-                                        <div className='user'>
-  <h6 className="text-muted">Vận chuyển tới</h6>
-  <div className="user-info">
-    <p className="info-item">
-      <span className="info-label" style={{display:'flex' ,marginRight:'20px'}}>Họ và tên:</span> {order?.userName}
-    </p>
-    <p className="info-item">
-      <span className="info-label" style={{display:'flex',marginRight:'20px'}} >Email:</span> {order?.email}
-    </p>
-    <p className="info-item">
-      <span className="info-label"  style={{display:'flex',marginRight:'20px'}} > Điện thoại:</span> {order?.phone}
-    </p>
-    <p className="info-item">
-      <span className="info-label"  style={{display:'flex' ,marginRight:'20px'}} >Đia chỉ:</span> {order?.address}
-    </p>
-  </div>
-</div>
+                                            <div className='user'>
+                                                <h6 className="text-muted">Vận chuyển tới</h6>
+                                                <div className="user-info">
+                                                    <p className="info-item">
+                                                        <span className="info-label" style={{ display: 'flex', marginRight: '20px' }}>Họ và tên:</span> {order?.userName}
+                                                    </p>
+                                                    <p className="info-item">
+                                                        <span className="info-label" style={{ display: 'flex', marginRight: '20px' }} >Email:</span> {order?.email}
+                                                    </p>
+                                                    <p className="info-item">
+                                                        <span className="info-label" style={{ display: 'flex', marginRight: '20px' }} > Điện thoại:</span> {order?.phone}
+                                                    </p>
+                                                    <p className="info-item">
+                                                        <span className="info-label" style={{ display: 'flex', marginRight: '20px' }} >Đia chỉ:</span> {order?.address}
+                                                    </p>
+                                                </div>
+                                            </div>
 
                                         </div>
                                         <div className="col-md-4">
@@ -85,9 +86,8 @@ function History() {
                                                     </td>
                                                     <td width={250}>
                                                         <a href="/" className="btn btn-outline-primary">
-                                                        Quay lại trang chủ
+                                                            Quay lại trang chủ
                                                         </a>
-                                                       
                                                     </td>
                                                 </tr>
                                             ))}
@@ -106,7 +106,18 @@ function History() {
 export default History;
 
 function convertDatetimeFormat(datetimeStr) {
+    // Kiểm tra nếu datetimeStr là undefined hoặc null
+    if (!datetimeStr) {
+        return 'Ngày không hợp lệ';
+    }
+    
     var datetimeObj = new Date(datetimeStr);
+    
+    // Kiểm tra nếu datetimeObj là một ngày hợp lệ
+    if (isNaN(datetimeObj)) {
+        return 'Ngày không hợp lệ';
+    }
+    
     var day = datetimeObj.getDate();
     var month = datetimeObj.toLocaleString('default', { month: 'long' });
     var year = datetimeObj.getFullYear();

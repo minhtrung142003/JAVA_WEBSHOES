@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { addOrder, getListCart } from '../cart/CartApi';
 import Paypal from '../cart/Paypal';
-
+import "./Payment.css"
 const Checkout = () => {
-    const navigate = useNavigate();
     const [state, setState] = useState({
         userName: '',
         firstName: '',
@@ -17,63 +15,62 @@ const Checkout = () => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const [paymentMethod, setPaymentMethod] = useState('paypal');
 
+    // hàm change input
     const handleChange = (e) => {
         let { name, value } = e.target;
-        setState((pre) => ({ 
-             ...pre,
-             [name]: value
-         }));
+        setState((pre) => ({
+            ...pre,
+            [name]: value
+        }));
     }
 
+    // change method payment
     const handlePaymentChange = (e) => {
         setPaymentMethod(e.target.value);
     }
-
-
+    // hàm submit payment shipcod
     const handleFormSubmit = async (event) => {
-        event.preventDefault();
-       
-            // Kiểm tra xem tất cả các trường đã được nhập hay chưa
-            if (state.address && state.userName && state.firstName && state.lastName && state.email && state.phone) {
-                try {
-                    const searchObj = {
-                        userId: currentUser?.id,
-                        address: state?.address,
-                        userName: state?.userName,
-                        firstName: state?.firstName,
-                        lastName: state?.lastName,
-                        phone: state?.phone,
-                        email: state?.email,
-                        orderItemDto: listProduct?.map(i => ({
-                            productId: i?.productDTO?.id,
-                            price: i?.productDTO?.price,
-                            quantity: i?.quantity
-                        })),
-                        listIdCart: listProduct?.map(i => i?.cartId),
-                        totalPrice: listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0),
-                        totalDiscount: 0,
-                        paymentMethod,
-                        createdAt: convertToMidnight(new Date()),
-                        deliveredCarrierAt: convertToMidnight(new Date()),
-                        deliveredCustomerAt: convertToMidnight(new Date()),
-                        approvedAt: convertToMidnight(new Date()),
-                        status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán',
-                    }
-                    console.log("Payload before sending:", searchObj);
-                        await addOrder(searchObj);
-                        console.log(searchObj);
-                        window.location.href = "/history"
-                    
-                } catch (error) {
-                    console.log(error);
+        event.preventDefault(); // Ngăn chặn mặc định của form tức là ko reload page.
+        if (state.address && state.userName && state.firstName && state.lastName && state.email && state.phone) {
+            try {
+                const searchObj = {
+                    userId: currentUser?.id,
+                    address: state?.address,
+                    userName: state?.userName,
+                    firstName: state?.firstName,
+                    lastName: state?.lastName,
+                    phone: state?.phone,
+                    email: state?.email,
+                    orderItemDto: listProduct?.map(i => ({
+                        productId: i?.productDTO?.id,
+                        price: i?.productDTO?.price,
+                        quantity: i?.quantity
+                    })),
+                    listIdCart: listProduct?.map(i => i?.cartId),
+                    totalPrice: listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0),
+                    totalDiscount: 0,
+                    paymentMethod,
+                    createdAt: convertToMidnight(new Date()),
+                    deliveredCarrierAt: convertToMidnight(new Date()),
+                    deliveredCustomerAt: convertToMidnight(new Date()),
+                    approvedAt: convertToMidnight(new Date()),
+                    status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán',
                 }
-            } else {
-                // Hiển thị thông báo yêu cầu nhập đầy đủ thông tin
-                alert('Vui lòng nhập đầy đủ thông tin thanh toán');
-            }   
-    }
-    
+                console.log("Payload before sending:", searchObj);
+                await addOrder(searchObj);
+                console.log(searchObj);
+                window.location.href = "/history"
 
+            } catch (error) {
+                console.log(error);
+            }
+        } else {
+            // Hiển thị thông báo yêu cầu nhập đầy đủ thông tin
+            alert('Vui lòng nhập đầy đủ thông tin thanh toán');
+        }
+    }
+
+    // get all product cart
     const getAllProduct = async () => {
         try {
             const data = await getListCart(currentUser?.id);
@@ -82,7 +79,7 @@ const Checkout = () => {
             console.log(error);
         }
     }
-
+    // render UI
     useEffect(() => {
         getAllProduct();
     }, []);
@@ -183,32 +180,33 @@ const Checkout = () => {
                                                     <label htmlFor="payment_paypal">Thanh toán bằng Paypal <img src="assets/img/icon/papyel.png" alt="" /></label>
                                                 </div>
                                             </div>
-                                            {paymentMethod === 'paypal' && 
-                                            (             
-                                                                 
-                                                <Paypal                                              
-                                                    payload={{
-                                                        userId: currentUser?.id,
-                                                        address: state?.address,
-                                                        userName: state?.userName,
-                                                        firstName: state?.firstName,
-                                                        lastName: state?.lastName,
-                                                        phone: state?.phone,
-                                                        email: state?.email,
-                                                        orderItemDto: listProduct?.map(i => ({
-                                                            productId: i?.productDTO?.id,
-                                                            price: i?.productDTO?.price,
-                                                            quantity: i?.quantity
-                                                        })),
-                                                        listIdCart: listProduct?.map(i => i?.cartId),
-                                                        totalPrice: Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000),
-                                                        status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : paymentMethod === 'paypal' ? 'Đã thanh toán' : 'Chưa thanh toán'
+                                            {paymentMethod === 'paypal' &&
+                                                (
 
-                                                    }}
-                                                    amount={Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000)}
-                                                />
-                                            
-                                            )}
+                                                    <Paypal
+                                                        payload={{
+                                                            userId: currentUser?.id,
+                                                            address: state?.address,
+                                                            userName: state?.userName,
+                                                            firstName: state?.firstName,
+                                                            lastName: state?.lastName,
+                                                            phone: state?.phone,
+                                                            email: state?.email,
+                                                            orderItemDto: listProduct?.map(i => ({
+                                                                productId: i?.productDTO?.id,
+                                                                price: i?.productDTO?.price,
+                                                                quantity: i?.quantity
+                                                            })),
+                                                            listIdCart: listProduct?.map(i => i?.cartId),
+                                                            totalPrice: Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000),
+                                                            status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : paymentMethod === 'paypal' ? 'Đã thanh toán' : 'Chưa thanh toán',
+                                                            createdAt: convertToMidnight(new Date())
+
+                                                        }}
+                                                        amount={Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000)}
+                                                    />
+
+                                                )}
                                         </form>
                                     </div>
                                 </div>
@@ -223,14 +221,31 @@ const Checkout = () => {
 
 export default Checkout;
 
-function convertToMidnight(dateTimeString) {
-    const dateTime = new Date(dateTimeString);
-    dateTime.setHours(0);
-    dateTime.setMinutes(0);
-    dateTime.setSeconds(0);
-    const year = dateTime.getFullYear();
-    const month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
-    const day = ('0' + dateTime.getDate()).slice(-2);
-    const newDateTimeString = `${year}-${month}-${day}T00:00:00`;
-    return newDateTimeString;
+function convertToMidnight(dateTime) {
+    if (typeof dateTime === 'string') {
+        // Nếu là chuỗi, kiểm tra nếu đã định dạng ISO 8601
+        // Nếu đã định dạng, trả về luôn, nếu chưa, thực hiện chuyển đổi
+        if (dateTime.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/)) {
+            return dateTime;
+        } else {
+            const newDateTime = new Date(dateTime);
+            newDateTime.setHours(0);
+            newDateTime.setMinutes(0);
+            newDateTime.setSeconds(0);
+            const year = newDateTime.getFullYear();
+            const month = ('0' + (newDateTime.getMonth() + 1)).slice(-2);
+            const day = ('0' + newDateTime.getDate()).slice(-2);
+            return `${year}-${month}-${day}T00:00:00`;
+        }
+    } else if (dateTime instanceof Date) {
+        // Nếu là đối tượng Date, thực hiện chuyển đổi
+        const year = dateTime.getFullYear();
+        const month = ('0' + (dateTime.getMonth() + 1)).slice(-2);
+        const day = ('0' + dateTime.getDate()).slice(-2);
+        return `${year}-${month}-${day}T00:00:00`;
+    } else {
+        // Nếu không phải cả hai trường hợp trên, trả về null hoặc giá trị mặc định khác
+        return null;
+    }
 }
+

@@ -1,7 +1,6 @@
 import axios from "axios";
 import baseURL from "../../api/BaseUrl";
 
-
 export const getListCart = (id) => {
   return axios.get(baseURL + "carts/users/" + id);
 };

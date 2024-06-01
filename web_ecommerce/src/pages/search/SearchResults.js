@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import "./css/bootstrap.css"
@@ -7,8 +7,8 @@ import "./css/bootstrap.css.map"
 import "./css/responsive.css"
 import "./css/ui.css"
 import "./css/ui.css.map"
-const SearchResults = () => {
 
+const SearchResults = () => {
     const location = useLocation();
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -18,14 +18,14 @@ const SearchResults = () => {
     })
 
     // tạo và lưu tổng trang
-    const [totalPages, setTotalPages] = useState(0);  
+    const [totalPages, setTotalPages] = useState(0);
     const ITEMS_PER_PAGE = 5;
 
     // xử lý khi user chuyển trang
-    const handlePageChange = (pageNumber) => { 
+    const handlePageChange = (pageNumber) => {
         setState((prev) => ({
             ...prev,
-            currentPage: pageNumber  
+            currentPage: pageNumber
         }));
     };
     // call api filter theo search
@@ -221,14 +221,9 @@ const SearchResults = () => {
                                 <a href="" className="btn btn-light">Có</a>
                                 <a href="" className="btn btn-light">Không</a>
                             </div>
-
-
-
-                        </main> {/*-- col.// */}
-
+                        </main>
                     </div>
-
-                </div> {/*-- container .//  */}
+                </div>
             </section>
             <section className="padding-y-lg bg-light border-top">
                 <div className="container">
@@ -248,12 +243,10 @@ const SearchResults = () => {
                             <small className="form-text">Chúng tôi sẽ không bao giờ chia sẻ địa chỉ email của bạn với bên thứ ba. </small>
                         </div>
                     </div>
-
-
                 </div>
             </section>
         </div>
-        
+
     )
 }
 

@@ -5,15 +5,15 @@ import "./Register.css"; // Đảm bảo import CSS cho trang đăng ký
 import axios from 'axios';
 import baseURL from '../../api/BaseUrl';
 const Register = () => {
-
-    const [state, setState] = useState({    // khai báo state vs các giá trị dưới và dùng setState để update lại dữ liệu
+    const [state, setState] = useState({  
         fullname: '',
         email: '',
         phone_number: '',
         address: '',
         password: ''
     });
-    // khởi tạo check validation
+
+    // khởi tạo validation
     const [errors, setErrors] = useState({
         fullname: '',
         email: '',
@@ -22,10 +22,12 @@ const Register = () => {
         password: ''
     });
 
-    const handleChange = (e) => {  // khi user change vào input thì sự kiện onchange kích hoạt và gọi về hàm này và cập nhật state new
+    // hàm input change
+    const handleChange = (e) => { 
         let { name, value } = e.target;
         setState((pre) => ({ ...pre, [name]: value }));
     }
+
     // check validation
     const validate = () => {
         let newErrors = {};
@@ -67,20 +69,15 @@ const Register = () => {
             newErrors.password = "Vui lòng nhập mật khẩu.";
             isValid = false;
         }
-
         setErrors(newErrors);
         return isValid;
     }
-
+    // handle register
     const handleRegister = async (e) => {
-        e.preventDefault();  // dùng để ngăn chặn hành vị mặc định, nghĩa là sẽ ko gửi yêu cầu đến server và ko tải lại trang
-        
-        // Kiểm tra xem có trường nào không được nhập không
+        e.preventDefault();
         if (!validate()) {
             return;
         }
-
-        // axios.post dùng để gửi yêu cầu đến server với địa chỉ url và dữ liệu dc lưu là state, tức là dữ liệu user nhập vào
         try {
             const data = await axios.post(baseURL + "users/register", state);
             console.log(data)
@@ -90,6 +87,7 @@ const Register = () => {
             alert("Đăng ký thất bại, vui lòng thử lại!");
         }
     }
+
     return (
         <div className="register-container">
             <h2>Đăng ký</h2>

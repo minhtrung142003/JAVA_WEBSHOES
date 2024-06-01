@@ -6,28 +6,28 @@ import ab8 from "../../assets/img/about/ab2.jpeg";
 import ab9 from "../../assets/img/about/ab3.jpeg";
 const Blog = () => {
     return (
-        <div style={{marginBottom:'-100px'}}>
+        <div style={{ marginBottom: '-100px' }}>
             <div class="breadcrumbs_area" >
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
-                            <div class="breadcrumb_content" style={{display:'flex'}}>
+                            <div class="breadcrumb_content" style={{ display: 'flex' }}>
                                 <ul>
                                     <li><a href="/">Trang chủ</a></li>
-                                    <li>Tin tức</li>                  
+                                    <li>Tin tức</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="blog_bg_area" style={{marginTop:'-30px'}}>
+            <div class="blog_bg_area" style={{ marginTop: '-30px' }}>
                 <div class="container">
                     <div class="row">
                         <div class="col-12">
                             <div class="blog_wrapper blog_nosidebar mb-60">
                                 <div class="blog_header" >
-                                    <h1 style={{display:'flex', color:'orange'}}>Tin tức</h1>
+                                    <h1 style={{ display: 'flex', color: 'orange' }}>Tin tức</h1>
                                 </div>
                                 <div class="blog_wrapper_inner">
                                     <article class="single_blog">
@@ -91,9 +91,9 @@ const Blog = () => {
                                                 <div class="blog_desc">
                                                     <p> Nỗi sợ vì mua phải giày kém chất lượng, giày fake, từ nay không còn lo lắng nữa vì đã có #KINGSHOES.VN: hàng chính hãng nhập trực tiếp từ US, fullbox, nguyên tem.
 
-👑 KINGSHOES.VN ✓15 Ngày Đổi Hàng ✓Giao Hàng Miễn Phí ✓Thanh Toán Khi Nhận Hàng ✓Bảo Hành Hàng Chính Hãng.!!!
+                                                        👑 KINGSHOES.VN ✓15 Ngày Đổi Hàng ✓Giao Hàng Miễn Phí ✓Thanh Toán Khi Nhận Hàng ✓Bảo Hành Hàng Chính Hãng.!!!
 
-Đến với "KINGSHOES.VN” quý khách hàng sẽ có những sản phẩm ưng ý nhất, chất lượng phục vụ tốt và giá thành tốt nhất, cùng những “ Chương Trình Khuyến Mãi Đặc Biệt”.</p>
+                                                        Đến với "KINGSHOES.VN” quý khách hàng sẽ có những sản phẩm ưng ý nhất, chất lượng phục vụ tốt và giá thành tốt nhất, cùng những “ Chương Trình Khuyến Mãi Đặc Biệt”.</p>
                                                 </div>
                                                 <footer class="btn_more">
                                                     <a href="blog-details.html"> </a>
@@ -101,7 +101,7 @@ const Blog = () => {
                                             </figcaption>
                                         </figure>
                                     </article>
-                                
+
                                     <article class="single_blog">
                                         <figure>
                                             <div class="blog_thumb">
@@ -116,7 +116,7 @@ const Blog = () => {
                                                 <div class="blog_desc">
                                                     <p>Sneaker là một tên gọi khác của “giày thể thao” Sneaker là loại giày đế mềm, Các hãng giày sneaker đang được ưa chuộng + Nike + Adidas.
 
-Giaythethaochinhhang.com - Giày thể thao chính hãng tại HCM, Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM @ KINGSHOES.VN nhiệm vụ mang hàng chính hãng đến tay người tiêu dùng Việt Nam! 192/2 Nguyễn Thái Bình, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh.</p>
+                                                        Giaythethaochinhhang.com - Giày thể thao chính hãng tại HCM, Cửa Hàng Bán Giày Sneaker Chính Hãng Tại HCM @ KINGSHOES.VN nhiệm vụ mang hàng chính hãng đến tay người tiêu dùng Việt Nam! 192/2 Nguyễn Thái Bình, Phường 12, Quận Tân Bình, Thành phố Hồ Chí Minh.</p>
                                                 </div>
                                                 <footer class="btn_more">
                                                     <a href="blog-details.html"> </a>

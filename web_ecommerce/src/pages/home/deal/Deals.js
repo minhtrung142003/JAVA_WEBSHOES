@@ -8,13 +8,11 @@ const Deals = () => {
 
     const [products, setProducts] = useState([]);
     const [currentCategory, setCurrentCategory] = useState("NIKE");
-
-      // Gọi API để lấy danh sách sản phẩm theo category khi component được render hoặc khi category thay đổi
+    // Gọi API để lấy danh sách sản phẩm theo category khi component được render hoặc khi category thay đổi
     useEffect(() => {
         axios.get(`${baseURL}products/category/${currentCategory}`)
             .then(response => {
                 console.log("product", response.data);
-                // Xử lý dữ liệu trả về từ API
                 setProducts(response.data);
             })
             .catch(error => {
@@ -23,7 +21,7 @@ const Deals = () => {
     }, [currentCategory]);
     return (
         <div  >
-            {/* thêm style css */}
+            {/* Bonus style css */}
             <style>
                 {`
           .product_area.deals_product_style2 {
@@ -58,7 +56,7 @@ const Deals = () => {
           }
         `}
             </style>
-            <div className="product_area deals_product_style2" style={{ marginBottom:"-45px" }}>
+            <div className="product_area deals_product_style2" style={{ marginBottom: "-45px" }}>
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
@@ -67,7 +65,7 @@ const Deals = () => {
                                     <h2>SẢN PHẨM HOT</h2>
                                 </div>
                                 <div className="product_tab_btn">
-                                    <ul className="nav" role="tablist" id="nav-tab2"  style={{paddingLeft:"-60px"}} >
+                                    <ul className="nav" role="tablist" id="nav-tab2" style={{ paddingLeft: "-60px" }} >
                                         {['NIKE', 'ADIDAS', 'JORDAN', 'YEEZY'].map(category => (
                                             <li key={category}>
                                                 <a
@@ -90,7 +88,7 @@ const Deals = () => {
                         <div className="tab-pane fade show active" id={currentCategory} role="tabpanel">
                             <div className="product_carousel product_style product_column2">
                                 <div className="product_items" >
-                                    {products && products.slice(0,4).map((product) => (
+                                    {products && products.slice(0, 4).map((product) => (
                                         <article className="single_product" style={{ width: "50%" }} >
                                             <figure>
                                                 <div className="product_thumb" key={product.id}>
@@ -98,7 +96,7 @@ const Deals = () => {
                                                         <ImageProduct
                                                             id={product.id}
                                                             name={product.title}
-                                                            tagName={"banchay"}                                                         
+                                                            tagName={"banchay"}
                                                         />
                                                     </Link>
                                                     <Link className="secondary_img" to={`/detailproduct?productId=${product.id}`}>
@@ -106,7 +104,7 @@ const Deals = () => {
                                                             id={product.id}
                                                             name={product.title}
                                                             tagName={"banchay"}
-                                                            
+
                                                         />
                                                     </Link>
                                                 </div>
@@ -127,12 +125,12 @@ const Deals = () => {
                                                             <span className="current_price">{product.price}</span>
                                                         </div>
                                                         <div className="countdown_text">
-                                                            <p><span style={{ width: "40px", fontSize: "20px", color:'red' }}>
-                                                            <Link to={`/detailproduct?productId=${product.id}`}>
-                                                                Thêm vào giỏ hàng
+                                                            <p><span style={{ width: "40px", fontSize: "20px", color: 'red' }}>
+                                                                <Link to={`/detailproduct?productId=${product.id}`}>
+                                                                    Thêm vào giỏ hàng
                                                                 </Link>
-                                                                </span>
-                                                                 </p>
+                                                            </span>
+                                                            </p>
                                                         </div>
                                                         <div className="product_timing">
                                                             <div data-countdown="2023/12/15"></div>
@@ -142,7 +140,6 @@ const Deals = () => {
                                             </figure>
                                         </article>
                                     ))}
-                                    {/* Thêm các sản phẩm khác ở đây */}
                                 </div>
                             </div>
                         </div>

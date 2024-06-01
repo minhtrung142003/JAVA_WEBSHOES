@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import "./Cart.css";
 import { useNavigate } from 'react-router-dom';
 import { delCart, getListCart, updateQuanlityOrder } from './CartApi';
-import Paypal from './Paypal';
 const Cart = () => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser")); // để lấy thông tin user từ localstorage
     const [stateValue, setStateValue] = useState({}); // lưu trữ thông tin về ds sp trong cart
@@ -13,7 +12,14 @@ const Cart = () => {
     const search = async () => {
         try {
             const data = await getListCart(currentUser?.id);
-            setStateValue((pre) => ({ ...pre, listData: data?.data?.map(item => ({ ...item.productDTO, cartId: item.cartId, quantity: item.quantity })) }));
+            setStateValue((pre) => ({
+                ...pre,
+                listData: data?.data?.map(item => ({
+                    ...item.productDTO,
+                    cartId: item.cartId,
+                    quantity: item.quantity
+                }))
+            }));
         } catch (error) {
             console.error("Error fetching cart items:", error);
         }
@@ -64,6 +70,7 @@ const Cart = () => {
         handleUpdateQiantity(itemEdit)
         setStateValue((pre) => ({ ...pre, listData: newList }))
     }
+
     // hàm tính total price
     const countTotalPrice = (list = []) => {
         return list?.reduce((sum, i) => (i?.price * i?.quantity) + sum, 0)
@@ -73,7 +80,7 @@ const Cart = () => {
     const countTotalPrice1 = (item) => {
         return item?.price * item?.quantity;
     }
-    // hàm render ra UI của search 
+    // hàm render ra UI  
     useEffect(() => {
         search();
         window.scrollTo(0, 0)
@@ -130,7 +137,6 @@ const Cart = () => {
                                                         </tbody>
                                                     </table>
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -158,7 +164,6 @@ const Cart = () => {
                                                             <p>Vận chuyển</p>
                                                             <p className="cart_amount"><span></span> 0đ</p>
                                                         </div>
-                                                        {/* <a href="#">Calculate shipping</a> */}
                                                         <div className="cart_subtotal">
                                                             <p>Tổng cộng:</p>
                                                             <p className="cart_amount">{countTotalPrice(stateValue?.listData)}</p>
@@ -169,7 +174,7 @@ const Cart = () => {
                                                             </div>
                                                         }
                                                         <div>
-                                                     </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -177,15 +182,11 @@ const Cart = () => {
                                     </div>
                                 </form>
                             </div>
-
                         </div>
                     </div>
                 </div>
-
             </div>
         )
-
-
     }
 }
 

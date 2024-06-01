@@ -8,11 +8,10 @@ import './New.css';
 const Phukien = () => {
     const [products, setProducts] = useState([]);
 
+    // Gọi API để lấy danh sách sản phẩm phụ kiện khi component được render
     useEffect(() => {
-        // Gọi API để lấy danh sách sản phẩm phụ kiện khi component được render
         axios.get(`${baseURL}products/category/Phụ Kiện`)
             .then(response => {
-                // Xử lý dữ liệu trả về từ API
                 setProducts(response.data);
             })
             .catch(error => {
@@ -21,7 +20,7 @@ const Phukien = () => {
     }, []);
 
     return (
-        <div className="NewArrivals" style={{marginTop:"60px"}}>
+        <div className="NewArrivals" style={{ marginTop: "60px" }}>
             <div className="product_area">
                 <div className="container">
                     <div className="row">
@@ -29,7 +28,7 @@ const Phukien = () => {
                             <div className="product_header">
                                 <div className="section_title s_title_style3">
                                     <h2>PHỤ KIỆN</h2>
-                                </div>                              
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -50,9 +49,9 @@ const Phukien = () => {
                                                         name={product.title}
                                                         tagName={"PHỤ KIỆN"}
                                                     />
-                                                </Link>                                             
+                                                </Link>
                                                 <div className="label_product">
-                                                    <span className="label_sale" style={{backgroundColor:'orange'}}>{product.discount}</span>
+                                                    <span className="label_sale" style={{ backgroundColor: 'orange' }}>{product.discount}</span>
                                                 </div>
                                                 <div className="action_links">
                                                     <ul>
@@ -71,7 +70,7 @@ const Phukien = () => {
                                                     </div>
                                                 </div>
                                                 <div className="add_to_cart">
-                                                    <Link  to={`/detailproduct?productId=${product.id}`} title="Add to cart">Thêm vào giỏ hàng</Link>
+                                                    <Link to={`/detailproduct?productId=${product.id}`} title="Add to cart">Thêm vào giỏ hàng</Link>
                                                 </div>
                                             </div>
                                         </figure>

@@ -1,6 +1,5 @@
 
 import React from 'react'
-
 import NewArrivals from '../pages/home/NewArrivals'
 import Shipping from '../pages/home/Shipping'
 import New from '../pages/home/New'
@@ -16,7 +15,6 @@ const Home = () => {
             <div >
                 <Shipping/>
                 <NewArrivals />
-
                 <Banner/>
                 <div>
                     <Deals/>
@@ -24,7 +22,6 @@ const Home = () => {
                 <New  />
                 <Phukien />
             </div>
-          
         </div>
     )
 }

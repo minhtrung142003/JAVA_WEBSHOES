@@ -55,6 +55,7 @@ const Header = () => {
         window.location.href = "/login";
     };
 
+    // render component
     useEffect(() => {
         search();
         fetchCategories();
@@ -153,7 +154,7 @@ const Header = () => {
                                         <a href="/myAccount"><i class="ion-social-whatsapp-outline"></i>
                                         </a>
                                     </div>
-                                    <a href="/myAccount" style={{color:'yellow', marginLeft:'-30px'}}>Thông Tin Cá Nhân</a>
+                                    <a href="/myAccount" style={{ color: 'yellow', marginLeft: '-30px' }}>Thông Tin Cá Nhân</a>
 
                                 </div>
                             </div>

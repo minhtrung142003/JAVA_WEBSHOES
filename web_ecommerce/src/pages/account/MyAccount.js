@@ -29,6 +29,8 @@ const MyAccount = () => {
         let { name, value } = e.target;
         setUserInfo((pre) => ({ ...pre, [name]: value }));
     }
+
+    // hàm update
     const handleUpdate = async (e) => {
         e.preventDefault();
         try {
@@ -41,69 +43,70 @@ const MyAccount = () => {
         }
     };
 
-     // logout
-     const handleLogout = () => {
+    // logout
+    const handleLogout = () => {
         localStorage.removeItem("currentUser");
         window.location.href = "/login";
     };
-return (
-    <div>
-        <div className="breadcrumbs_area">
-            <div className="container">
-                <div className="row">
-                    <div className="col-12">
-                        <div className="breadcrumb_content">
-                            <ul style={{ display: 'flex' }}>
-                                <li><a href="/">Trang chủ</a></li>
-                                <li>Thông tin người dùng</li>
-                            </ul>
+    return (
+        <div>
+            <div className="breadcrumbs_area">
+                <div className="container">
+                    <div className="row">
+                        <div className="col-12">
+                            <div className="breadcrumb_content">
+                                <ul style={{ display: 'flex' }}>
+                                    <li><a href="/">Trang chủ</a></li>
+                                    <li>Thông tin người dùng</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div className="account_page_bg">
-            <div className="container">
-                <section className="main_content_area">
-                    <div className="account_dashboard">
-                        <div className="row">
-                            <div className="col-sm-12 col-md-3 col-lg-3">
-                                <div className="dashboard_tab_button">
-                                    <ul role="tablist" className="nav flex-column dashboard-list">
-                                        <li><a href="#account-details" data-bs-toggle="tab" className="nav-link">Thông Tin Cá Nhân</a></li>
-                                       <div onClick={handleLogout}>
-                                        <li><a href="#" className="nav-link">Đăng xuất</a></li>
-                                        </div>
-                                    </ul>
+            <div className="account_page_bg">
+                <div className="container">
+                    <section className="main_content_area">
+                        <div className="account_dashboard">
+                            <div className="row">
+                                <div className="col-sm-12 col-md-3 col-lg-3">
+                                    <div className="dashboard_tab_button">
+                                        <ul role="tablist" className="nav flex-column dashboard-list">
+                                            <li><a href="#account-details" data-bs-toggle="tab" className="nav-link">Thông Tin Cá Nhân</a></li>
+                                            <div onClick={handleLogout}>
+                                                <li><a href="#" className="nav-link">Đăng xuất</a></li>
+                                            </div>
+                                        </ul>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col-sm-12 col-md-9 col-lg-9">
-                                <div className="tab-content dashboard_content">
-                                    <div className="tab-pane fade show active" id="account-details" >
-                                        <h3 style={{ display: 'flex' }} >Thông tin cá nhân </h3>
-                                        <div className="login">
-                                            <div className="login_form_container">
-                                                <div className="account_login_form">
-                                                    <form onSubmit={handleUpdate} >
+                                <div className="col-sm-12 col-md-9 col-lg-9">
+                                    <div className="tab-content dashboard_content">
+                                        <div className="tab-pane fade show active" id="account-details" >
+                                            <h3 style={{ display: 'flex' }} >Thông tin cá nhân </h3>
+                                            <div className="login">
+                                                <div className="login_form_container">
+                                                    <div className="account_login_form">
+                                                        <form onSubmit={handleUpdate} >
 
-                                                        <label style={{ display: 'flex' }}>Họ và tên</label>
-                                                        <input type="text" name="fullname" value={userInfo.fullname} onChange={handleChange} />
-                                                        <label style={{ display: 'flex' }}>Email</label>
-                                                        <input type="text" name="email" value={userInfo.email} onChange={handleChange} />
-                                                        <label style={{ display: 'flex' }}>Số điện thoại</label>
-                                                        <input type="text" name="phone_number" value={userInfo.phone_number} onChange={handleChange} />
-                                                        <label style={{ display: 'flex' }}>Địa chỉ</label>
-                                                        <input type="text" name="address" value={userInfo.address} onChange={handleChange} />
-                                                        <label style={{ display: 'flex' }} value={userInfo.password} onChange={handleChange}>Mật khẩu</label>
-                                                        <input type="password" name="password" />
-                                                        <span className="custom_checkbox">
-                                                            <input type="checkbox" value="1" name="optin" style={{marginTop:'-3px'}} />
-                                                            <label>Nhận ưu đãi từ các đối tác của chúng tôi</label>
-                                                        </span>
-                                                        <div className="save_button primary_btn default_button">
-                                                            <button type="submit" style={{ display: 'flex' }}>Lưu thông tin</button>
-                                                        </div>
-                                                    </form>
+                                                            <label style={{ display: 'flex' }}>Họ và tên</label>
+                                                            <input type="text" name="fullname" value={userInfo.fullname} onChange={handleChange} />
+                                                            <label style={{ display: 'flex' }}>Email</label>
+                                                            <input type="text" name="email" value={userInfo.email} onChange={handleChange} />
+                                                            <label style={{ display: 'flex' }}>Số điện thoại</label>
+                                                            <input type="text" name="phone_number" value={userInfo.phone_number} onChange={handleChange} />
+                                                            <label style={{ display: 'flex' }}>Địa chỉ</label>
+                                                            <input type="text" name="address" value={userInfo.address} onChange={handleChange} />
+                                                            <label style={{ display: 'flex' }} value={userInfo.password} onChange={handleChange}>Mật khẩu</label>
+                                                            <input type="password" name="password" />
+                                                            <span className="custom_checkbox">
+                                                                <input type="checkbox" value="1" name="optin" style={{ marginTop: '-3px' }} />
+                                                                <label>Nhận ưu đãi từ các đối tác của chúng tôi</label>
+                                                            </span>
+                                                            <div className="save_button primary_btn default_button">
+                                                                <button type="submit" style={{ display: 'flex' }}>Lưu thông tin</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -111,12 +114,11 @@ return (
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                </div>
             </div>
         </div>
-    </div>
-)
+    )
 }
 
 export default MyAccount;

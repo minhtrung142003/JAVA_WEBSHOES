@@ -10,12 +10,11 @@ const New = () => {
     const [products, setProducts] = useState([]);
     const [currentCategory, setCurrentCategory] = useState("NIKE"); // ban đầu để là NIKE rồi filter theo 
 
+    // Gọi API để lấy danh sách sản phẩm theo category khi component được render hoặc khi category thay đổi
     useEffect(() => {
-        // Gọi API để lấy danh sách sản phẩm theo category khi component được render hoặc khi category thay đổi
         axios.get(`${baseURL}products/category/${currentCategory}`)
             .then(response => {
                 console.log("product", response.data);
-                // Xử lý dữ liệu trả về từ API
                 setProducts(response.data);
             })
             .catch(error => {
@@ -24,7 +23,7 @@ const New = () => {
     }, [currentCategory]);
 
     return (
-        <div className="NewArrivals" style={{marginTop:"-25px"}} >
+        <div className="NewArrivals" style={{ marginTop: "-25px" }} >
             <div className="product_area">
                 <div className="container">
                     <div className="row">
@@ -37,7 +36,7 @@ const New = () => {
                                     <ul className="nav" role="tablist" id="nav-tab2">
                                         {['NIKE', 'ADIDAS', 'JORDAN', 'YEEZY'].map(category => (
                                             <li key={category}>
-                                                <a 
+                                                <a
                                                     className={currentCategory === category ? 'active' : ''}
                                                     onClick={() => setCurrentCategory(category)}
                                                     role="tab"
@@ -60,7 +59,7 @@ const New = () => {
                     <div className="tab-pane fade show active" id={currentCategory} role="tabpanel">
                         <div className="product_carousel product_style product_column5 owl">
                             <div className="product_list">
-                                {products && products.slice(5,10).map((product) => (
+                                {products && products.slice(5, 10).map((product) => (
                                     <article className="single_product" key={product.id}>
                                         <figure>
                                             <div className="product_thumb">
@@ -79,7 +78,7 @@ const New = () => {
                                                     />
                                                 </Link>
                                                 <div className="label_product">
-                                                    <span className="label_sale" style={{backgroundColor:'orange'}}>{product.discount}</span>
+                                                    <span className="label_sale" style={{ backgroundColor: 'orange' }}>{product.discount}</span>
                                                 </div>
                                                 <div className="action_links">
                                                     <ul>
@@ -98,7 +97,7 @@ const New = () => {
                                                     </div>
                                                 </div>
                                                 <div className="add_to_cart">
-                                                    <Link  to={`/detailproduct?productId=${product.id}`} title="Add to cart">Thêm vào giỏ hàng</Link>
+                                                    <Link to={`/detailproduct?productId=${product.id}`} title="Add to cart">Thêm vào giỏ hàng</Link>
                                                 </div>
                                             </div>
                                         </figure>

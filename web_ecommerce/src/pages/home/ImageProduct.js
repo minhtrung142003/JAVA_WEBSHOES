@@ -4,8 +4,9 @@ import baseURL from "../../api/BaseUrl";
 
 function ImageProduct({ id, name, tagName }) {
     const [images, setImages] = useState([]);
+
+    // Gọi API để lấy danh sách hình ảnh khi component được render
     useEffect(() => {
-        // Gọi API để lấy danh sách hình ảnh khi component được render
         axios
             .get(baseURL + `galleries/product/` + id)
             .then((response) => {

@@ -4,7 +4,7 @@ import {
 
   cilSpeedometer,
 } from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { CNavItem, CNavTitle } from '@coreui/react'
 import { MdOutlineProductionQuantityLimits } from 'react-icons/md';
 const _nav = [
   {

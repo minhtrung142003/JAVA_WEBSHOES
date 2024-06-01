@@ -1,0 +1,96 @@
+/* footer.css */
+
+/* Căn giữa các phần tử trong footer */
+.Footer {
+    text-align: center;
+}
+
+/* Chỉnh kích thước và margin của các cột */
+.footer_widgets .container .row .col-lg-3 {
+    width: 25%; /* Chỉnh kích thước của mỗi cột */
+    margin-bottom: 30px; /* Margin giữa các cột */
+}
+
+/* Căn giữa nội dung trong các cột */
+.footer_widgets .container .row .col-lg-3 .widgets_container {
+    text-align: left;
+}
+
+/* Chỉnh kích thước ảnh trong các cột */
+.footer_widgets .container .row .col-lg-3 .widgets_container .app_img img {
+    max-width: 100px; /* Kích thước tối đa của ảnh */
+}
+
+/* Chỉnh kích thước và margin của các mục trong menu */
+.footer_menu ul li {
+    margin-bottom: 10px; /* Margin giữa các mục */
+}
+
+/* Căn giữa các phần tử trong newsletter */
+.newsletter_inner .row .col-lg-3, .newsletter_inner .row .col-lg-4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chỉnh kích thước và margin của input và button trong form đăng ký newsletter */
+.subscribe_form input[type="email"], .subscribe_form button {
+    width: 100%; /* Chiều rộng của input và button */
+    margin-top: 10px; /* Margin giữa input và button */
+}
+
+/* Căn giữa phần tử trong modal */
+.modal_body .container .row .col-lg-5 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.footer_widgets .container .row .col-lg-3 .widgets_container .app_img img {
+    max-width: 350px; /* Kích thước tối đa của ảnh */
+    width: auto; /* Tự động điều chỉnh chiều rộng */
+    height: auto; /* Tự động điều chỉnh chiều cao */
+}
+/* footer.css */
+
+/* Căn chỉnh các cột văn bản trong phần "Information" */
+.footer_widgets .container .row .col-lg-2 .widgets_container ul {
+    display: flex; /* Sử dụng flexbox */
+    flex-direction: column; /* Xếp các phần tử theo chiều dọc */
+    align-items: flex-start; /* Căn chỉnh các phần tử theo phía trên */
+}
+
+/* Tùy chỉnh các mục trong danh sách "Information" */
+.footer_widgets .container .row .col-lg-2 .widgets_container ul li {
+    margin-bottom: 10px; /* Khoảng cách giữa các mục */
+}
+
+/* Chỉnh lại vị trí của phần tử đầu tiên của mỗi danh sách */
+.footer_widgets .container .row .col-lg-2 .widgets_container ul li:first-child {
+    margin-top: 0; /* Loại bỏ khoảng cách phía trên của phần tử đầu tiên */
+}
+/* Căn chỉnh các cột văn bản trong phần "Information", "My Account", "Customer Service" */
+.footer_widgets .container .row .col-lg-2 .widgets_container {
+    display: flex; /* Sử dụng flexbox */
+    flex-direction: column; /* Xếp các phần tử theo chiều dọc */
+    align-items: flex-start; /* Căn chỉnh các phần tử theo phía trên */
+}
+
+/* Tùy chỉnh các danh sách "Information", "My Account", "Customer Service" */
+.footer_widgets .container .row .col-lg-2 .widgets_container ul {
+    margin: 0; /* Loại bỏ margin mặc định */
+    padding: 0; /* Loại bỏ padding mặc định */
+    list-style: none; /* Loại bỏ các dấu đầu dòng */
+}
+
+/* Tùy chỉnh các mục trong danh sách "Information", "My Account", "Customer Service" */
+.footer_widgets .container .row .col-lg-2 .widgets_container ul li {
+    margin-bottom: 10px; /* Khoảng cách giữa các mục */
+}
+/* canh phần 2022 gì đó qua trái */
+.copyright_area {
+    text-align: left;
+}
+/* Tạo khoảng cách giữa phần footer và phần trước nó */
+.footer_top{
+    margin-bottom: -50px;
+}

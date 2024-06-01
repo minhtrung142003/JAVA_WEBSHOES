@@ -1,0 +1,82 @@
+.categories_menu .categories_mega_menu {
+    display: none;
+  }
+  
+  .categories_menu.active .categories_mega_menu {
+    display: block;
+  }
+  .categories_menu {
+    position: relative;
+  }
+  
+  .categories_title {
+    cursor: pointer;
+    background-color: #060e2a;
+  }
+  
+  .categories_mega_menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);   
+    padding: 15px;
+    width: 100%;
+    transition: height 0.3s ease; /* Thêm hiệu ứng chuyển động */
+    overflow: hidden;
+  }
+  
+  .categories_menu.active .categories_mega_menu {
+    display: block;
+   
+  }
+  
+  .categories_menu_toggle {
+    position: relative;
+    height: 0px;
+  }
+  
+  .categories_menu_toggle ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap; 
+    text-align: left;
+
+  }
+  
+  .categories_mega_menu {
+    display: flex;
+  }
+  
+  .categories_mega_menu li {
+    flex: 1;
+  margin-right: 10px;
+  }
+ 
+  .header_wishlist {
+    position: relative;
+    display: inline-block;
+}
+
+.header_wishlist .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    min-width: 50px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    right: 0;
+    top: 50px;
+}
+
+.header_wishlist:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content div:hover {
+    background-color: #ddd;
+}

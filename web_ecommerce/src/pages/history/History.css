@@ -1,0 +1,75 @@
+.order-form {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+  
+  .order-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .order-info > div {
+    flex: 0 0 48%;
+  }
+  
+  .product-info {
+    padding: 20px;
+  }
+  
+  .product {
+    display: flex;
+    margin-bottom: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .product img {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+  }
+  
+  .product-details {
+    flex: 1;
+  }
+  
+  h2, h3 {
+    margin-bottom: 20px;
+  }
+  
+  strong {
+    font-weight: bold;
+  }
+  
+  p {
+    margin: 5px 0;
+  }
+  .user {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  .user-info {
+    margin-left: 20px; /* Khoảng cách giữa label và nội dung */
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px; /* Khoảng cách giữa các mục thông tin */
+  }
+  
+  .info-label {
+    font-weight: bold;
+    margin-right: 5px; /* Khoảng cách giữa nhãn và nội dung */
+    width: 80px; /* Độ rộng cố định của nhãn */
+  }
+  

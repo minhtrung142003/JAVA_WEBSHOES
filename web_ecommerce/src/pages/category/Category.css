@@ -1,0 +1,99 @@
+/* Category.css */
+
+.shop_wrapper {
+  margin-top: 50px;
+}
+
+.single_product {
+  margin-bottom: 30px;
+}
+
+.product_thumb {
+  position: relative;
+  overflow: hidden;
+}
+
+.product_thumb img {
+  width: 100%;
+}
+
+.label_product {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #ff0000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 20px;
+}
+
+.action_links {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.action_links ul {
+  margin: 0;
+  padding: 0;
+}
+
+.action_links ul li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.action_links ul li:last-child {
+  margin-right: 0;
+}
+
+.product_content {
+  padding: 20px;
+  border: 1px solid #ebebeb;
+  background-color: #ffffff;
+}
+
+.product_name {
+  margin-top: 0;
+}
+
+.product_rating {
+  margin-bottom: 10px;
+}
+
+.price_box {
+  margin-top: 10px;
+}
+
+.add_to_cart {
+  margin-top: 10px;
+}
+
+.pagination {
+  margin-top: 30px;
+}
+
+.pagination ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+}
+
+.pagination ul li {
+  margin-right: 10px;
+}
+
+.pagination ul li a,
+.pagination ul li.current {
+  display: block;
+  padding: 5px 10px;
+  border: 1px solid #ebebeb;
+  color: #333;
+  text-decoration: none;
+}
+
+.pagination ul li.current {
+  background-color: #ff0000;
+  color: #fff;
+}

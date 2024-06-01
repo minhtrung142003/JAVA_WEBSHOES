@@ -1,0 +1,28 @@
+/* CSS */
+.product_thumb {
+  position: relative;
+  overflow: hidden;
+}
+
+.primary_img,
+.secondary_img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: opacity 0.3s ease-in-out; /* Hiệu ứng chuyển đổi */
+}
+
+.secondary_img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0; /* Ẩn ảnh thứ hai ban đầu */
+}
+
+.product_thumb:hover .primary_img {
+  opacity: 0; /* Khi hover, ẩn ảnh chính */
+}
+
+.product_thumb:hover .secondary_img {
+  opacity: 1; /* Khi hover, hiển thị ảnh thứ hai */
+}

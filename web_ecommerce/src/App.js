@@ -1,23 +1,26 @@
-import logo from './logo.svg';
+
 import './App.css';
+import './assets/css/plugins.css'
+import './assets/css/style.css'
+import Header from './layouts/Header';
+import Main from './layouts/Main';
+import Footer from './layouts/Footer';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
+  useEffect(() => {
+    axios.post('http://localhost:8080/api/visitors/increment')
+      .catch(error => {
+        console.error('Error incrementing visitors count:', error);
+      });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header/>
+      <Main/>
+      <Footer/>
     </div>
   );
 }

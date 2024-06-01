@@ -1,0 +1,8 @@
+.product_list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.single_product {
+  width: 20%; /* Đặt chiều rộng của mỗi sản phẩm là 20% để hiển thị 5 sản phẩm trên mỗi hàng */
+}

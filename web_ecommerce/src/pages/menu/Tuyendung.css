@@ -1,0 +1,69 @@
+.recruitment-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial, sans-serif';
+    color: #333;
+  }
+  
+  .heading {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #2c3e50;
+  }
+  
+  .subheading {
+    text-align: center;
+    font-size: 1.2em;
+    margin-bottom: 40px;
+    color: #7f8c8d;
+  }
+  
+  .job-listings {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .job-card {
+    background: #ecf0f1;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 10px;
+    width: 30%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+  }
+  
+  .job-card:hover {
+    transform: scale(1.05);
+  }
+  
+  .job-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #2980b9;
+  }
+  
+  .job-description {
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #34495e;
+  }
+  
+  .apply-button {
+    background: #2980b9;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.3s;
+  }
+  
+  .apply-button:hover {
+    background: #1c5980;
+  }
+  

@@ -2,17 +2,14 @@ import React, { useEffect, useRef, useState } from 'react'
 import { CChartLine } from '@coreui/react-chartjs'
 import { getStyle } from '@coreui/utils'
 import { getAllOrders } from '../../api/apiService'
-// Import the function to fetch orders data from your API file
 
 const MainChart = () => {
   const chartRef = useRef(null)
   const [orderData, setOrderData] = useState([])
-
+  
   useEffect(() => {
-    
-    getAllOrders('orders') // Giả sử 'đơn hàng' là điểm cuối để tìm nạp dữ liệu đơn hàng
+    getAllOrders('orders')
       .then(response => {
-        // Giả sử reply.data chứa dữ liệu đơn hàng theo định dạng bạn đã cung cấp
         setOrderData(response.data)
       })
       .catch(error => {
@@ -21,16 +18,10 @@ const MainChart = () => {
   }, [])
 
   const getOrderCountsByMonth = () => {
-    // Khởi tạo một mảng để lưu trữ số lượng đơn hàng mỗi tháng
     const orderCounts = new Array(12).fill(0);
-
-    // Lặp lại dữ liệu đơn hàng và cập nhật mảng đếm đơn hàng
     orderData.forEach(order => {
-      // Trích xuất tháng từ trường 'createdAt' của đơn hàng
       const createdAt = new Date(order.createdAt);
       const month = createdAt.getMonth();
-
-      // Tăng quantiy order theo tháng tương ứng
       orderCounts[month]++;
     });
 

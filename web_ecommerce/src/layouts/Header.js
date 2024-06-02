@@ -208,8 +208,8 @@ const Header = () => {
                                 </div>
                                 <div className="column3 col-lg-3 col-md-6">
 
-                                    <div class="header_wishlist">
-                                        <a href="/myAccount"><i class="ion-social-whatsapp-outline"></i>
+                                    <div className="header_wishlist">
+                                        <a href="/myAccount"><i className="ion-social-whatsapp-outline"></i>
                                         </a>
                                     </div>
                                     <a href="/myAccount" style={{ color: 'yellow', marginLeft: '-30px' }}>Thông Tin Cá Nhân</a>

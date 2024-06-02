@@ -123,7 +123,7 @@ export function deleteOrderItemById(endpoint, id) {
   return callApi(`${endpoint}/${id}`, "DELETE");
 }
 
-// số lương user truy cập
+// quantity user truy cập
 export function getAllVisitors(endpoint) {
   return callApi(endpoint, "GET");
 }

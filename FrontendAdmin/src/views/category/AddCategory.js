@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-// import {  ToggleButton, ToggleButtonGroup } from '@material-ui/core';
-import { CheckBox } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { getAllCategories, addCategory } from "../../api/apiService";
+import { addCategory } from "../../api/apiService";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -40,12 +38,13 @@ export default function AddCategory() {
   const [categoryDescription, setCategoryDescription] = useState("");
   const navigate = useNavigate();
 
+  // handle add category
   const handleAddCategory = (event) => {
     event.preventDefault();
 
     if (
-    categoryName !== "" &&
-    categoryDescription !== "" 
+      categoryName !== "" &&
+      categoryDescription !== ""
     ) {
       const category = {
         categoryName,
@@ -64,16 +63,16 @@ export default function AddCategory() {
       alert("Bạn chưa nhập đủ thông tin!");
     }
   };
+  // get data 
   useEffect(() => {
     if (checkAdd) {
       const timeout = setTimeout(() => {
         navigate("/Category/all-category");
-      }, 1000); // Thời gian chờ trước khi chuyển hướng (miliseconds)
-
-      // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
+      }, 1000);
       return () => clearTimeout(timeout);
     }
   }, [checkAdd, navigate]);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -91,7 +90,6 @@ export default function AddCategory() {
                 <TextField
                   id="categoryName"
                   onChange={(e) => setCategoryName(e.target.value)}
-                  // value={productName}
                   name="categoryName"
                   variant="outlined"
                   className={classes.txtInput}
@@ -106,7 +104,6 @@ export default function AddCategory() {
                 <TextField
                   id="categoryDescription"
                   onChange={(e) => setCategoryDescription(e.target.value)}
-                  // value={productDescription}
                   name="categoryDescription"
                   className={classes.txtInput}
                   multiline
@@ -115,7 +112,6 @@ export default function AddCategory() {
                 />
               </Grid>
 
-              {/*  */}
               <Grid item xs={12} style={{ marginTop: "30px" }}>
                 <Button
                   type="button"

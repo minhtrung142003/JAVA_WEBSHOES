@@ -2,8 +2,6 @@ import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
-// Base
-const Cards = React.lazy(() => import('./views/base/cards/Cards'))
 const Product = React.lazy(()=> import('./views/product/Product'))
 const AddProduct = React.lazy(()=> import('./views/product/AddProduct'))
 const EditProduct = React.lazy(()=> import('./views/product/EditProduct'))
@@ -25,9 +23,7 @@ const AddOrderItem = React.lazy(()=> import('./views/orderitem/AddOrderItem'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Bảng Điều Khiển', element: Dashboard },
-  { path: '/base', name: 'Base', element: Cards, exact: true },
-  { path: '/base/cards', name: 'Cards', element: Cards },
-
+ 
   { path: '/Product/all-product', name: 'Product', element: Product },
   { path: '/Product/add-product', name: 'Product', element: AddProduct },
   { path: '/Product/edit/product/:id', name: 'Product', element: EditProduct },

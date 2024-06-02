@@ -32,8 +32,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
-
-
 }))
 
 const EditProduct = () => {
@@ -46,7 +44,6 @@ const EditProduct = () => {
   const [description, setDescription] = useState("");
   const [shortDescription, setShortDescription] = useState("");
   const [quantity, setQuantity] = useState("");
-
   const [categories, setCategories] = useState([])
   const [categoryAll, setCategoryAll] = useState([])
   const [tagAll, setTagAll] = useState([])
@@ -60,6 +57,8 @@ const EditProduct = () => {
     setSelectedImages([])
     setImageFiles([])
   }
+
+  // get data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -71,7 +70,6 @@ const EditProduct = () => {
         setQuantity(product.data.quantity)
         setDescription(product.data.description)
         setShortDescription(product.data.shortDescription)
-
         setCategories(product.data.categories.map((category) => category.id))
         setTags(product.data.tags.map((category) => category.id))
         const categoryData = await getAllCategories('categories')
@@ -82,9 +80,10 @@ const EditProduct = () => {
         console.error('Error fetching data:', error)
       }
     }
-
     fetchData()
   }, [idProduct])
+
+  // get data images
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -98,60 +97,81 @@ const EditProduct = () => {
 
     fetchImages()
   }, [idProduct])
+
+  // handle upload image
   const handleUploadImages = async (id) => {
     const formData = new FormData()
     imageFiles.forEach((image) => {
       formData.append('files', image)
     })
-
     try {
       const response = await axios.post(
         `http://localhost:8080/api/galleries/update/${id}`,
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data', // Đặt header Content-Type là multipart/form-data
+            'Content-Type': 'multipart/form-data',
           },
         },
       )
-
       console.log('added ga', response)
       if (response.status === 200) {
-        setCheckUpdate(true) // Nếu upload thành công, setCheckAdd thành true
+        setCheckUpdate(true)
       } else {
-        alert('Bạn chưa nhập đủ thông tin!') // Nếu có lỗi, hiển thị thông báo
+        alert('Bạn chưa nhập đủ thông tin!')
       }
     } catch (error) {
       console.error('Error:', error)
-      alert('Đã xảy ra lỗi khi upload ảnh!') // Xử lý khi có lỗi xảy ra trong quá trình upload
+      alert('Đã xảy ra lỗi khi upload ảnh!')
     }
   }
   // check validation
   const validateFields = () => {
     const newErrors = {};
+
+    if (!title.trim()) {
+      newErrors.title = "Vui lòng nhập thông tin.";
+    }
+  
+    if (!description.trim()) {
+      newErrors.description = "Vui lòng nhập thông tin.";
+    }
+  
+    if (!shortDescription.trim()) {
+      newErrors.shortDescription = "Vui lòng nhập thông tin.";
+    }
+  
     if (isNaN(price)) {
       newErrors.price = "Giá tiền phải là số.";
+    } else if (!price) {
+      newErrors.price = "Giá tiền không được để trống.";
     }
+  
     if (isNaN(discount)) {
       newErrors.discount = "Giảm giá phải là số.";
+    } else if (!discount) {
+      newErrors.discount = "Giảm giá không được để trống.";
     }
+  
     if (isNaN(quantity)) {
       newErrors.quantity = "Số lượng phải là số.";
+    } else if (!quantity) {
+      newErrors.quantity = "Số lượng không được để trống.";
     }
+  
     if (categories.length === 0) {
       newErrors.categories = "Bạn phải chọn ít nhất một danh mục.";
     }
     if (tags.length === 0) {
       newErrors.tags = "Bạn phải chọn ít nhất một thương hiệu.";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // handle edit product
   const handleEditProduct = async (event) => {
     event.preventDefault()
-
     if (
       validateFields()
     ) {
@@ -180,61 +200,61 @@ const EditProduct = () => {
       } catch (error) {
         console.error('Error editing product:', error)
       }
+      
     }
   }
 
+  // navigate when update
   useEffect(() => {
     if (checkUpdate) {
       const timeout = setTimeout(() => {
         navigate('/Product/all-product')
-      }, 1000) // Thời gian chờ trước khi chuyển hướng (miliseconds)
-
-      // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
+      }, 1000)
       return () => clearTimeout(timeout)
     }
   }, [checkUpdate, navigate])
 
+  // edit categories
   const handleChangeCategories = (event) => {
     const selectedIds = event.target.value
     console.log(selectedIds)
     setCategories(selectedIds)
   }
+
+  // edit tags
   const handleChangeTags = (event) => {
     const selectedIds = event.target.value
     setTags(selectedIds)
   }
+
+  // handle choose file image
   const handleFileChange = (event) => {
     const files = event.target.files
     const imagesArray = []
     const filesArray = []
-    // Mảng các phần mở rộng được chấp nhận
     const acceptedExtensions = ["jpg", "jpeg", "png", "gif"];
-
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
       const reader = new FileReader()
-
-      // Kiểm tra phần mở rộng của tệp
       const extension = file.name.split(".").pop().toLowerCase();
       if (!acceptedExtensions.includes(extension)) {
         alert("Chỉ chấp nhận các tệp JPG, JPEG, PNG, GIF.");
         continue;
       }
-
       reader.onloadend = () => {
         imagesArray.push(reader.result)
         if (imagesArray.length === files.length) {
-          setSelectedImages([...selectedImages, ...imagesArray]) // Cập nhật mảng hiển thị hình ảnh
-          setImageFiles([...imageFiles, ...filesArray]) // Cập nhật mảng các file hình ảnh
+          setSelectedImages([...selectedImages, ...imagesArray])
+          setImageFiles([...imageFiles, ...filesArray])
         }
       }
-
       if (file) {
         reader.readAsDataURL(file)
-        filesArray.push(file) // Thêm file vào mảng các file
+        filesArray.push(file)
       }
     }
   }
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -256,6 +276,8 @@ const EditProduct = () => {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.title}
+                  helperText={errors.title}
                 />
               </Grid>
 
@@ -320,6 +342,8 @@ const EditProduct = () => {
                   multiline
                   rows={4}
                   variant="outlined"
+                  error={!!errors.description}
+                  helperText={errors.description}
 
                 />
               </Grid>
@@ -336,6 +360,8 @@ const EditProduct = () => {
                   variant="outlined"
                   className={classes.txtInput}
                   size="small"
+                  error={!!errors.shortDescription}
+                  helperText={errors.shortDescription}
                 />
               </Grid>
 

@@ -9,7 +9,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { editOrder, getOrderById } from '../../api/apiService'
 import { MenuItem, Select } from '@mui/material'
 
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -31,8 +30,6 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
-
-
 }))
 
 const EditOrder = () => {
@@ -48,6 +45,8 @@ const EditOrder = () => {
     const [totalPrice, setTotalPrice] = useState("");
     const [status, setStatus] = useState("true");
     const navigate = useNavigate()
+
+    // get data
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -68,6 +67,8 @@ const EditOrder = () => {
 
         fetchData()
     }, [idOrder])
+
+    // handle edit order
     const handleEditOrder = async (event) => {
         event.preventDefault()
         if (
@@ -78,7 +79,7 @@ const EditOrder = () => {
             phone !== "" &&
             address !== "" &&
             totalPrice !== ""
-         
+
         ) {
             const order = {
                 firstName,
@@ -104,13 +105,12 @@ const EditOrder = () => {
         }
     }
 
+    // navigate after update
     useEffect(() => {
         if (checkUpdate) {
             const timeout = setTimeout(() => {
                 navigate('/Order/all-order')
-            }, 1000) // Thời gian chờ trước khi chuyển hướng (miliseconds)
-
-            // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
+            }, 1000)
             return () => clearTimeout(timeout)
         }
     }, [checkUpdate, navigate])
@@ -166,7 +166,7 @@ const EditOrder = () => {
                                     size="small"
                                 />
                             </Grid>
-                            
+
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
                                     Số điện thoại
@@ -179,9 +179,9 @@ const EditOrder = () => {
                                     variant="outlined"
                                     className={classes.txtInput}
                                     size="small"
-
                                 />
                             </Grid>
+
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
                                     Email
@@ -197,7 +197,6 @@ const EditOrder = () => {
 
                                 />
                             </Grid>
-                           
 
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
@@ -212,7 +211,6 @@ const EditOrder = () => {
                                     multiline
                                     rows={4}
                                     variant="outlined"
-
                                 />
                             </Grid>
 
@@ -228,7 +226,6 @@ const EditOrder = () => {
                                     variant="outlined"
                                     className={classes.txtInput}
                                     size="small"
-
                                 />
                             </Grid>
 
@@ -248,7 +245,7 @@ const EditOrder = () => {
                                     <MenuItem value="false">Đã thanh toán</MenuItem>
                                 </Select>
                             </Grid>
-
+                            
                             <Grid item xs={12} style={{ marginTop: '30px' }}>
                                 <Button
                                     type="button"

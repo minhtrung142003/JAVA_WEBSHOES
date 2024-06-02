@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-// import {  ToggleButton, ToggleButtonGroup } from '@material-ui/core';
 import { CheckBox } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -12,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { getAllOrders, addOrder } from "../../api/apiService";
 import MenuItem from "@mui/material/MenuItem";
 import { Select, ToggleButton, ToggleButtonGroup } from "@mui/material";
-// import { Checkbox } from "@mui/material";
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -48,9 +46,9 @@ export default function AddOrder() {
     const [totalPrice, setTotalPrice] = useState("");
     const [status, setStatus] = useState("true");
     const [listIdCart, setListIdCart] = useState("");
-
     const navigate = useNavigate();
 
+    // handle add order
     const handleAddOrder = (event) => {
         event.preventDefault();
         if (
@@ -62,10 +60,7 @@ export default function AddOrder() {
             address !== "" &&
             totalPrice !== "" &&
             listIdCart !== ""
-        ) 
-        
-        {
-
+        ) {
             const idCartArray = listIdCart.split(',');
             // Chuyển đổi mỗi id giỏ hàng thành số nguyên
             const idCartIntegers = idCartArray.map(id => parseInt(id.trim(), 10));
@@ -77,7 +72,7 @@ export default function AddOrder() {
                 phone,
                 address,
                 totalPrice,
-                status : status,
+                status: status,
                 listIdCart: idCartIntegers,
             };
             console.log(order);
@@ -93,14 +88,12 @@ export default function AddOrder() {
             alert("Bạn chưa nhập đủ thông tin!");
         }
     };
-
+    // get data 
     useEffect(() => {
         if (checkAdd) {
             const timeout = setTimeout(() => {
                 navigate("/Order/all-order");
-            }, 1000); // Thời gian chờ trước khi chuyển hướng (miliseconds)
-
-            // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
+            }, 1000);
             return () => clearTimeout(timeout);
         }
     }, [checkAdd, navigate]);
@@ -121,7 +114,6 @@ export default function AddOrder() {
                                 <TextField
                                     id="lastName"
                                     onChange={(e) => setLastName(e.target.value)}
-                                    // value={productName}
                                     name="lastName"
                                     variant="outlined"
                                     className={classes.txtInput}
@@ -135,7 +127,6 @@ export default function AddOrder() {
                                 <TextField
                                     id="firstName"
                                     onChange={(e) => setFirstName(e.target.value)}
-                                    // value={productName}
                                     name="firstName"
                                     variant="outlined"
                                     className={classes.txtInput}
@@ -149,7 +140,6 @@ export default function AddOrder() {
                                 <TextField
                                     id="userName"
                                     onChange={(e) => setUserName(e.target.value)}
-                                    // value={productName}
                                     name="userName"
                                     variant="outlined"
                                     className={classes.txtInput}
@@ -164,7 +154,6 @@ export default function AddOrder() {
                                 <TextField
                                     id="phone"
                                     onChange={(e) => setPhone(e.target.value)}
-                                    // value={productDescription}
                                     name="phone"
                                     variant="outlined"
                                     className={classes.txtInput}
@@ -178,7 +167,6 @@ export default function AddOrder() {
                                 <TextField
                                     id="email"
                                     onChange={(e) => setEmail(e.target.value)}
-                                    // value={productDescription}
                                     name="email"
                                     variant="outlined"
                                     className={classes.txtInput}
@@ -193,7 +181,6 @@ export default function AddOrder() {
                                 <TextField
                                     id="address"
                                     onChange={(e) => setAddress(e.target.value)}
-                                    // value={productDescription}
                                     name="address"
                                     className={classes.txtInput}
                                     multiline
@@ -208,14 +195,13 @@ export default function AddOrder() {
                                 <TextField
                                     id="totalPrice"
                                     onChange={(e) => setTotalPrice(e.target.value)}
-                                    // value={productDescription}
                                     name="totalPrice"
                                     variant="outlined"
                                     className={classes.txtInput}
                                     size="small"
                                 />
                             </Grid>
-                          
+
                             {/* Other fields */}
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
@@ -241,14 +227,13 @@ export default function AddOrder() {
                                 <TextField
                                     id="listIdCart"
                                     onChange={(e) => setListIdCart(e.target.value)}
-                                    // value={productDescription}
                                     name="totalPrice"
                                     variant="outlined"
                                     className={classes.txtInput}
                                     size="small"
                                 />
                             </Grid>
-                            {/*  */}
+
                             <Grid item xs={12} style={{ marginTop: "30px" }}>
                                 <Button
                                     type="button"

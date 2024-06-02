@@ -19,8 +19,8 @@ import { LiaEdit } from 'react-icons/lia'
 const OrderItem = () => {
     const [orderItems, setOrderItems] = useState([])
     const [checkDeleteOrderItem, setCheckDeleteOrderItem] = useState(false)
-    const [page, setPage] = useState(0) // Thêm state cho trang hiện tại
-    const [rowsPerPage, setRowsPerPage] = useState(5) // Thêm state cho số hàng trên mỗi trang
+    const [page, setPage] = useState(0)
+    const [rowsPerPage, setRowsPerPage] = useState(5)
     const navigate = useNavigate()
     const [dataChanged, setDataChanged] = useState(false);
     useEffect(() => {
@@ -52,7 +52,6 @@ const OrderItem = () => {
                 setCheckDeleteOrderItem(true)
                 setDataChanged(!dataChanged);
                 setOrderItems(orderItems.filter((key) => key.id !== id))
-                // window.location.reload()
             }
         })
     }
@@ -64,9 +63,9 @@ const OrderItem = () => {
                     <button
                         style={{
                             border: '2px solid #33FF66',
-                            color: '#fff', // Chữ màu trắng
-                            padding: '5px 10px', // Tùy chỉnh padding
-                            borderRadius: '5px', // Bo góc
+                            color: '#fff',
+                            padding: '5px 10px',
+                            borderRadius: '5px',
                             backgroundColor: '#339966',
                         }}
                     >
@@ -101,10 +100,9 @@ const OrderItem = () => {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell >Id: </TableCell>
-                                        <TableCell  align="center">Id đơn hàng: </TableCell>
+                                        <TableCell align="center">Id đơn hàng: </TableCell>
                                         <TableCell >Id sản phẩm: </TableCell>
                                         <TableCell >Tổng tiền: </TableCell>
-
                                         <TableCell align="center">Cập nhật</TableCell>
                                         <TableCell align="center">Xoá</TableCell>
                                     </TableRow>
@@ -115,25 +113,23 @@ const OrderItem = () => {
                                         : orderItems
                                     ).map((row) => {
                                         console.log(row.id);
-                                     
+
                                         return (
                                             <TableRow key={row.id}>
 
-                                                <TableCell  component="th" scope="row">
+                                                <TableCell component="th" scope="row">
                                                     {row.id}
                                                 </TableCell>
                                                 <TableCell align="center">
-                                                {row.order?.id || ''}
-                                              
+                                                    {row.order?.id || ''}
                                                 </TableCell>
 
-                                                <TableCell  component="th" scope="row">
-                                                {row.product?.id}
+                                                <TableCell component="th" scope="row">
+                                                    {row.product?.id}
                                                 </TableCell>
 
                                                 <TableCell >
-                                                {row.order?.totalPrice || ''}
-                                                
+                                                    {row.order?.totalPrice || ''}
                                                 </TableCell>
                                                 <TableCell align="center">
                                                     <Link to={`/OrderItem/edit/orderItem/${row.id}`}>

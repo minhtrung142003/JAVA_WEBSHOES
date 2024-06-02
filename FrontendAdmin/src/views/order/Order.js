@@ -11,14 +11,12 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAllOrders, deleteOrderById } from '../../api/apiService'
 import TablePagination from '@mui/material/TablePagination'
-import { CNavLink } from '@coreui/react'
-import { red } from '@mui/material/colors'
-import { MdModeEdit } from 'react-icons/md'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { LiaEdit } from 'react-icons/lia'
+
 const Order = () => {
     const [orders, setOrders] = useState([])
     const [checkDeleteOrder, setCheckDeleteOrder] = useState(false)
@@ -30,24 +28,18 @@ const Order = () => {
         getAllOrders('orders').then((item) => setOrders(item.data))
     }, [dataChanged, navigate])
 
-    const RawHTML = (body, className) => (
-        <div
-            className={className}
-            dangerouslySetInnerHTML={{
-                __html: body ? body.replace(/\n/g, '<br />') : '',
-            }}
-        />
-    )
-
+    // update page when user change page
     const handleChangePage = (event, newPage) => {
         setPage(newPage)
     }
 
+    // update số hàng mỗi page when user change
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(parseInt(event.target.value, 10))
         setPage(0)
     }
 
+    // delete order
     const deleteOrderByIdHandler = (id) => {
         deleteOrderById('orders', id).then((item) => {
             console.log(item)
@@ -55,7 +47,6 @@ const Order = () => {
                 setCheckDeleteOrder(true)
                 setDataChanged(!dataChanged);
                 setOrders(orders.filter((key) => key.id !== id))
-                // window.location.reload()
             }
         })
     }
@@ -67,9 +58,9 @@ const Order = () => {
                     <button
                         style={{
                             border: '2px solid #33FF66',
-                            color: '#fff', // Chữ màu trắng
-                            padding: '5px 10px', // Tùy chỉnh padding
-                            borderRadius: '5px', // Bo góc
+                            color: '#fff',
+                            padding: '5px 10px',
+                            borderRadius: '5px',
                             backgroundColor: '#339966',
                         }}
                     >
@@ -104,7 +95,6 @@ const Order = () => {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell >Id: </TableCell>
-
                                         <TableCell >Họ: </TableCell>
                                         <TableCell >Tên: </TableCell>
                                         <TableCell >Họ và tên: </TableCell>
@@ -150,7 +140,7 @@ const Order = () => {
                                                 </TableCell>
 
                                                 <TableCell width={260} component="th" scope="row">
-                                                    {row.paymentMethod  === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán'}
+                                                    {row.paymentMethod === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán'}
                                                 </TableCell>
 
 

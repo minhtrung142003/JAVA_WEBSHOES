@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import Button from '@mui/material/Button'
 import { useNavigate, useParams } from 'react-router-dom'
-import {  editCatgory, getCategoryById } from '../../api/apiService'
+import { editCatgory, getCategoryById } from '../../api/apiService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +40,8 @@ const EditCategory = () => {
   const [categoryName, setCategoryName] = useState("");
   const [categoryDescription, setCategoryDescription] = useState("");
   const navigate = useNavigate()
+
+  // get data 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -54,11 +56,13 @@ const EditCategory = () => {
 
     fetchData()
   }, [idCategory])
+
+  // handle edit category
   const handleEditCategory = async (event) => {
     event.preventDefault()
     if (
-        categoryName !== '' &&
-        categoryDescription !== ''
+      categoryName !== '' &&
+      categoryDescription !== ''
     ) {
       const category = {
         categoryName,
@@ -68,7 +72,7 @@ const EditCategory = () => {
       try {
         const editedCategory = await editCatgory(`categories/${idCategory}`, category)
         if (editedCategory.status === 200) {
-            setCheckUpdate(true)         
+          setCheckUpdate(true)
         } else {
           alert('Bạn chưa nhập đủ thông tin!')
         }
@@ -77,14 +81,12 @@ const EditCategory = () => {
       }
     }
   }
-
+  // navigate after update
   useEffect(() => {
     if (checkUpdate) {
       const timeout = setTimeout(() => {
         navigate('/Category/all-category')
-      }, 1000) // Thời gian chờ trước khi chuyển hướng (miliseconds)
-
-      // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
+      }, 1000) 
       return () => clearTimeout(timeout)
     }
   }, [checkUpdate, navigate])

@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-// import {  ToggleButton, ToggleButtonGroup } from '@material-ui/core';
-import { CheckBox } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { getAllOrderItems, addOrderItem } from "../../api/apiService";
-import MenuItem from "@mui/material/MenuItem";
-import { Image } from "react-bootstrap";
-import axios from "axios";
-import { ToggleButton, ToggleButtonGroup } from "@mui/material";
-// import { Checkbox } from "@mui/material";
+import { addOrderItem } from "../../api/apiService";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -68,16 +61,16 @@ export default function AddOrderItem() {
       alert("Bạn chưa nhập đủ thông tin!");
     }
   };
+
   useEffect(() => {
     if (checkAdd) {
       const timeout = setTimeout(() => {
         navigate("/OrderItem/all-orderItem");
-      }, 1000); // Thời gian chờ trước khi chuyển hướng (miliseconds)
-
-      // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
+      }, 1000); 
       return () => clearTimeout(timeout);
     }
   }, [checkAdd, navigate]);
+
   return (
     <div className={classes.root}>
       <Grid container spacing={3}>
@@ -96,7 +89,6 @@ export default function AddOrderItem() {
                 <TextField
                   id="order"
                   onChange={(e) => setOrder(e.target.value)}
-                  // value={productName}
                   name="order"
                   variant="outlined"
                   className={classes.txtInput}
@@ -110,7 +102,6 @@ export default function AddOrderItem() {
                 <TextField
                   id="product"
                   onChange={(e) => setProduct(e.target.value)}
-                  // value={productName}
                   name="product"
                   variant="outlined"
                   className={classes.txtInput}
@@ -118,9 +109,6 @@ export default function AddOrderItem() {
                 />
               </Grid>
 
-            
-
-              {/*  */}
               <Grid item xs={12} style={{ marginTop: "30px" }}>
                 <Button
                   type="button"

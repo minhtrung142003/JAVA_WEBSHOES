@@ -20,36 +20,41 @@ import TextField from '@mui/material/TextField';
 
 const Product = () => {
   const [products, setProducts] = useState([])
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]); // filter products when search
   const [checkDeleteProduct, setCheckDeleteProduct] = useState(false)
   const [page, setPage] = useState(0) // Thêm state cho trang hiện tại
   const [rowsPerPage, setRowsPerPage] = useState(5) // Thêm state cho số hàng trên mỗi trang
   const navigate = useNavigate()
+  const [dataChanged, setDataChanged] = useState(false);
 
+  // render UI
   useEffect(() => {
     getAllProducts('products').then((item) => {
       setProducts(item.data);
       setFilteredProducts(item.data);
     });
-  }, [navigate])
+  }, [dataChanged, navigate])
 
+  // update page when user change page
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
 
+  // update số hàng mỗi page when user change
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
 
+  // delete category
   const deleteProductByIdHandler = (id) => {
     deleteProductById('products', id).then((item) => {
       console.log(item)
       if (item.status === 204) {
-        setCheckDeleteProduct(true)
-        setProducts(products.filter((key) => key.id !== id))
+        setCheckDeleteProduct(true);
         setDataChanged(!dataChanged);
-        window.location.reload()
+        setProducts(products.filter((key) => key.id !== id))
+      
       }
     })
   }
@@ -69,9 +74,7 @@ const Product = () => {
           variant="outlined"
           size="small"
           onChange={(e) => handleSearchChange(e.target.value)} // search
-
         />
-
         <Link to={`/Product/add-product`} style={{ textDecoration: 'none' }}>
           <button
             style={{

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@mui/styles";
-
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -53,11 +52,13 @@ export default function Product() {
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
 
+  // reset image
   const handleResetImages = () => {
     setSelectedImages([]);
     setImageFiles([]);
   };
 
+  // get data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -69,10 +70,10 @@ export default function Product() {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, []);
 
+  // upload image to server
   const handleUploadImages = async (id) => {
     const formData = new FormData();
     imageFiles.forEach((image) => {
@@ -101,14 +102,12 @@ export default function Product() {
     }
   };
 
+  // check validation
   const validateFields = () => {
     const newErrors = {};
-
-    // Kiểm tra nếu không chọn ảnh
     if (imageFiles.length === 0) {
       newErrors.images = "Bạn phải chọn ít nhất một ảnh.";
     }
-
     if (isNaN(price) || price === null || price === "") {
       newErrors.price = "Giá tiền phải là số và không được để trống.";
     }
@@ -133,14 +132,13 @@ export default function Product() {
     if (!shortDescription) {
       newErrors.shortDescription = "Mã số không được để trống.";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // handle add product
   const handleAddProduct = (event) => {
     event.preventDefault();
-
     if (validateFields()) {
       const product = {
         title,
@@ -165,44 +163,42 @@ export default function Product() {
     }
   };
 
+  // navigate when update
   useEffect(() => {
     if (checkAdd) {
       const timeout = setTimeout(() => {
         navigate("/Product/all-product");
       }, 1000);
-
       return () => clearTimeout(timeout);
     }
   }, [checkAdd, navigate]);
 
+  // add categories
   const handleChangeCategories = (event) => {
     const selectedIds = event.target.value;
     setCategories(selectedIds);
   };
 
+  // add tags
   const handleChangeTags = (event) => {
     const selectedIds = event.target.value;
     setTags(selectedIds);
   };
 
+  // handle choose file images
   const handleFileChange = (event) => {
     const files = event.target.files;
     const imagesArray = [];
     const filesArray = [];
-    // Mảng các phần mở rộng được chấp nhận
-    const acceptedExtensions = ["jpg", "jpeg", "png", "gif"];
-
+    const acceptedExtensions = ["jpg", "jpeg", "png", "gif"]; 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
-
-      // Kiểm tra phần mở rộng của tệp
       const extension = file.name.split(".").pop().toLowerCase();
       if (!acceptedExtensions.includes(extension)) {
         alert("Chỉ chấp nhận các tệp JPG, JPEG, PNG, GIF.");
-        continue; // Bỏ qua tệp không hợp lệ và tiếp tục với tệp tiếp theo
+        continue; 
       }
-
       reader.onloadend = () => {
         imagesArray.push(reader.result);
         if (imagesArray.length === files.length) {
@@ -210,7 +206,6 @@ export default function Product() {
           setImageFiles([...imageFiles, ...filesArray]);
         }
       };
-
       if (file) {
         reader.readAsDataURL(file);
         filesArray.push(file);

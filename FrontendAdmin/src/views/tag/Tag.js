@@ -11,12 +11,9 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAllTags, deleteTagById } from '../../api/apiService'
 import TablePagination from '@mui/material/TablePagination'
-import { CNavLink } from '@coreui/react'
-import { red } from '@mui/material/colors'
-import { MdModeEdit } from 'react-icons/md'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { LiaEdit } from 'react-icons/lia'
 const Tag = () => {
@@ -29,15 +26,6 @@ const Tag = () => {
     useEffect(() => {
         getAllTags('tags').then((item) => setTags(item.data))
       }, [dataChanged, navigate ])
-
-      const RawHTML = (body, className) => (
-        <div
-          className={className}
-          dangerouslySetInnerHTML={{
-            __html: body ? body.replace(/\n/g, '<br />') : '',
-          }}
-        />
-      )
 
       const handleChangePage = (event, newPage) => {
         setPage(newPage)

@@ -11,12 +11,9 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { getAllCategories, deleteCategoryById } from '../../api/apiService'
 import TablePagination from '@mui/material/TablePagination'
-import { CNavLink } from '@coreui/react'
-import { red } from '@mui/material/colors'
-import { MdModeEdit } from 'react-icons/md'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { LiaEdit } from 'react-icons/lia'
 import TextField from '@mui/material/TextField';
@@ -28,13 +25,15 @@ const Category = () => {
   const [page, setPage] = useState(0) // Thêm state cho trang hiện tại
   const [rowsPerPage, setRowsPerPage] = useState(5) // Thêm state cho số hàng trên mỗi trang
   const navigate = useNavigate()
+  const [dataChanged, setDataChanged] = useState(false);
 
+  // render UI
   useEffect(() => {
     getAllCategories('categories').then((item) => {
       setCategories(item.data)
       setFilteredCategories(item.data)
     })
-  }, [navigate])
+  }, [dataChanged, navigate])
 
   // search
   const handleSearchChange = (searchValue) => {
@@ -44,23 +43,25 @@ const Category = () => {
     setFilteredCategories(filteredCategories);
   };
 
+  // update page when user change page
   const handleChangePage = (event, newPage) => {
     setPage(newPage)
   }
 
+  // update số hàng mỗi page when user change
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }
 
+  // delete category
   const deleteCategoryByIdHandler = (id) => {
     deleteCategoryById('categories', id).then((item) => {
       console.log(item)
       if (item.status === 204) {
         setCheckDeleteCategory(true)
-        setCategories(categories.filter((key) => key.id !== id))
         setDataChanged(!dataChanged);
-        window.location.reload()
+        setCategories(categories.filter((key) => key.id !== id))
       }
     })
   }
@@ -68,7 +69,7 @@ const Category = () => {
   return (
     <div style={{ flexGrow: 1, marginTop: 20 }}>
       <div className="flex items-center gap-3 my-2 text-end">
-      <TextField
+        <TextField
           label="Tìm kiếm danh mục"
           variant="outlined"
           size="small"
@@ -79,9 +80,9 @@ const Category = () => {
           <button
             style={{
               border: '2px solid #33FF66',
-              color: '#fff', // Chữ màu trắng
-              padding: '5px 10px', // Tùy chỉnh padding
-              borderRadius: '5px', // Bo góc
+              color: '#fff',
+              padding: '5px 10px',
+              borderRadius: '5px',
               backgroundColor: '#339966',
             }}
           >

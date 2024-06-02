@@ -66,7 +66,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
 export default function Paypal({ amount, payload }) {
     return (
         <div style={{ maxWidth: "750px", minHeight: "200px" }}>
-            <PayPalScriptProvider options={{ clientId: "Aa4lmbbxY_18hZ2WgglVD_-RUVZBdFsWdoZAw0mfEKob8JCgIq7gV27lV9FOlsNbgDgivbE_sejG6oiP", components: "buttons", currency: "USD" }}>
+            <PayPalScriptProvider options={{ clientId: "AQ1YTvSyS7gwu2dJVeiQ8Ks3SFjtI3AH0mGhYLRTZMt0BzLgUQbCGT1vlPQKHGOHuCemDa7Zma-X46tq", components: "buttons", currency: "USD" }}>
                 <ButtonWrapper payload={payload} currency={'USD'} amount={amount} showSpinner={false} />
             </PayPalScriptProvider>
         </div>

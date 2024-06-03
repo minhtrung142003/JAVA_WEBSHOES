@@ -127,3 +127,8 @@ export function deleteOrderItemById(endpoint, id) {
 export function getAllVisitors(endpoint) {
   return callApi(endpoint, "GET");
 }
+
+// color
+export function getAllColors(endpoint) {
+  return callApi(endpoint, "GET");
+}

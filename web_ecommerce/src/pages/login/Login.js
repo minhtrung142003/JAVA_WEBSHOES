@@ -31,10 +31,17 @@ const Login = () => {
     }
     // login google
     const handleLoginSuccess = (credentialResponse) => {
-        const decode = jwtDecode(credentialResponse.credential);
-        localStorage.setItem('currentUser', JSON.stringify({ id: decode.sub, loginType: 'google' }));
-        console.log(decode);
-        navigate("/");
+        try {
+            const decoded = jwtDecode(credentialResponse.credential);
+            const userData = {
+                id: decoded.sub,
+                loginType: 'google'
+            };
+            localStorage.setItem('currentUser', JSON.stringify(userData));
+            navigate("/");
+        } catch (error) {
+            console.error("Error JWT:", error);
+        }
     };
 
     return (

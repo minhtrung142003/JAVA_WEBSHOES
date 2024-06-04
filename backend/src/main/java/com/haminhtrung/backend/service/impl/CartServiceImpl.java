@@ -65,15 +65,15 @@ public class CartServiceImpl implements CartService {
         cartProductDto.setCartId(cart.getId());
         cartProductDto.setQuantity(cart.getQuantity());
         cartProductDto.setProductDTO(dtoMapper.getProductDTO(productService.getProductById(cart.getProductId())));
+        cartProductDto.setColor(cart.getColor());
         return cartProductDto;
     }
 
     // hàm add cart
     @Override
     public Cart addCart(Cart cart) {
-        List<Cart> existingCarts = cartRepository.findAllByProductIdAndUserId(cart.getProductId(), cart.getUserId());
+        List<Cart> existingCarts = cartRepository.findAllByProductIdAndUserIdAndColorId(cart.getProductId(), cart.getUserId(),  cart.getColor().getId());
         if (!existingCarts.isEmpty()) {
-            // nếu cart tồn tại, update quantity cart
             Cart existingCart = existingCarts.get(0);
             existingCart.setQuantity(existingCart.getQuantity() + cart.getQuantity());
             return cartRepository.save(existingCart);
@@ -101,6 +101,7 @@ public class CartServiceImpl implements CartService {
         if (existingCart != null) {
             existingCart.setProductId(updatedCart.getProductId());
             existingCart.setQuantity(updatedCart.getQuantity());
+            existingCart.setColor(updatedCart.getColor());
             existingCart.setUserId(updatedCart.getUserId());
             return cartRepository.save(existingCart);
         }

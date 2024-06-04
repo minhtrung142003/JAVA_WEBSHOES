@@ -17,7 +17,8 @@ const Cart = () => {
                 listData: data?.data?.map(item => ({
                     ...item.productDTO,
                     cartId: item.cartId,
-                    quantity: item.quantity
+                    quantity: item.quantity,
+                    color: item.color,
                 }))
             }));
         } catch (error) {
@@ -115,6 +116,7 @@ const Cart = () => {
                                                                 <th className="product_remove">Xoá</th>
                                                                 <th className="product_thumb">Hình ảnh</th>
                                                                 <th className="product_name">Sản phẩm</th>
+                                                                <th className="product_color">màu</th>
                                                                 <th className="product-price">Giá</th>
                                                                 <th className="product_quantity">Số lượng</th>
                                                                 <th className="product_total">Tổng tiền</th>
@@ -129,8 +131,9 @@ const Cart = () => {
                                                                     </a>
                                                                     </td>
                                                                     <td className="product_name"><a href="#">{i?.title}</a></td>
+                                                                    <td className="product_color"><a href="#">{i?.color?.name}</a></td>
                                                                     <td className="product-price">{i?.price}</td>
-                                                                    <td className="product_quantity"><label>Quantity</label> <input min="1" max="5" value={i?.quantity} type="number" onChange={(e) => handleChangeQuantity(i, e.target.value)} /></td>
+                                                                    <td className="product_quantity"> <input min="1" max="5" value={i?.quantity} type="number" onChange={(e) => handleChangeQuantity(i, e.target.value)} /></td>
                                                                     <td className="product_total">{countTotalPrice1(i)}</td>
                                                                 </tr>
                                                             ))}

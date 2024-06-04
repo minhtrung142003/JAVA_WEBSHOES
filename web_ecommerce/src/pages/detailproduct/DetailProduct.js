@@ -10,13 +10,20 @@ const DetailProduct = () => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const [product, setProduct] = useState({});
     const [mainImage, setMainImage] = useState('');  // set image chính 
-    const location = useLocation(); 
-    const queryParams = new URLSearchParams(location.search); 
+    const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
     const productId = queryParams.get("productId");
+    const [colors, setColors] = useState([]);
+    const [selectedColor, setSelectedColor] = useState(null);
+    
+     // hàm change color
+     const handleColorChange = (color) => {
+        setSelectedColor(color);
+    };
 
     // render UI
     useEffect(() => {
-        const GET_ID = async (endpoint, id) => { 
+        const GET_ID = async (endpoint, id) => {
             try {
                 const response = await axios.get(`${baseURL}${endpoint}/${id}`);
                 return response.data;
@@ -26,12 +33,23 @@ const DetailProduct = () => {
             }
         };
         GET_ID(`products`, productId)
-        .then((item) => {
-            setProduct(item);
-            setMainImage(item?.galleries?.length ? `http://localhost:8080/upload/${item.galleries[0].imagePath}` : '');
-        })
-        .catch((error) => console.error("Error setting product:", error));
-    }, [productId]);
+            .then((item) => {
+                setProduct(item);
+                setMainImage(item?.galleries?.length ? `http://localhost:8080/upload/${item.galleries[0].imagePath}` : '');
+            })
+            .catch((error) => console.error("Error setting product:", error));
+
+        // Fetch color data
+        const fetchColors = async () => {
+            try {
+                const response = await axios.get(`${baseURL}colors`);
+                setColors(response.data);
+            } catch (error) {
+                console.error("Error fetching colors:", error);
+            }
+        };
+        fetchColors();
+    }, [productId, baseURL]);
 
     // hàm change quantity
     const handleChange = (e) => {
@@ -45,9 +63,10 @@ const DetailProduct = () => {
             productId: value?.id,
             quantity: value?.quantity,
             userId: currentUser?.id,
+            color: selectedColor, 
         };
     };
-
+  console.log(selectedColor);
     // hàm addCart
     const handleAddToCard = async () => {
         try {
@@ -60,6 +79,8 @@ const DetailProduct = () => {
                 const response = await addCard(convertDataSubmit(product));
                 console.log(response);
                 alert("Thêm vào giỏ hàng thành công!");
+            } else {
+                alert("Vui lòng chọn màu sản phẩm!"); 
             }
         } catch (e) {
             console.log("Error adding card", e)
@@ -135,10 +156,16 @@ const DetailProduct = () => {
                                     <h3>Available Options</h3>
                                     <label>color</label>
                                     <ul>
-                                        <li className="color1"><a href="#"></a></li>
-                                        <li className="color2"><a href="#"></a></li>
-                                        <li className="color3"><a href="#"></a></li>
-                                        <li className="color4"><a href="#"></a></li>
+                                        {colors.map((color, index) => (
+                                            <li key={index}
+                                                style={{ padding: '10px', border: '1px solid #333', marginRight: '10px', textAlign: 'center', transition: 'border-color 0.3s ease' }}
+                                                onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#ff6b00')}
+                                                onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#333')}
+                                                onClick={() => handleColorChange(color)}
+                                            >
+                                                <a href="#" style={{ color: '#333', textDecoration: 'none', fontWeight:'bold' }}>{color.name}</a>
+                                            </li>
+                                        ))}
                                     </ul>
                                 </div>
                                 <div className="product_variant quantity">

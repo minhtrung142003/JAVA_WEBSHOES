@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import MenuItem from '@mui/material/MenuItem'
 import { Image } from 'react-bootstrap'
 import axios from 'axios'
-import { getAllCategories, IMAGE_URL, editProduct, getProductById } from '../../api/apiService'
+import { getAllCategories, IMAGE_URL, editProduct, getProductById, getAllColors } from '../../api/apiService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,7 +52,10 @@ const EditProduct = () => {
   const [selectedImages, setSelectedImages] = useState([])
   const [imageFiles, setImageFiles] = useState([])
   const [errors, setErrors] = useState({});
+  const [colors, setColors] = useState([]);
+  const [selectedColor, setSelectedColor] = useState({});
   const navigate = useNavigate()
+
   const handleResetImages = () => {
     setSelectedImages([])
     setImageFiles([])
@@ -70,12 +73,17 @@ const EditProduct = () => {
         setQuantity(product.data.quantity)
         setDescription(product.data.description)
         setShortDescription(product.data.shortDescription)
+        setSelectedColor(product.data.colors)
         setCategories(product.data.categories.map((category) => category.id))
         setTags(product.data.tags.map((category) => category.id))
         const categoryData = await getAllCategories('categories')
         setCategoryAll(categoryData.data)
         const tagData = await getAllCategories('tags')
         setTagAll(tagData.data)
+        const colorData = await getAllColors('colors')
+        setColors(colorData.data)
+        console.log(product.data.colors)
+      
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -88,7 +96,6 @@ const EditProduct = () => {
     const fetchImages = async () => {
       try {
         const response = await axios.get(`http://localhost:8080/api/galleries/product/${idProduct}`)
-        console.log('yyyyyyyyyyyyyyyyyyy')
         setImages(response.data)
       } catch (error) {
         console.error('Error fetching images:', error)
@@ -158,7 +165,11 @@ const EditProduct = () => {
     } else if (!quantity) {
       newErrors.quantity = "Số lượng không được để trống.";
     }
-  
+
+    if (!selectedColor.id) {
+      newErrors.colors = "Màu không được để trống.";
+    }
+
     if (categories.length === 0) {
       newErrors.categories = "Bạn phải chọn ít nhất một danh mục.";
     }
@@ -182,6 +193,7 @@ const EditProduct = () => {
         quantity,
         description,
         shortDescription,
+        colors: {id: selectedColor.id, name: selectedColor.name},
         categories: categories.map((c) => ({ id: c })),
         tags: tags.map((c) => ({ id: c })),
       }
@@ -226,6 +238,16 @@ const EditProduct = () => {
     const selectedIds = event.target.value
     setTags(selectedIds)
   }
+
+  // edit colors
+  const handleChangeColor = (event) => {
+    const selectedColorId = event.target.value;
+    console.log(selectedColorId);
+    const color = colors.find(c => c.id === selectedColorId);
+    console.log('Selected color object:', color)
+    setSelectedColor(color);
+    
+  };
 
   // handle choose file image
   const handleFileChange = (event) => {
@@ -363,6 +385,28 @@ const EditProduct = () => {
                   error={!!errors.shortDescription}
                   helperText={errors.shortDescription}
                 />
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography gutterBottom variant="subtitle1">
+                  Chọn màu sản phẩm
+                </Typography>
+                <TextField
+                  id="colors"
+                  select
+                  value={selectedColor ? selectedColor.id : ''}
+                  onChange={handleChangeColor}
+                  variant="outlined"
+                  className={classes.txtInput}
+                  error={!!errors.colors}
+                  helperText={errors.colors}
+                >
+                  {colors.map((color) => (
+                    <MenuItem key={color.id} value={color.id}>
+                      {color.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
               </Grid>
 
               <Grid item xs={12}>

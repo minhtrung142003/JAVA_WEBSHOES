@@ -90,6 +90,7 @@ public class ProductController {
         ProductDTO productDTO = new ProductDTO();
         BeanUtils.copyProperties(product, productDTO);
         productDTO.setGalleries(product.getGalleries());
+        productDTO.setColors(product.getColors());
         return productDTO;
     }
 
@@ -98,6 +99,7 @@ public class ProductController {
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
         product.setGalleries(productDTO.getGalleries());
+        product.setColors(productDTO.getColors()); 
         return product;
     }
 

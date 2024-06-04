@@ -44,4 +44,8 @@ public class Product {
     @JsonIgnore
     private Set<Gallery> galleries = new HashSet<>();
 
+    @ManyToOne
+    @JoinColumn(name = "color_id")
+    private Color colors;
+
 }

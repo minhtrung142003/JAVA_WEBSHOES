@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { getAllCategories, addProduct } from "../../api/apiService";
+import { getAllCategories, addProduct, getAllTags, getAllColors } from "../../api/apiService";
 import MenuItem from "@mui/material/MenuItem";
 import { Image } from "react-bootstrap";
 import axios from "axios";
@@ -51,6 +51,8 @@ export default function Product() {
   const [imageFiles, setImageFiles] = useState([]);
   const navigate = useNavigate();
   const [errors, setErrors] = useState({});
+  const [colors, setColors] = useState([]);
+  const [selectedColor, setSelectedColor] = useState({});
 
   // reset image
   const handleResetImages = () => {
@@ -64,8 +66,10 @@ export default function Product() {
       try {
         const categoryData = await getAllCategories("categories");
         setCategoryAll(categoryData.data);
-        const tagData = await getAllCategories("tags");
+        const tagData = await getAllTags("tags");
         setTagAll(tagData.data);
+        const colorData = await getAllColors("colors");
+        setColors(colorData.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -123,6 +127,10 @@ export default function Product() {
     if (!description) {
       newErrors.description = "Mô tả không được để trống.";
     }
+    if (!selectedColor.id) {
+      newErrors.colors = "Màu không được để trống.";
+    }
+
     if (categories.length === 0) {
       newErrors.categories = "Bạn phải chọn ít nhất một danh mục.";
     }
@@ -147,6 +155,7 @@ export default function Product() {
         description,
         quantity,
         shortDescription,
+        colors: { id: selectedColor.id, name: selectedColor.name },
         categories: categories.map((c) => ({ id: c })),
         tags: tags.map((c) => ({ id: c })),
       };
@@ -154,6 +163,7 @@ export default function Product() {
         if (item.status === 201) {
           handleUploadImages(item.data.id);
           setCheckAdd(true);
+          console.log(item);
         } else {
           alert("Bạn chưa nhập đủ thông tin!");
         }
@@ -185,19 +195,26 @@ export default function Product() {
     setTags(selectedIds);
   };
 
+  // add color
+  const handleChangeColor = (event) => {
+    const selectedColorId = event.target.value;
+    const color = colors.find(c => c.id === selectedColorId);
+    setSelectedColor(color);
+  };
+
   // handle choose file images
   const handleFileChange = (event) => {
     const files = event.target.files;
     const imagesArray = [];
     const filesArray = [];
-    const acceptedExtensions = ["jpg", "jpeg", "png", "gif"]; 
+    const acceptedExtensions = ["jpg", "jpeg", "png", "gif"];
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const reader = new FileReader();
       const extension = file.name.split(".").pop().toLowerCase();
       if (!acceptedExtensions.includes(extension)) {
         alert("Chỉ chấp nhận các tệp JPG, JPEG, PNG, GIF.");
-        continue; 
+        continue;
       }
       reader.onloadend = () => {
         imagesArray.push(reader.result);
@@ -298,7 +315,7 @@ export default function Product() {
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
-                Ghi chú
+                  Ghi chú
                 </Typography>
                 <TextField
                   id="shortDescription"
@@ -311,6 +328,29 @@ export default function Product() {
                   helperText={errors.shortDescription}
                 />
               </Grid>
+
+              <Grid item xs={12}>
+                <Typography gutterBottom variant="subtitle1">
+                  Chọn màu sản phẩm
+                </Typography>
+                <TextField
+                  id="colors"
+                  select
+                  value={selectedColor.id}
+                  onChange={handleChangeColor}
+                  variant="outlined"
+                  className={classes.txtInput}
+                  error={!!errors.colors}
+                  helperText={errors.colors}
+                >
+                  {colors.map((color) => (
+                    <MenuItem key={color.id} value={color.id}>
+                      {color.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
                   Chọn danh mục

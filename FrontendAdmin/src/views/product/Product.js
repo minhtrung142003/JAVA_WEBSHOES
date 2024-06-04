@@ -124,6 +124,7 @@ const Product = () => {
                     <TableCell align="center">Mô tả </TableCell>
                     <TableCell align="center">Ghi chú</TableCell>
                     <TableCell align="center">Hình ảnh</TableCell>
+                    <TableCell align="center">Màu</TableCell>
 
                     <TableCell align="center">Danh mục</TableCell>
                     <TableCell align="center">Nhãn hiệu</TableCell>
@@ -175,6 +176,9 @@ const Product = () => {
                               />
                             )}
                           </div>
+                        </TableCell>
+                        <TableCell width={260} component="th" scope="row">
+                          {row.colors?.name}
                         </TableCell>
                         <TableCell width={100} align="center">
                           {cateName || ''}

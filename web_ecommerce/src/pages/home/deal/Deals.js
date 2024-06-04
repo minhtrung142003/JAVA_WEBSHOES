@@ -89,7 +89,7 @@ const Deals = () => {
                             <div className="product_carousel product_style product_column2">
                                 <div className="product_items" >
                                     {products && products.slice(0, 4).map((product) => (
-                                        <article className="single_product" style={{ width: "50%" }} >
+                                        <article className="single_product" style={{ width: "50%" }} key={product.id} >
                                             <figure>
                                                 <div className="product_thumb" key={product.id}>
                                                     <Link className="primary_img" to={`/detailproduct?productId=${product.id}`}>

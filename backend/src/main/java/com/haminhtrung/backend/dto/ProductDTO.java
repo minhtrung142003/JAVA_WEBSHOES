@@ -3,6 +3,7 @@ package com.haminhtrung.backend.dto;
 import java.util.HashSet;
 import java.util.Set;
 import com.haminhtrung.backend.entity.Category;
+import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Gallery;
 import com.haminhtrung.backend.entity.Tag;
 import lombok.AllArgsConstructor;
@@ -25,4 +26,5 @@ public class ProductDTO {
     private Set<Category> categories = new HashSet<>();
     private Set<Gallery> galleries = new HashSet<>();
     private Set<Tag> tags = new HashSet<>();
+    private Color colors;
 }

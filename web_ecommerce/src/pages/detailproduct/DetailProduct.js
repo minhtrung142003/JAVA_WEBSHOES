@@ -15,9 +15,9 @@ const DetailProduct = () => {
     const productId = queryParams.get("productId");
     const [colors, setColors] = useState([]);
     const [selectedColor, setSelectedColor] = useState(null);
-    
-     // hàm change color
-     const handleColorChange = (color) => {
+
+    // hàm change color
+    const handleColorChange = (color) => {
         setSelectedColor(color);
     };
 
@@ -63,10 +63,10 @@ const DetailProduct = () => {
             productId: value?.id,
             quantity: value?.quantity,
             userId: currentUser?.id,
-            color: selectedColor, 
+            color: selectedColor,
         };
     };
-  console.log(selectedColor);
+    console.log(selectedColor);
     // hàm addCart
     const handleAddToCard = async () => {
         try {
@@ -75,12 +75,12 @@ const DetailProduct = () => {
                 navigate("/login");
                 return;
             }
-            if (product.quantity > 0 && currentUser?.id) {
+            if (product.quantity > 0 && currentUser?.id && selectedColor) {
                 const response = await addCard(convertDataSubmit(product));
                 console.log(response);
                 alert("Thêm vào giỏ hàng thành công!");
             } else {
-                alert("Vui lòng chọn màu sản phẩm!"); 
+                alert("Vui lòng chọn màu sản phẩm!");
             }
         } catch (e) {
             console.log("Error adding card", e)
@@ -153,17 +153,21 @@ const DetailProduct = () => {
                                     <p>{product?.description} </p>
                                 </div>
                                 <div className="product_variant color">
-                                    <h3>Available Options</h3>
-                                    <label>color</label>
+                                    <h3 style={{ marginBottom: '10px' }}>Màu sắc</h3>
                                     <ul>
                                         {colors.map((color, index) => (
                                             <li key={index}
-                                                style={{ padding: '10px', border: '1px solid #333', marginRight: '10px', textAlign: 'center', transition: 'border-color 0.3s ease' }}
+                                                style={{ padding: '15px', border: '2px solid #333', marginRight: '10px', textAlign: 'center', transition: 'border-color 0.3s ease' }}
                                                 onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#ff6b00')}
                                                 onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#333')}
-                                                onClick={() => handleColorChange(color)}
+                                                className={selectedColor === color ? 'selected-color' : ''}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleColorChange(color)
+                                                }
+                                                }
                                             >
-                                                <a href="#" style={{ color: '#333', textDecoration: 'none', fontWeight:'bold' }}>{color.name}</a>
+                                                <a href="#" style={{ color: '#333', textDecoration: 'none', fontWeight: 'bold' }}>{color.name}</a>
                                             </li>
                                         ))}
                                     </ul>

@@ -48,4 +48,8 @@ public class Product {
     @JoinColumn(name = "color_id")
     private Color colors;
 
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
 }

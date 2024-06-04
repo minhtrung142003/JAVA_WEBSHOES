@@ -30,6 +30,10 @@ public class OrderItem {
     @JsonIgnoreProperties("items")
     private Order order;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "color_id")
+    private Color color;
+
     @Column(name = "price", columnDefinition = "numeric")
     private BigDecimal priceOrder;
 

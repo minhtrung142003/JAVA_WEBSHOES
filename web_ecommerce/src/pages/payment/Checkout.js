@@ -44,7 +44,8 @@ const Checkout = () => {
                     orderItemDto: listProduct?.map(i => ({
                         productId: i?.productDTO?.id,
                         price: i?.productDTO?.price,
-                        quantity: i?.quantity
+                        quantity: i?.quantity,
+                        colorName: i?.color?.name,
                     })),
                     listIdCart: listProduct?.map(i => i?.cartId),
                     totalPrice: listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0),
@@ -195,7 +196,8 @@ const Checkout = () => {
                                                             orderItemDto: listProduct?.map(i => ({
                                                                 productId: i?.productDTO?.id,
                                                                 price: i?.productDTO?.price,
-                                                                quantity: i?.quantity
+                                                                quantity: i?.quantity,
+                                                                colorName: i?.color?.name,
                                                             })),
                                                             listIdCart: listProduct?.map(i => i?.cartId),
                                                             totalPrice: Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000),

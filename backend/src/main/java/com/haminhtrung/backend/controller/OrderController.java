@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.haminhtrung.backend.dto.OrderDto;
 import com.haminhtrung.backend.dto.OrderItemDto;
 import com.haminhtrung.backend.entity.Cart;
+import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Order;
 import com.haminhtrung.backend.entity.OrderItem;
 import com.haminhtrung.backend.entity.Product;
@@ -43,7 +44,7 @@ public class OrderController {
     @GetMapping("/users/{userId}")
     public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable("userId") String userId) {
         List<Order> orders = orderService.getOrdersByUserId(userId);
-        List<OrderDto> ordersDto = new ArrayList<>();    // create danh sách để chứa data
+        List<OrderDto> ordersDto = new ArrayList<>(); // create danh sách để chứa data
         for (Order order : orders) {
             OrderDto orderDto = new OrderDto();
             orderDto.setTotalPrice(order.getTotalPrice());
@@ -66,6 +67,7 @@ public class OrderController {
             for (OrderItem orderItem : order.getItems()) {
                 OrderItemDto orderItemDto = new OrderItemDto();
                 Product product = orderItem.getProduct(); // Lấy đối tượng sản phẩm từ mục hàng đơn hàng
+                Color color = orderItem.getColor();
                 // get all product
                 orderItemDto.setProductId(product.getId());
                 orderItemDto.setQuantity(orderItem.getQuantity());
@@ -79,6 +81,7 @@ public class OrderController {
                 orderItemDto.setCategories(product.getCategories());
                 orderItemDto.setTags(product.getTags());
                 orderItemDto.setGalleries(product.getGalleries());
+                orderItemDto.setColorName(color.getName());            
                 orderItemDtos.add(orderItemDto);
             }
             orderDto.setOrderItemDto(orderItemDtos);

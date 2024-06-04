@@ -80,8 +80,13 @@ function History() {
                                                     <td>
                                                         <p className="title mb-0">{item?.productName}</p>
                                                         <var className="price text-muted"> {item?.price}đ</var>
+                                                        
                                                     </td>
+                                                  <td>
+                                                  <p>{item?.colorName}</p>
+                                                  </td>
                                                     <td>
+                                                        
                                                         Quantity: {item?.quantity}
                                                     </td>
                                                     <td width={250}>

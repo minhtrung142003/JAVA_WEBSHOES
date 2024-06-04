@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import com.haminhtrung.backend.entity.Category;
+import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Gallery;
 import com.haminhtrung.backend.entity.Tag;
 import lombok.Getter;
@@ -24,4 +25,5 @@ public class OrderItemDto {
     private Set<Category> categories = new HashSet<>();
     private Set<Tag> tags = new HashSet<>();
     private Set<Gallery> galleries  = new HashSet<>();
+    private String colorName;
 }

@@ -130,7 +130,7 @@ export default function Product() {
     if (!selectedColor.id) {
       newErrors.colors = "Màu không được để trống.";
     }
-
+    
     if (categories.length === 0) {
       newErrors.categories = "Bạn phải chọn ít nhất một danh mục.";
     }

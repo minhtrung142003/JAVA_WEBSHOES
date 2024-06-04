@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ColorRepository extends JpaRepository<Color, Long> {
-    Optional<Color> findById(Long id);
+    Optional<Color> findByName(String name);
 }

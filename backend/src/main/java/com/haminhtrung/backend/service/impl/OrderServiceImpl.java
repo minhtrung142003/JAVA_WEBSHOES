@@ -8,10 +8,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.haminhtrung.backend.dto.OrderDto;
 import com.haminhtrung.backend.dto.OrderItemDto;
 import com.haminhtrung.backend.entity.Cart;
+import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Order;
 import com.haminhtrung.backend.entity.OrderItem;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.repository.CartRepository;
+import com.haminhtrung.backend.repository.ColorRepository;
 import com.haminhtrung.backend.repository.OrderItemRepository;
 import com.haminhtrung.backend.repository.OrderRepository;
 import com.haminhtrung.backend.repository.ProductRepository;
@@ -33,6 +35,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private ColorRepository colorRepository;
+
     // get by id
     @Override
     public Order getOrderById(Long orderId) {
@@ -40,7 +45,7 @@ public class OrderServiceImpl implements OrderService {
         return optionalOrder.orElse(null);
     }
 
-    // get all 
+    // get all
     @Override
     public List<Order> getAllOrders() {
         return orderRepository.findAll();
@@ -88,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
                     OrderItem orderItem = new OrderItem();
                     orderItem.setOrder(savedOrder);
                     orderItem.setProduct(product);
+                    orderItem.setColor(colorRepository.findByName(orderItemDto.getColorName()).orElse(null));
                     orderItem.setPriceOrder(orderItemDto.getPriceOrder());
                     orderItem.setQuantity(orderItemDto.getQuantity());
                     orderItemRepository.save(orderItem);

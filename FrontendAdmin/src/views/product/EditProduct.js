@@ -83,7 +83,7 @@ const EditProduct = () => {
         const colorData = await getAllColors('colors')
         setColors(colorData.data)
         console.log(product.data.colors)
-      
+
       } catch (error) {
         console.error('Error fetching data:', error)
       }
@@ -139,27 +139,27 @@ const EditProduct = () => {
     if (!title.trim()) {
       newErrors.title = "Vui lòng nhập thông tin.";
     }
-  
+
     if (!description.trim()) {
       newErrors.description = "Vui lòng nhập thông tin.";
     }
-  
+
     if (!shortDescription.trim()) {
       newErrors.shortDescription = "Vui lòng nhập thông tin.";
     }
-  
+
     if (isNaN(price)) {
       newErrors.price = "Giá tiền phải là số.";
     } else if (!price) {
       newErrors.price = "Giá tiền không được để trống.";
     }
-  
+
     if (isNaN(discount)) {
       newErrors.discount = "Giảm giá phải là số.";
     } else if (!discount) {
       newErrors.discount = "Giảm giá không được để trống.";
     }
-  
+
     if (isNaN(quantity)) {
       newErrors.quantity = "Số lượng phải là số.";
     } else if (!quantity) {
@@ -168,6 +168,7 @@ const EditProduct = () => {
 
     if (!selectedColor.id) {
       newErrors.colors = "Màu không được để trống.";
+
     }
 
     if (categories.length === 0) {
@@ -193,7 +194,7 @@ const EditProduct = () => {
         quantity,
         description,
         shortDescription,
-        colors: {id: selectedColor.id, name: selectedColor.name},
+        colors: { id: selectedColor.id, name: selectedColor.name },
         categories: categories.map((c) => ({ id: c })),
         tags: tags.map((c) => ({ id: c })),
       }
@@ -212,7 +213,7 @@ const EditProduct = () => {
       } catch (error) {
         console.error('Error editing product:', error)
       }
-      
+
     }
   }
 
@@ -246,7 +247,7 @@ const EditProduct = () => {
     const color = colors.find(c => c.id === selectedColorId);
     console.log('Selected color object:', color)
     setSelectedColor(color);
-    
+
   };
 
   // handle choose file image
@@ -321,7 +322,7 @@ const EditProduct = () => {
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
-                  Giảm giá
+                  Giá gốc
                 </Typography>
                 <TextField
                   id="discount"
@@ -394,7 +395,7 @@ const EditProduct = () => {
                 <TextField
                   id="colors"
                   select
-                  value={selectedColor ? selectedColor.id : ''}
+                  value={selectedColor?.id ?? ''}
                   onChange={handleChangeColor}
                   variant="outlined"
                   className={classes.txtInput}

@@ -84,8 +84,6 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(status);
         order.setPaymentMethod(paymentMethod);
         Order savedOrder = orderRepository.save(order);
-
-        // check orderitem != null
         if (orderDto.getOrderItemDto() != null) {
             for (OrderItemDto orderItemDto : orderDto.getOrderItemDto()) {
                 Product product = productRepository.findById(orderItemDto.getProductId()).orElse(null);
@@ -113,7 +111,6 @@ public class OrderServiceImpl implements OrderService {
         Order existingOrder = orderRepository.findById(orderId).orElse(null);
 
         if (existingOrder != null) {
-            // existingOrder.setCoupon(updatedOrder.getCoupon());
             existingOrder.setUserId(updatedOrder.getUserId());
             existingOrder.setFirstName(updatedOrder.getFirstName());
             existingOrder.setLastName(updatedOrder.getLastName());

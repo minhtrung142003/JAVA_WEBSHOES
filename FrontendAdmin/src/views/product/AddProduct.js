@@ -35,24 +35,24 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Product() {
-  const classes = useStyles();
-  const [checkAdd, setCheckAdd] = useState(false);
-  const [title, setTitle] = useState("");
-  const [price, setPrice] = useState(null);
-  const [discount, setDiscount] = useState(null);
-  const [description, setDescription] = useState("");
-  const [shortDescription, setShortDescription] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [categories, setCategories] = useState([]);
-  const [categoryAll, setCategoryAll] = useState([]);
-  const [tagAll, setTagAll] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [selectedImages, setSelectedImages] = useState([]);
-  const [imageFiles, setImageFiles] = useState([]);
-  const navigate = useNavigate();
-  const [errors, setErrors] = useState({});
-  const [colors, setColors] = useState([]);
-  const [selectedColor, setSelectedColor] = useState({});
+    const classes = useStyles();
+    const [checkAdd, setCheckAdd] = useState(false);
+    const [title, setTitle] = useState("");
+    const [price, setPrice] = useState(null);
+    const [discount, setDiscount] = useState(null);
+    const [description, setDescription] = useState("");
+    const [shortDescription, setShortDescription] = useState("");
+    const [quantity, setQuantity] = useState("");
+    const [categories, setCategories] = useState([]);
+    const [categoryAll, setCategoryAll] = useState([]);
+    const [tagAll, setTagAll] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [selectedImages, setSelectedImages] = useState([]);
+    const [imageFiles, setImageFiles] = useState([]);
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [colors, setColors] = useState([]);
+    const [selectedColor, setSelectedColor] = useState({});
 
   // reset image
   const handleResetImages = () => {
@@ -271,7 +271,7 @@ export default function Product() {
               </Grid>
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">
-                  Giảm giá
+                Giá gốc
                 </Typography>
                 <TextField
                   id="discount"

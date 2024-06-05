@@ -121,8 +121,8 @@ const Deals = () => {
                                                             </ul>
                                                         </div>
                                                         <div className="price_box">
-                                                            <span className="old_price">$86.00</span>
-                                                            <span className="current_price">{product.price}</span>
+                                                            <span className="old_price">{product.discount.toLocaleString()}đ</span>
+                                                            <span className="current_price">{product.price.toLocaleString()}đ</span>
                                                         </div>
                                                         <div className="countdown_text">
                                                             <p><span style={{ width: "40px", fontSize: "20px", color: 'red' }}>

@@ -145,14 +145,22 @@ const DetailProduct = () => {
                                     </ul>
                                 </div>
                                 <div className="price_box">
-                                    <span className="old_price">{product?.discount}</span>
-                                    <span className="current_price">{product?.price}</span>
+                                    {
+                                        product && product.discount && (
+                                            <span className="old_price">{product?.discount.toLocaleString()}đ</span>
+                                        )
+                                    }
+                                    {
+                                        product && product.price && (
+                                            <span className="current_price">{product?.price.toLocaleString()}đ</span>
+                                        )
+                                    }
                                 </div>
                                 <p>{product?.shortDescription} </p>
                                 <div className="product_desc">
                                     <p>{product?.description} </p>
                                 </div>
-                                <div className="product_variant color">
+                                <div className="product_variant color" style={{ marginTop: '-20px' }}>
                                     <h3 style={{ marginBottom: '10px' }}>Màu sắc</h3>
                                     <ul>
                                         {colors.map((color, index) => (
@@ -167,12 +175,12 @@ const DetailProduct = () => {
                                                 }
                                                 }
                                             >
-                                                <a href="#" style={{ color: '#333', textDecoration: 'none', fontWeight: 'bold' }}>{color.name}</a>
+                                                <a href="#" style={{ color: '#333', textDecoration: 'none', fontWeight: 'bold' }}>{color?.name}</a>
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
-                                <div className="product_variant quantity">
+                                <div className="product_variant quantity" style={{ marginTop: '-8px' }}>
                                     <label style={{ padding: "10px", float: "left" }}>Số lượng</label>
                                     <input
                                         min="1"

@@ -30,7 +30,7 @@ const Checkout = () => {
     }
     // hàm submit payment shipcod
     const handleFormSubmit = async (event) => {
-        event.preventDefault(); // Ngăn chặn mặc định của form tức là ko reload page.
+        event.preventDefault(); 
         if (state.address && state.userName && state.firstName && state.lastName && state.email && state.phone) {
             try {
                 const searchObj = {

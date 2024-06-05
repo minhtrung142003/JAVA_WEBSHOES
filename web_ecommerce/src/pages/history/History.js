@@ -62,9 +62,9 @@ function History() {
                                                 Visa **** 4216
                                             </span>
                                             <p>
-                                                Tổng tiền: ${order?.totalPrice} <br />
-                                                Giảm giá: ${order?.totalDiscount} <br />
-                                                <span className="b">Tổng cộng: ${order?.totalPrice} </span>
+                                                Tổng tiền: {order?.totalPrice.toLocaleString()}đ <br />
+                                                Giảm giá: {order?.totalDiscount}đ <br />
+                                                <span className="b">Tổng cộng: {order?.totalPrice.toLocaleString()}đ </span>
                                             </p>
                                         </div>
                                     </div>
@@ -79,7 +79,7 @@ function History() {
                                                     </td>
                                                     <td>
                                                         <p className="title mb-0">{item?.productName}</p>
-                                                        <var className="price text-muted"> {item?.price}đ</var>
+                                                        <var className="price text-muted"> {item?.price.toLocaleString()}đ</var>
                                                         
                                                     </td>
                                                   <td>
@@ -87,7 +87,7 @@ function History() {
                                                   </td>
                                                     <td>
                                                         
-                                                        Quantity: {item?.quantity}
+                                                        Số lượng: {item?.quantity}
                                                     </td>
                                                     <td width={250}>
                                                         <a href="/" className="btn btn-outline-primary">

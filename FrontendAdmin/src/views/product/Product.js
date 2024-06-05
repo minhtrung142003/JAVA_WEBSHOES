@@ -118,7 +118,7 @@ const Product = () => {
                     <TableCell align="center">Id:</TableCell>
                     <TableCell align="center">Tên sản phẩm</TableCell>
                     <TableCell align="center">Giá</TableCell>
-                    <TableCell align="center">Giảm giá </TableCell>
+                    <TableCell align="center">Giá gốc </TableCell>
 
                     <TableCell align="center">Số lượng </TableCell>
                     <TableCell align="center">Mô tả </TableCell>
@@ -152,7 +152,7 @@ const Product = () => {
                           <strong>{Number(row.price).toLocaleString('vi-VN')}.VNĐ</strong>
                         </TableCell>
                         <TableCell align="center">
-                          <strong>{Number(row.discount).toLocaleString('vi-VN')}%</strong>
+                          <strong>{Number(row.discount).toLocaleString('vi-VN')}.VNĐ</strong>
                         </TableCell>
 
                         <TableCell width={260} component="th" scope="row">

@@ -65,8 +65,8 @@ const Phukien = () => {
                                                 <div className="product_content_inner">
                                                     <h4 className="product_name"><Link to={`/detailproduct?productId=${product.id}`}>{product.title}</Link></h4>
                                                     <div className="price_box">
-                                                        <span className="old_price">$80.00</span>
-                                                        <span className="current_price">{product.price}</span>
+                                                        <span className="old_price">{product.discount.toLocaleString()}đ</span>
+                                                        <span className="current_price">{product.price.toLocaleString()}đ</span>
                                                     </div>
                                                 </div>
                                                 <div className="add_to_cart">

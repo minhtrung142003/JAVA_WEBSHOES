@@ -132,9 +132,9 @@ const Cart = () => {
                                                                     </td>
                                                                     <td className="product_name"><a href="#">{i?.title}</a></td>
                                                                     <td className="product_color"><a href="#">{i?.color?.name}</a></td>
-                                                                    <td className="product-price">{i?.price}</td>
+                                                                    <td className="product-price">{i?.price.toLocaleString()}</td>
                                                                     <td className="product_quantity"> <input min="1" max="5" value={i?.quantity} type="number" onChange={(e) => handleChangeQuantity(i, e.target.value)} /></td>
-                                                                    <td className="product_total">{countTotalPrice1(i)}</td>
+                                                                    <td className="product_total">{countTotalPrice1(i).toLocaleString()}</td>
                                                                 </tr>
                                                             ))}
                                                         </tbody>
@@ -161,15 +161,15 @@ const Cart = () => {
                                                     <div className="coupon_inner">
                                                         <div className="cart_subtotal">
                                                             <p>Tổng tiền:</p>
-                                                            <p className="cart_amount">{countTotalPrice(stateValue?.listData)}</p>
+                                                            <p className="cart_amount">{countTotalPrice(stateValue?.listData).toLocaleString()}đ</p>
                                                         </div>
                                                         <div className="cart_subtotal ">
                                                             <p>Vận chuyển</p>
-                                                            <p className="cart_amount"><span></span> 0đ</p>
+                                                            <p className="cart_amount"><span></span>0đ</p>
                                                         </div>
                                                         <div className="cart_subtotal">
                                                             <p>Tổng cộng:</p>
-                                                            <p className="cart_amount">{countTotalPrice(stateValue?.listData)}</p>
+                                                            <p className="cart_amount">{countTotalPrice(stateValue?.listData).toLocaleString()}đ</p>
                                                         </div>
                                                         {stateValue?.listData?.length > 0 &&
                                                             <div className="checkout_btn" onClick={handlePayment}>

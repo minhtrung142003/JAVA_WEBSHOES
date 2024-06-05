@@ -36,9 +36,6 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
     const handleOnApprove = (data, actions) => {
         actions.order.capture().then(async (response) => {
             if (response.status === 'COMPLETED') {
-                const { userId, address, userName, firstName, lastName, email, phone, orderItemDto, listIdCart, totalPrice } = payload;
-                console.log(userId, address, userName, firstName, lastName, email, phone, orderItemDto, listIdCart, totalPrice);
-                // Gọi hàm để lưu đơn hàng
                 await handleSaveOrder();
             }
         })

@@ -66,9 +66,8 @@ public class OrderController {
             List<OrderItemDto> orderItemDtos = new ArrayList<>();
             for (OrderItem orderItem : order.getItems()) {
                 OrderItemDto orderItemDto = new OrderItemDto();
-                Product product = orderItem.getProduct(); // Lấy đối tượng sản phẩm từ mục hàng đơn hàng
+                Product product = orderItem.getProduct();
                 Color color = orderItem.getColor();
-                // get all product
                 orderItemDto.setProductId(product.getId());
                 orderItemDto.setQuantity(orderItem.getQuantity());
                 orderItemDto.setPriceOrder(orderItem.getPriceOrder());

@@ -41,7 +41,6 @@ public class ProductServiceImpl implements ProductService {
         Tag tag = tagRepository.findByName(tagName);
         if (tag != null) {
             List<Product> products = tag.getProducts();
-            // Sắp xếp danh sách sản phẩm theo id lớn hơn
             Collections.sort(products, Comparator.comparing(Product::getId).reversed());
             return products;
         }
@@ -49,13 +48,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     // get product by category name
-
     @Override
     public List<Product> getProductsByCategoryName(String categoryName) {
         Category category = categoryRepository.findByCategoryName(categoryName);
         if (category != null) {
             List<Product> products = category.getProducts();
-            // Sắp xếp danh sách sản phẩm theo id lớn hơn
             Collections.sort(products, Comparator.comparing(Product::getId).reversed());
             return products;
         }

@@ -14,21 +14,25 @@ public class ColorServiceImpl implements ColorService {
     @Autowired
     private ColorRepository colorRepository;
 
+    // get all 
     @Override
     public List<Color> getAllColors() {
         return colorRepository.findAll();
     }
 
+    // get by id
     @Override
     public Color getColorById(Long id) {
         return colorRepository.findById(id).orElse(null);
     }
 
+    // add
     @Override
     public Color createColor(Color color) {
         return colorRepository.save(color);
     }
 
+    // put
     @Override
     public Color updateColor(Long id, Color color) {
         Color existingColor = colorRepository.findById(id).orElse(null);
@@ -39,6 +43,7 @@ public class ColorServiceImpl implements ColorService {
         return null;
     }
 
+    // delete
     @Override
     public void deleteColor(Long id) {
         colorRepository.deleteById(id);

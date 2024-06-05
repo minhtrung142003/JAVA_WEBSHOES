@@ -2,17 +2,12 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
 const MyAccount = () => {
-    const [userInfo, setUserInfo] = useState({
-        id: '',
-        fullname: '',
-        email: '',
-        phone_number: '',
-        address: '',
-        password: ''
-    });
+    const [userInfo, setUserInfo] = useState([]);
+
     // lấy thông tin user từ localstorage
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("currentUser"));
+        const user = JSON.parse(localStorage.getItem("currentUser")); 
+        console.log(user);
         if (user) {
             setUserInfo({
                 id: user.id,
@@ -22,6 +17,7 @@ const MyAccount = () => {
                 address: user.address,
                 password: user.password
             });
+        console.log(user);
         }
     }, []);
     // hàm input change thông tin user

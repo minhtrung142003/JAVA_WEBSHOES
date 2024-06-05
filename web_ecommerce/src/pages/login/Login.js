@@ -23,8 +23,9 @@ const Login = () => {
             const userData = response.data;
 
             // localStorage là 1 đối tượng trong js, dùng để lưu trữ thông tin dưới dạng cặp key, value
-            localStorage.setItem("currentUser", JSON.stringify({ id: userData?.id, loginType: 'normal' }));
+            localStorage.setItem("currentUser", JSON.stringify({userData, loginType: 'normal' }));
             window.location.href = "/"
+            console.log(userData);
         } catch (error) {
             alert("Đăng nhập thất bại, vui lòng thử lại!");
         }
@@ -45,7 +46,7 @@ const Login = () => {
     };
 
     return (
-        <GoogleOAuthProvider clientId="1052161616352-l029l5odc7hoq31qhu6nhv871dgbf12u.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="1052161616352-p77in4fnbvg90mfda2eipe7a33sjpo15.apps.googleusercontent.com">
             <div className="login-container">
                 <h2>Đăng nhập</h2>
                 <form onSubmit={handleLogin}>

@@ -1,4 +1,3 @@
-
 import React from 'react'
 import ship1 from "../../assets/img/about/shipping1.png";
 import ship2 from "../../assets/img/about/shipping2.png";

@@ -1,7 +1,6 @@
-
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import "./Register.css"; // Đảm bảo import CSS cho trang đăng ký
+import "./Register.css"; 
 import axios from 'axios';
 import baseURL from '../../api/BaseUrl';
 const Register = () => {

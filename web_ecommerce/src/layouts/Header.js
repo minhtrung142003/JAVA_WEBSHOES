@@ -71,7 +71,7 @@ const Header = () => {
     };
 
     // get cart
-    const search = async () => {
+    const fetchCartUpdate = async () => {
         try {
             const data = await getListCart(currentUser?.id);
             setStateValue((pre) => ({ ...pre, listData: data?.data }));
@@ -96,7 +96,7 @@ const Header = () => {
 
     // render component
     useEffect(() => {
-        search();
+        fetchCartUpdate();
         fetchCategories();
        
     }, []);

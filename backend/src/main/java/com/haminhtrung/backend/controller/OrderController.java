@@ -44,7 +44,7 @@ public class OrderController {
     @GetMapping("/users/{userId}")
     public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable("userId") String userId) {
         List<Order> orders = orderService.getOrdersByUserId(userId);
-        List<OrderDto> ordersDto = new ArrayList<>(); // create danh sách để chứa data
+        List<OrderDto> ordersDto = new ArrayList<>();
         for (Order order : orders) {
             OrderDto orderDto = new OrderDto();
             orderDto.setTotalPrice(order.getTotalPrice());

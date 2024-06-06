@@ -107,22 +107,17 @@ function History() {
         </section>
     );
 }
-
 export default History;
 
 function convertDatetimeFormat(datetimeStr) {
-    // Kiểm tra nếu datetimeStr là undefined hoặc null
     if (!datetimeStr) {
         return 'Ngày không hợp lệ';
     }
-    
     var datetimeObj = new Date(datetimeStr);
-    
-    // Kiểm tra nếu datetimeObj là một ngày hợp lệ
+    // check nếu datetimeObj là một ngày hợp lệ
     if (isNaN(datetimeObj)) {
         return 'Ngày không hợp lệ';
     }
-    
     var day = datetimeObj.getDate();
     var month = datetimeObj.toLocaleString('default', { month: 'long' });
     var year = datetimeObj.getFullYear();

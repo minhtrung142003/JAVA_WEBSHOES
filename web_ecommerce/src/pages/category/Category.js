@@ -74,7 +74,7 @@ function Category() {
             }
         });
     };
-
+    
     return (
         <>
             <section className="section-content padding-y">

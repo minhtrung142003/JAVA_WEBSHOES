@@ -8,7 +8,7 @@ import './New.css';
 const Phukien = () => {
     const [products, setProducts] = useState([]);
 
-    // Gọi API để lấy danh sách sản phẩm phụ kiện khi component được render
+    // Gọi API để lấy danh sách product phụ kiện khi component render
     useEffect(() => {
         axios.get(`${baseURL}products/category/Phụ Kiện`)
             .then(response => {

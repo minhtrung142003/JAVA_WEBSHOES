@@ -168,7 +168,6 @@ const EditProduct = () => {
 
     if (!selectedColor.id) {
       newErrors.colors = "Màu không được để trống.";
-
     }
 
     if (categories.length === 0) {

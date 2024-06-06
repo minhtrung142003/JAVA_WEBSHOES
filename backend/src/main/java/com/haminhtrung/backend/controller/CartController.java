@@ -63,7 +63,6 @@ public class CartController {
             @PathVariable String userId,
             @PathVariable Long productId,
             @RequestParam Integer newQuantity) {
-
         cartService.updateQuantity(userId, productId, newQuantity);
         return ResponseEntity.status(HttpStatus.OK).body("Quantity updated successfully.");
     }

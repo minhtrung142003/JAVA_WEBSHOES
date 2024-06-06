@@ -78,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findAll();
     }
 
-    // put products
+    // put product
     @Override
     public Product updateProduct(Product product) {
         Product existingProduct = productRepository.findById(product.getId()).get();
@@ -92,7 +92,6 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setGalleries(product.getGalleries());
         existingProduct.setTags(product.getTags());
         existingProduct.setColors(product.getColors());
-
         Product updateProduct = productRepository.save(existingProduct);
         return updateProduct;
     }

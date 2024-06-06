@@ -129,7 +129,6 @@ public class UserServiceImpl implements UserService {
     // hàm handle token
     private String generateToken(String fullname) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
-
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
                 .subject(fullname)
                 .issuer("haminhtrung.com")
@@ -139,9 +138,7 @@ public class UserServiceImpl implements UserService {
                 .jwtID(UUID.randomUUID().toString())
                 .claim("customClaim", "Custom")
                 .build();
-
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
-
         JWSObject jwsObject = new JWSObject(header, payload);
 
         try {

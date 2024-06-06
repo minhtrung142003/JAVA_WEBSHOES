@@ -31,22 +31,22 @@ public class GalleryServiceImpl implements GalleryService {
     @Override
     public Gallery saveImage(Long productId, MultipartFile file, int i) {
         try {
-            String originalFileName = file.getOriginalFilename();    // Lấy tên gốc của tệp tin ảnh
-            String uuid = UUID.randomUUID().toString();     // Tạo một UUID add vào tập tin
+            String originalFileName = file.getOriginalFilename(); 
+            String uuid = UUID.randomUUID().toString();    
             String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // get .file(jpg or png)
             String newFileName = i + uuid + fileExtension;
             Path uploadPath = Paths.get(UPLOAD_DIR);    // create url tới upload
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
-            Path filePath = uploadPath.resolve(newFileName); // create url 
-            Files.write(filePath, file.getBytes()); // ghi data từ file vào url create
+            Path filePath = uploadPath.resolve(newFileName); 
+            Files.write(filePath, file.getBytes());
             // filter by productid
             Product product = productRepository.findById(productId)
                     .orElseThrow(() -> new RuntimeException("Product not found"));
             Gallery gallery = new Gallery();
             gallery.setProduct(product);
-            gallery.setImagePath(newFileName); // use file name new
+            gallery.setImagePath(newFileName);
             return galleryRepository.save(gallery);
         } catch (IOException e) {
             throw new RuntimeException("Could not store the file. Error: " + e.getMessage(), e);
@@ -87,7 +87,7 @@ public class GalleryServiceImpl implements GalleryService {
     // update image by productid
     @Override
     public void update(Long productId, MultipartFile[] newFiles) {
-        deleteGallery(productId);    // delete image old
+        deleteGallery(productId);    
         saveImages(productId, newFiles);    // save image new
     }
 
@@ -100,6 +100,7 @@ public class GalleryServiceImpl implements GalleryService {
             galleryRepository.delete(gallery);
         }
     }
+    
     // delete image từ folder or save image outside
     private void deleteImage(String imagePath) {
         Path imagePathToDelete = Paths.get(UPLOAD_DIR).resolve(imagePath);

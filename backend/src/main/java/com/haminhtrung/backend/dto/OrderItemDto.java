@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import com.haminhtrung.backend.entity.Category;
-import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Gallery;
 import com.haminhtrung.backend.entity.Tag;
 import lombok.Getter;

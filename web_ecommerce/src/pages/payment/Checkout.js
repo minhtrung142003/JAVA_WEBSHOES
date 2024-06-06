@@ -66,7 +66,6 @@ const Checkout = () => {
                 console.log(error);
             }
         } else {
-            // Hiển thị thông báo yêu cầu nhập đầy đủ thông tin
             alert('Vui lòng nhập đầy đủ thông tin thanh toán');
         }
     }

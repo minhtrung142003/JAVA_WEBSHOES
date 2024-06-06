@@ -78,7 +78,7 @@ const Cart = () => {
     }
 
     // hàm tính price
-    const countTotalPrice1 = (item) => {
+    const countPrice = (item) => {
         return item?.price * item?.quantity;
     }
     // hàm render ra UI  
@@ -126,15 +126,15 @@ const Cart = () => {
                                                             {stateValue?.listData?.map((i, x) => (
                                                                 <tr key={x}>
                                                                     <td className="product_remove"><a href="#"><i className="fa fa-trash-o" onClick={() => handleDelete(i)} ></i></a></td>
-                                                                    <td className="product_thumb"><a href="#">
+                                                                    <td className="product_thumb"><a href={`/detailproduct?productId=${i.id}`}>
                                                                         <img src={`http://localhost:8080/upload/${i?.galleries[0]?.imagePath}`} className="img-sm" alt={i?.title} />
                                                                     </a>
                                                                     </td>
-                                                                    <td className="product_name"><a href="#">{i?.title}</a></td>
+                                                                    <td className="product_name"><a href={`/detailproduct?productId=${i.id}`}>{i?.title}</a></td>
                                                                     <td className="product_color"><a href="#">{i?.color?.name}</a></td>
                                                                     <td className="product-price">{i?.price.toLocaleString()}</td>
                                                                     <td className="product_quantity"> <input min="1" max="5" value={i?.quantity} type="number" onChange={(e) => handleChangeQuantity(i, e.target.value)} /></td>
-                                                                    <td className="product_total">{countTotalPrice1(i).toLocaleString()}</td>
+                                                                    <td className="product_total">{countPrice(i).toLocaleString()}</td>
                                                                 </tr>
                                                             ))}
                                                         </tbody>

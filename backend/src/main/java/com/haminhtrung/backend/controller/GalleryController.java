@@ -37,7 +37,7 @@ public class GalleryController {
     public ResponseEntity<String> getImageUrl(@PathVariable String fileName) {
         try {
             String imageUrl = "/upload/" + fileName; // Tạo đường dẫn URL của ảnh
-            return ResponseEntity.ok().body(imageUrl); // Trả về URL của ảnh
+            return ResponseEntity.ok().body(imageUrl); 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -76,9 +76,7 @@ public class GalleryController {
     @PostMapping("/update/{productId}")
     public ResponseEntity<String> updateGallery(@PathVariable Long productId, @RequestParam("files") MultipartFile[] newFiles) {
         try {
-            // Xóa toàn bộ ảnh cũ của sản phẩm
-            galleryService.deleteGallery(productId);
-            // Lưu ảnh mới
+            galleryService.deleteGallery(productId);   //  Xóa all ảnh cũ product
             galleryService.saveImages(productId, newFiles);
 
             return ResponseEntity.ok("Update gallery successfully");

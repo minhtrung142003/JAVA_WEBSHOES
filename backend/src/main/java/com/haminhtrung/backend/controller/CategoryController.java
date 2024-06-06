@@ -76,7 +76,6 @@ public class CategoryController {
 
     // put category
     @PutMapping("{id}")
-    // http://localhost:8080/api/Categories/1
     public ResponseEntity<Category> updateCategory(@PathVariable("id") Long categoryId,
             @RequestBody Category Category) {
         Category.setId(categoryId);

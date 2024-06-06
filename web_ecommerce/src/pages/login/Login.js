@@ -23,7 +23,7 @@ const Login = () => {
             const userData = response.data;
 
             // localStorage là 1 đối tượng trong js, dùng để lưu trữ thông tin dưới dạng cặp key, value
-            localStorage.setItem("currentUser", JSON.stringify({userData, loginType: 'normal' }));
+            localStorage.setItem("currentUser", JSON.stringify({id: userData?.id, loginType: 'normal' }));
             window.location.href = "/"
             console.log(userData);
         } catch (error) {
@@ -31,14 +31,15 @@ const Login = () => {
         }
     }
     // login google
-    const handleLoginSuccess = (credentialResponse) => {
+    const handleLoginGoogle = (credentialResponse) => {
         try {
-            const decoded = jwtDecode(credentialResponse.credential);
+            const decoded = jwtDecode(credentialResponse.credential); // giải mã jwt
             const userData = {
                 id: decoded.sub,
                 loginType: 'google'
             };
             localStorage.setItem('currentUser', JSON.stringify(userData));
+            window.location.reload();
             navigate("/");
         } catch (error) {
             console.error("Error JWT:", error);
@@ -69,7 +70,7 @@ const Login = () => {
                     </button>
                     <div className="social-button google" style={{ marginBottom: "2px" }}  >
                         <GoogleLogin
-                            onSuccess={handleLoginSuccess}
+                            onSuccess={handleLoginGoogle}
                             onError={(error) => console.log(error)}
                             useOneTap
                             style={{ width: '100%' }}

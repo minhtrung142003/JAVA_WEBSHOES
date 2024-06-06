@@ -22,7 +22,6 @@ const Dashboard = () => {
               <div className="small text-body-secondary"></div>
             </CCol>
           </CRow>
-          {/* content here */}
           <MainChart />
 
         </CCardBody>

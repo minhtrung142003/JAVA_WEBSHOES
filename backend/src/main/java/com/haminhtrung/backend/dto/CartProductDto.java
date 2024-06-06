@@ -1,7 +1,6 @@
 package com.haminhtrung.backend.dto;
 
 import com.haminhtrung.backend.entity.Color;
-
 import lombok.Getter;
 import lombok.Setter;
 

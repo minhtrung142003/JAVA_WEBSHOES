@@ -15,7 +15,13 @@ const DetailProduct = () => {
     const productId = queryParams.get("productId");
     const [colors, setColors] = useState([]);
     const [selectedColor, setSelectedColor] = useState(null);
-
+    const colorMap = {  // create colors filter click choose color
+        "xanh": "blue",
+        "Đỏ": "#FF0000",
+        "Vàng": "#FFFF00",
+        "Trắng": "#FFF8DC",
+        "Đen": "#000000"
+    };
     // hàm change color
     const handleColorChange = (color) => {
         setSelectedColor(color);
@@ -165,21 +171,27 @@ const DetailProduct = () => {
                                     <ul>
                                         {colors.map((color, index) => (
                                             <li key={index}
-                                                style={{ padding: '15px', border: '2px solid #333', marginRight: '10px', textAlign: 'center', transition: 'border-color 0.3s ease' }}
+                                                style={{ 
+                                                    padding: '15px', 
+                                                    border: '2px solid #333', 
+                                                    marginRight: '10px',
+                                                    textAlign: 'center',
+                                                    transition: 'border-color 0.3s ease',
+                                                    backgroundColor: selectedColor === color ? colorMap[color.name] : '' }}
                                                 onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#ff6b00')}
                                                 onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#333')}
                                                 className={selectedColor === color ? 'selected-color' : ''}
                                                 onClick={(e) => {
                                                     e.preventDefault();
                                                     handleColorChange(color)
-                                                }
-                                                }
+                                                }}
                                             >
                                                 <a href="#" style={{ color: '#333', textDecoration: 'none', fontWeight: 'bold' }}>{color?.name}</a>
                                             </li>
                                         ))}
                                     </ul>
                                 </div>
+
                                 <div className="product_variant quantity" style={{ marginTop: '-8px' }}>
                                     <label style={{ padding: "10px", float: "left" }}>Số lượng</label>
                                     <input

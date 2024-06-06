@@ -2,7 +2,6 @@ package com.haminhtrung.backend.service;
 
 import com.haminhtrung.backend.entity.Gallery;
 import java.util.List;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public interface GalleryService {

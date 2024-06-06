@@ -73,9 +73,9 @@ public class CartServiceImpl implements CartService {
     @Override
     public Cart addCart(Cart cart) {
         List<Cart> existingCarts = cartRepository.findAllByProductIdAndUserIdAndColorId(
-            cart.getProductId(),
-            cart.getUserId(),
-            cart.getColor().getId());
+                cart.getProductId(),
+                cart.getUserId(),
+                cart.getColor().getId());
         if (!existingCarts.isEmpty()) {
             Cart existingCart = existingCarts.get(0);
             existingCart.setQuantity(existingCart.getQuantity() + cart.getQuantity());

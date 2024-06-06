@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import './New.css';
-// import product1 from "../../assets/img/product/product5.jpg";
 import axios from 'axios';
 import baseURL from '../../api/BaseUrl';
 import { Link } from 'react-router-dom';
@@ -10,7 +9,7 @@ const New = () => {
     const [products, setProducts] = useState([]);
     const [currentCategory, setCurrentCategory] = useState("NIKE"); // ban đầu để là NIKE rồi filter theo 
 
-    // Gọi API để lấy danh sách sản phẩm theo category khi component được render hoặc khi category thay đổi
+    // Gọi API để lấy danh sách product theo category khi component render or khi category change
     useEffect(() => {
         axios.get(`${baseURL}products/category/${currentCategory}`)
             .then(response => {

@@ -5,10 +5,9 @@ import baseURL from '../../../api/BaseUrl';
 import { Link } from 'react-router-dom';
 import ImageProduct from '../ImageProduct';
 const Deals = () => {
-
     const [products, setProducts] = useState([]);
     const [currentCategory, setCurrentCategory] = useState("NIKE");
-    // Gọi API để lấy danh sách sản phẩm theo category khi component được render hoặc khi category thay đổi
+    // Gọi API để lấy danh sách product theo category khi component render hoặc khi category change
     useEffect(() => {
         axios.get(`${baseURL}products/category/${currentCategory}`)
             .then(response => {
@@ -56,6 +55,8 @@ const Deals = () => {
           }
         `}
             </style>
+            
+            {/* UI HERE */}
             <div className="product_area deals_product_style2" style={{ marginBottom: "-45px" }}>
                 <div className="container">
                     <div className="row">

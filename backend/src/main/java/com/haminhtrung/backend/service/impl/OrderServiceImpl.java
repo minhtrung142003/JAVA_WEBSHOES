@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.haminhtrung.backend.dto.OrderDto;
 import com.haminhtrung.backend.dto.OrderItemDto;
 import com.haminhtrung.backend.entity.Cart;
-import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Order;
 import com.haminhtrung.backend.entity.OrderItem;
 import com.haminhtrung.backend.entity.Product;
@@ -124,7 +123,6 @@ public class OrderServiceImpl implements OrderService {
             existingOrder.setDeliveredCarrierAt(updatedOrder.getDeliveredCarrierAt());
             existingOrder.setDeliveredCustomerAt(updatedOrder.getDeliveredCustomerAt());
             existingOrder.setCreatedAt(updatedOrder.getCreatedAt());
-            // You may need to handle items here
             return orderRepository.save(existingOrder);
         }
         return null;

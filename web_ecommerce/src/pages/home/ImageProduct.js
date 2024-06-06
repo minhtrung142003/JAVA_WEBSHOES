@@ -11,7 +11,6 @@ function ImageProduct({ id, name, tagName }) {
             .get(baseURL + `galleries/product/` + id)
             .then((response) => {
                 console.log("image", response.data);
-                // Xử lý dữ liệu trả về từ API
                 setImages(response.data);
             })
             .catch((error) => {

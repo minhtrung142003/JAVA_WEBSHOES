@@ -41,6 +41,10 @@ public class Cart {
     @JoinColumn(name = "color_id")
     private Color color;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "size_id")
+    private Size size;
+
     @Column(name = "quantity")
     private Integer quantity;
 

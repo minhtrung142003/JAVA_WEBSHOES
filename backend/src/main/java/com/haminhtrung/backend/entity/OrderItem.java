@@ -34,6 +34,10 @@ public class OrderItem {
     @JoinColumn(name = "color_id")
     private Color color;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "size_id")
+    private Size size;
+
     @Column(name = "price", columnDefinition = "numeric")
     private BigDecimal priceOrder;
 

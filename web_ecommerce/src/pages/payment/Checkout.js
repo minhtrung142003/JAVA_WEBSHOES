@@ -46,6 +46,7 @@ const Checkout = () => {
                         price: i?.productDTO?.price,
                         quantity: i?.quantity,
                         colorName: i?.color?.name,
+                        sizeName: i?.size?.name,
                     })),
                     listIdCart: listProduct?.map(i => i?.cartId),
                     totalPrice: listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0),
@@ -182,7 +183,6 @@ const Checkout = () => {
                                             </div>
                                             {paymentMethod === 'paypal' &&
                                                 (
-
                                                     <Paypal
                                                         payload={{
                                                             userId: currentUser?.id,
@@ -197,6 +197,7 @@ const Checkout = () => {
                                                                 price: i?.productDTO?.price,
                                                                 quantity: i?.quantity,
                                                                 colorName: i?.color?.name,
+                                                                sizeName: i?.size?.name,
                                                             })),
                                                             listIdCart: listProduct?.map(i => i?.cartId),
                                                             totalPrice: Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000),

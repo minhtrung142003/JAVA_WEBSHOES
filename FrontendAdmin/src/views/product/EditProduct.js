@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import MenuItem from '@mui/material/MenuItem'
 import { Image } from 'react-bootstrap'
 import axios from 'axios'
-import { getAllCategories, IMAGE_URL, editProduct, getProductById, getAllColors } from '../../api/apiService'
+import { getAllCategories, IMAGE_URL, editProduct, getProductById, getAllColors, getAllSizes } from '../../api/apiService'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +54,8 @@ const EditProduct = () => {
   const [errors, setErrors] = useState({});
   const [colors, setColors] = useState([]);
   const [selectedColor, setSelectedColor] = useState({});
+  const [sizes, setSizes] = useState([]);
+  const [selectedSize, setSelectedSize] = useState({});
   const navigate = useNavigate()
 
   const handleResetImages = () => {
@@ -74,6 +76,7 @@ const EditProduct = () => {
         setDescription(product.data.description)
         setShortDescription(product.data.shortDescription)
         setSelectedColor(product.data.colors)
+        setSelectedSize(product.data.sizes)
         setCategories(product.data.categories.map((category) => category.id))
         setTags(product.data.tags.map((category) => category.id))
         const categoryData = await getAllCategories('categories')
@@ -82,7 +85,8 @@ const EditProduct = () => {
         setTagAll(tagData.data)
         const colorData = await getAllColors('colors')
         setColors(colorData.data)
-        console.log(product.data.colors)
+        const sizeData = await getAllSizes('sizes')
+        setSizes(sizeData.data)
 
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -170,6 +174,10 @@ const EditProduct = () => {
       newErrors.colors = "Màu không được để trống.";
     }
 
+    if (!selectedSize.id) {
+      newErrors.sizes = "Kích thước không được để trống.";
+    }
+
     if (categories.length === 0) {
       newErrors.categories = "Bạn phải chọn ít nhất một danh mục.";
     }
@@ -194,6 +202,7 @@ const EditProduct = () => {
         description,
         shortDescription,
         colors: { id: selectedColor.id, name: selectedColor.name },
+        sizes: { id: selectedSize.id, name: selectedSize.name },
         categories: categories.map((c) => ({ id: c })),
         tags: tags.map((c) => ({ id: c })),
       }
@@ -246,7 +255,15 @@ const EditProduct = () => {
     const color = colors.find(c => c.id === selectedColorId);
     console.log('Selected color object:', color)
     setSelectedColor(color);
+  };
 
+   // edit sizes
+   const handleChangeSize = (event) => {
+    const selectedSizeId = event.target.value;
+    console.log(selectedSizeId);
+    const size = sizes.find(c => c.id === selectedSizeId);
+    console.log('Selected color object:', size)
+    setSelectedSize(size);
   };
 
   // handle choose file image
@@ -408,6 +425,29 @@ const EditProduct = () => {
                   ))}
                 </TextField>
               </Grid>
+
+              <Grid item xs={12}>
+                <Typography gutterBottom variant="subtitle1">
+                  Chọn kích thước sản phẩm
+                </Typography>
+                <TextField
+                  id="sizes"
+                  select
+                  value={selectedSize?.id ?? ''}
+                  onChange={handleChangeSize}
+                  variant="outlined"
+                  className={classes.txtInput}
+                  error={!!errors.sizes}
+                  helperText={errors.sizes}
+                >
+                  {sizes.map((size) => (
+                    <MenuItem key={size.id} value={size.id}>
+                      {size.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
 
               <Grid item xs={12}>
                 <Typography gutterBottom variant="subtitle1">

@@ -25,4 +25,5 @@ public class OrderItemDto {
     private Set<Tag> tags = new HashSet<>();
     private Set<Gallery> galleries  = new HashSet<>();
     private String colorName;
+    private String sizeName;
 }

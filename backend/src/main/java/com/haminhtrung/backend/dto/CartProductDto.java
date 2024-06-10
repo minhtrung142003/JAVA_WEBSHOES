@@ -1,6 +1,7 @@
 package com.haminhtrung.backend.dto;
 
 import com.haminhtrung.backend.entity.Color;
+import com.haminhtrung.backend.entity.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,4 +12,5 @@ public class CartProductDto {
     private Integer quantity;
     private ProductDTO productDTO;
     private Color color;
+    private Size size;
 }

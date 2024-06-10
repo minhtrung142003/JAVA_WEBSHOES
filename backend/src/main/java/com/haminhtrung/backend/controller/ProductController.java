@@ -91,6 +91,7 @@ public class ProductController {
         BeanUtils.copyProperties(product, productDTO);
         productDTO.setGalleries(product.getGalleries());
         productDTO.setColors(product.getColors());
+        productDTO.setSizes(product.getSizes());
         return productDTO;
     }
 
@@ -100,6 +101,7 @@ public class ProductController {
         BeanUtils.copyProperties(productDTO, product);
         product.setGalleries(productDTO.getGalleries());
         product.setColors(productDTO.getColors()); 
+        product.setSizes(productDTO.getSizes()); 
         return product;
     }
 

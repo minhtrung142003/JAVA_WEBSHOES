@@ -11,7 +11,7 @@ import com.haminhtrung.backend.entity.Cart;
 public interface CartRepository extends JpaRepository<Cart, Long> {
      Optional<Cart> findById(Long id);
 
-     List<Cart> findAllByProductIdAndUserIdAndColorId(Long productId, String userId, Long colorId);
+     List<Cart> findAllByProductIdAndUserIdAndColorIdAndSizeId(Long productId, String userId, Long colorId, Long sizeId);
      List<Cart> findByUserIdAndProductId(String userId, Long productId);
 
      List<Cart> findAllByUserId(String userId);

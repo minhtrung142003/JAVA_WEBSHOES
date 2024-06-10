@@ -85,6 +85,9 @@ function History() {
                                                   <td>
                                                   <p>{item?.colorName}</p>
                                                   </td>
+                                                  <td>
+                                                  <p>{item?.sizeName}</p>
+                                                  </td>
                                                     <td>
                                                         
                                                         Số lượng: {item?.quantity}

@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { getAllCategories, addProduct, getAllTags, getAllColors } from "../../api/apiService";
+import { getAllCategories, addProduct, getAllTags, getAllColors, getAllSizes } from "../../api/apiService";
 import MenuItem from "@mui/material/MenuItem";
 import { Image } from "react-bootstrap";
 import axios from "axios";
@@ -53,7 +53,8 @@ export default function Product() {
     const [errors, setErrors] = useState({});
     const [colors, setColors] = useState([]);
     const [selectedColor, setSelectedColor] = useState({});
-
+    const [sizes, setSizes] = useState([]);
+    const [selectedSize, setSelectedSize] = useState({});
   // reset image
   const handleResetImages = () => {
     setSelectedImages([]);
@@ -70,6 +71,8 @@ export default function Product() {
         setTagAll(tagData.data);
         const colorData = await getAllColors("colors");
         setColors(colorData.data);
+        const sizeData = await getAllSizes('sizes')
+        setSizes(sizeData.data)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -130,6 +133,9 @@ export default function Product() {
     if (!selectedColor.id) {
       newErrors.colors = "Màu không được để trống.";
     }
+    if (!selectedSize.id) {
+      newErrors.sizes = "Kích thước không được để trống.";
+    }
     
     if (categories.length === 0) {
       newErrors.categories = "Bạn phải chọn ít nhất một danh mục.";
@@ -156,6 +162,7 @@ export default function Product() {
         quantity,
         shortDescription,
         colors: { id: selectedColor.id, name: selectedColor.name },
+        sizes: { id: selectedSize.id, name: selectedSize.name },
         categories: categories.map((c) => ({ id: c })),
         tags: tags.map((c) => ({ id: c })),
       };
@@ -201,6 +208,13 @@ export default function Product() {
     const color = colors.find(c => c.id === selectedColorId);
     setSelectedColor(color);
   };
+
+    // add size
+    const handleChangeSize = (event) => {
+      const selectedSizeId = event.target.value;
+      const size = sizes.find(c => c.id === selectedSizeId);
+      setSelectedSize(size);
+    };
 
   // handle choose file images
   const handleFileChange = (event) => {
@@ -346,6 +360,28 @@ export default function Product() {
                   {colors.map((color) => (
                     <MenuItem key={color.id} value={color.id}>
                       {color.name}
+                    </MenuItem>
+                  ))}
+                </TextField>
+              </Grid>
+
+              <Grid item xs={12}>
+                <Typography gutterBottom variant="subtitle1">
+                  Chọn kích thước sản phẩm
+                </Typography>
+                <TextField
+                  id="sizes"
+                  select
+                  value={selectedSize.id}
+                  onChange={handleChangeSize}
+                  variant="outlined"
+                  className={classes.txtInput}
+                  error={!!errors.sizes}
+                  helperText={errors.sizes}
+                >
+                  {sizes.map((size) => (
+                    <MenuItem key={size.id} value={size.id}>
+                      {size.name}
                     </MenuItem>
                   ))}
                 </TextField>

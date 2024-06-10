@@ -13,14 +13,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Color {
+@Table(name = "sizes")
+public class Size {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "colors")
+    @OneToMany(mappedBy = "sizes")
     @JsonIgnore
     private Set<Product> products;
 }

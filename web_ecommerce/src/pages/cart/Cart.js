@@ -19,6 +19,7 @@ const Cart = () => {
                     cartId: item.cartId,
                     quantity: item.quantity,
                     color: item.color,
+                    size: item.size,
                 }))
             }));
         } catch (error) {
@@ -28,7 +29,7 @@ const Cart = () => {
     // hàm delete
     const handleDelete = async (value) => {
         try {
-            const data = await delCart(value?.cartId);
+            await delCart(value?.cartId);
             window.location.reload()
         } catch (error) {
 
@@ -117,6 +118,7 @@ const Cart = () => {
                                                                 <th className="product_thumb">Hình ảnh</th>
                                                                 <th className="product_name">Sản phẩm</th>
                                                                 <th className="product_color">màu</th>
+                                                                <th className="product_color">Kích thước</th>
                                                                 <th className="product-price">Giá</th>
                                                                 <th className="product_quantity">Số lượng</th>
                                                                 <th className="product_total">Tổng tiền</th>
@@ -132,6 +134,7 @@ const Cart = () => {
                                                                     </td>
                                                                     <td className="product_name"><a href={`/detailproduct?productId=${i.id}`}>{i?.title}</a></td>
                                                                     <td className="product_color"><a href="#">{i?.color?.name}</a></td>
+                                                                    <td className="product_size"><a href="#">{i?.size?.name}</a></td>
                                                                     <td className="product-price">{i?.price.toLocaleString()}</td>
                                                                     <td className="product_quantity"> <input min="1" max="5" value={i?.quantity} type="number" onChange={(e) => handleChangeQuantity(i, e.target.value)} /></td>
                                                                     <td className="product_total">{countPrice(i).toLocaleString()}</td>

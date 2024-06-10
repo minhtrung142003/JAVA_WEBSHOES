@@ -92,6 +92,7 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setGalleries(product.getGalleries());
         existingProduct.setTags(product.getTags());
         existingProduct.setColors(product.getColors());
+        existingProduct.setSizes(product.getSizes());
         Product updateProduct = productRepository.save(existingProduct);
         return updateProduct;
     }

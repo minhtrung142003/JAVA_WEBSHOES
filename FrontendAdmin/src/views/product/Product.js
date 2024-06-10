@@ -115,17 +115,16 @@ const Product = () => {
               <Table aria-label="simple table">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">Id:</TableCell>
+                    <TableCell width={260} align="center">Id:</TableCell>
                     <TableCell align="center">Tên sản phẩm</TableCell>
                     <TableCell align="center">Giá</TableCell>
                     <TableCell align="center">Giá gốc </TableCell>
-
                     <TableCell align="center">Số lượng </TableCell>
                     <TableCell align="center">Mô tả </TableCell>
                     <TableCell align="center">Ghi chú</TableCell>
                     <TableCell align="center">Hình ảnh</TableCell>
                     <TableCell align="center">Màu</TableCell>
-
+                    <TableCell align="center">Kích thước</TableCell>
                     <TableCell align="center">Danh mục</TableCell>
                     <TableCell align="center">Nhãn hiệu</TableCell>
                     <TableCell align="center">Cập nhật</TableCell>
@@ -141,10 +140,10 @@ const Product = () => {
                     let cateName = row?.categories?.map((i) => i?.categoryName)?.join(', ')
                     return (
                       <TableRow key={row.id}>
-                        <TableCell width={260} component="th" scope="row">
+                        <TableCell  component="th" scope="row">
                           {row.id}
                         </TableCell>
-                        <TableCell width={260} component="th" scope="row">
+                        <TableCell width={100} component="th" scope="row">
                           {row.title}
                         </TableCell>
 
@@ -155,14 +154,14 @@ const Product = () => {
                           <strong>{Number(row.discount).toLocaleString('vi-VN')}.VNĐ</strong>
                         </TableCell>
 
-                        <TableCell width={260} component="th" scope="row">
+                        <TableCell width={100} component="th" scope="row">
                           {row.quantity}
                         </TableCell>
-                        <TableCell width={260} component="th" scope="row">
+                        <TableCell width={360} component="th" scope="row">
                           {row.description}
                         </TableCell>
 
-                        <TableCell width={260} component="th" scope="row">
+                        <TableCell width={100} component="th" scope="row">
                           {row.shortDescription}
                         </TableCell>
 
@@ -177,8 +176,11 @@ const Product = () => {
                             )}
                           </div>
                         </TableCell>
-                        <TableCell width={260} component="th" scope="row">
+                        <TableCell width={100} component="th" scope="row">
                           {row.colors?.name}
+                        </TableCell>
+                        <TableCell width={100} component="th" scope="row">
+                          {row.sizes?.name}
                         </TableCell>
                         <TableCell width={100} align="center">
                           {cateName || ''}

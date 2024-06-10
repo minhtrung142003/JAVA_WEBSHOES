@@ -25,7 +25,7 @@ public class GalleryServiceImpl implements GalleryService {
 
     private ProductRepository productRepository;
 
-    private final String UPLOAD_DIR = "E:/WEB_SPRINGBOOT/JAVA_WEBSHOES/backend/src/main/resources/static/upload";
+    private final String UPLOAD_DIR = "E:/WEB_REACT_JavaSpring/JAVA_WEBSHOES/backend/src/main/resources/static/upload";
 
     // save 1 image
     @Override

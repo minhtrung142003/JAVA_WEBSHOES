@@ -13,6 +13,8 @@ const DetailProduct = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const productId = queryParams.get("productId");
+    const [sizes, setSizes] = useState([]);
+    const [selectedSize, setSelectedSize] = useState(null);
     const [colors, setColors] = useState([]);
     const [selectedColor, setSelectedColor] = useState(null);
     const colorMap = {  // create colors filter click choose color
@@ -25,6 +27,11 @@ const DetailProduct = () => {
     // hàm change color
     const handleColorChange = (color) => {
         setSelectedColor(color);
+    };
+
+    // hàm change size
+    const handleSizeChange = (size) => {
+        setSelectedSize(size);
     };
 
     // render UI
@@ -54,8 +61,20 @@ const DetailProduct = () => {
                 console.error("Error fetching colors:", error);
             }
         };
+
+        const fetchSizes = async () => {
+            try {
+                const response = await axios.get(`${baseURL}sizes`);
+                setSizes(response.data);
+            } catch (error) {
+                console.error("Error fetching sizes:", error);
+            }
+        };
+
         fetchColors();
+        fetchSizes();
     }, [productId, baseURL]);
+
 
     // hàm change quantity
     const handleChange = (e) => {
@@ -70,9 +89,9 @@ const DetailProduct = () => {
             quantity: value?.quantity,
             userId: currentUser?.id,
             color: selectedColor,
+            size: selectedSize,
         };
     };
-    console.log(selectedColor);
     // hàm addCart
     const handleAddToCard = async () => {
         try {
@@ -81,12 +100,12 @@ const DetailProduct = () => {
                 navigate("/login");
                 return;
             }
-            if (product.quantity > 0 && currentUser?.id && selectedColor) {
+            if (product.quantity > 0 && currentUser?.id && selectedColor && selectedSize) {
                 const response = await addCard(convertDataSubmit(product));
                 console.log(response);
                 alert("Thêm vào giỏ hàng thành công!");
             } else {
-                alert("Vui lòng chọn màu sản phẩm!");
+                alert("Bạn chưa chọn đủ thông tin!");
             }
         } catch (e) {
             console.log("Error adding card", e)
@@ -167,17 +186,17 @@ const DetailProduct = () => {
                                     <p>{product?.description} </p>
                                 </div>
                                 <div className="product_variant color" style={{ marginTop: '-20px' }}>
-                                    <h3 style={{ marginBottom: '10px' }}>Màu sắc</h3>
                                     <ul>
                                         {colors.map((color, index) => (
                                             <li key={index}
-                                                style={{ 
-                                                    padding: '15px', 
-                                                    border: '2px solid #333', 
-                                                    marginRight: '10px',
+                                                style={{
+                                                    padding: '15px',
+                                                    border: '2px solid #333',
+                                                    marginRight: '11px',
                                                     textAlign: 'center',
                                                     transition: 'border-color 0.3s ease',
-                                                    backgroundColor: selectedColor === color ? colorMap[color.name] : '' }}
+                                                    backgroundColor: selectedColor === color ? colorMap[color.name] : ''
+                                                }}
                                                 onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#ff6b00')}
                                                 onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#333')}
                                                 className={selectedColor === color ? 'selected-color' : ''}
@@ -187,6 +206,31 @@ const DetailProduct = () => {
                                                 }}
                                             >
                                                 <a href="#" style={{ color: '#333', textDecoration: 'none', fontWeight: 'bold' }}>{color?.name}</a>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+
+                                <div className="product_variant size" style={{ marginTop: '-10px' }}>
+                                    <ul>
+                                        {sizes.map((size, index) => (
+                                            <li key={index}
+                                                style={{ 
+                                                    padding: '21px', 
+                                                    border: '2px solid #333', 
+                                                    marginRight: '10px',
+                                                    textAlign: 'center',
+                                                    transition: 'border-color 0.3s ease',
+                                                    backgroundColor: selectedSize === size ? '#A9A9A9' : '' }}
+                                                onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#ff6b00')}
+                                                onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#333')}
+                                                className={selectedSize === size ? 'selected-size' : ''}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    handleSizeChange(size)
+                                                }}
+                                            >
+                                                <a href="#" style={{ color: '#333', textDecoration: 'none', fontWeight: 'bold' }}>{size?.name}</a>
                                             </li>
                                         ))}
                                     </ul>

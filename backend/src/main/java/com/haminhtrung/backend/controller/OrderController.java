@@ -10,6 +10,7 @@ import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Order;
 import com.haminhtrung.backend.entity.OrderItem;
 import com.haminhtrung.backend.entity.Product;
+import com.haminhtrung.backend.entity.Size;
 import com.haminhtrung.backend.service.OrderService;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,7 @@ public class OrderController {
                 OrderItemDto orderItemDto = new OrderItemDto();
                 Product product = orderItem.getProduct();
                 Color color = orderItem.getColor();
+                Size size = orderItem.getSize();
                 orderItemDto.setProductId(product.getId());
                 orderItemDto.setQuantity(orderItem.getQuantity());
                 orderItemDto.setPriceOrder(orderItem.getPriceOrder());
@@ -81,6 +83,7 @@ public class OrderController {
                 orderItemDto.setTags(product.getTags());
                 orderItemDto.setGalleries(product.getGalleries());
                 orderItemDto.setColorName(color.getName());            
+                orderItemDto.setSizeName(size.getName());            
                 orderItemDtos.add(orderItemDto);
             }
             orderDto.setOrderItemDto(orderItemDtos);

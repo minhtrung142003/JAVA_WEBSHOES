@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th6 04, 2024 lúc 04:14 PM
+-- Thời gian đã tạo: Th6 10, 2024 lúc 04:30 AM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.0.30
 
@@ -32,15 +32,16 @@ CREATE TABLE `carts` (
   `product_id` bigint(20) DEFAULT NULL,
   `quantity` int(11) DEFAULT NULL,
   `user_id` varchar(255) DEFAULT NULL,
-  `color_id` bigint(20) DEFAULT NULL
+  `color_id` bigint(20) DEFAULT NULL,
+  `size_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `carts`
 --
 
-INSERT INTO `carts` (`id`, `product_id`, `quantity`, `user_id`, `color_id`) VALUES
-(1255, 32, 1, '1', 5);
+INSERT INTO `carts` (`id`, `product_id`, `quantity`, `user_id`, `color_id`, `size_id`) VALUES
+(1255, 32, 1, '1', 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -57,7 +58,7 @@ CREATE TABLE `carts_seq` (
 --
 
 INSERT INTO `carts_seq` (`next_val`) VALUES
-(1351),
+(1451),
 (1701);
 
 -- --------------------------------------------------------
@@ -389,7 +390,8 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id`, `address`, `order_approved_at`, `created_at`, `order_delivered_carrier_date`, `order_delivered_customer_date`, `email`, `first_name`, `last_name`, `payment_method`, `phone`, `status`, `total_discount`, `total_price`, `user_id`, `user_name`) VALUES
 (505, 'asas', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', 'huy@gmail.com', 'Hiếu', 'Hà', 'shipcod', '0701216485', 'Chưa thanh toán', 0, 28000000, '1', 'Hà Minh Hiếu'),
 (552, 'Sài Gòn', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', 'hieu@gmail.com', 'Hiếu', 'Hà', 'shipcod', '0896402374', 'Chưa thanh toán', 0, 10500000, '1', 'Hà Minh Hiếu'),
-(553, 'Sài Gòn', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', 'tieuphu142003@gmail.com', 'trung', 'Hà', 'shipcod', '0896402374', 'Chưa thanh toán', 0, 22400000, '1', 'Huỳnh Phúc Tân');
+(553, 'Sài Gòn', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', '2024-06-04 00:00:00.000000', 'tieuphu142003@gmail.com', 'trung', 'Hà', 'shipcod', '0896402374', 'Chưa thanh toán', 0, 22400000, '1', 'Huỳnh Phúc Tân'),
+(602, 'Phú Yên', '2024-06-10 00:00:00.000000', '2024-06-10 00:00:00.000000', '2024-06-10 00:00:00.000000', '2024-06-10 00:00:00.000000', 'trung@gmail.com', 'trung', 'Hà', 'shipcod', '0234796489', 'Chưa thanh toán', 0, 5600000, '111571195230575799989', 'Hà Minh Hiếu');
 
 -- --------------------------------------------------------
 
@@ -406,7 +408,7 @@ CREATE TABLE `orders_seq` (
 --
 
 INSERT INTO `orders_seq` (`next_val`) VALUES
-(651),
+(701),
 (1901);
 
 -- --------------------------------------------------------
@@ -432,17 +434,19 @@ CREATE TABLE `order_items` (
   `quantity` int(11) DEFAULT NULL,
   `order_id` bigint(20) DEFAULT NULL,
   `product_id` bigint(20) DEFAULT NULL,
-  `color_id` bigint(20) DEFAULT NULL
+  `color_id` bigint(20) DEFAULT NULL,
+  `size_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `order_items`
 --
 
-INSERT INTO `order_items` (`id`, `price`, `quantity`, `order_id`, `product_id`, `color_id`) VALUES
-(405, NULL, 10, 505, 7, 2),
-(452, NULL, 3, 552, 30, 1),
-(453, NULL, 7, 553, 9, 1);
+INSERT INTO `order_items` (`id`, `price`, `quantity`, `order_id`, `product_id`, `color_id`, `size_id`) VALUES
+(405, NULL, 10, 505, 7, 2, NULL),
+(452, NULL, 3, 552, 30, 1, NULL),
+(453, NULL, 7, 553, 9, 1, NULL),
+(502, NULL, 2, 602, 7, 4, 3);
 
 -- --------------------------------------------------------
 
@@ -459,7 +463,7 @@ CREATE TABLE `order_items_seq` (
 --
 
 INSERT INTO `order_items_seq` (`next_val`) VALUES
-(551),
+(601),
 (1151);
 
 -- --------------------------------------------------------
@@ -506,59 +510,60 @@ CREATE TABLE `product` (
   `short_description` varchar(165) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `color_id` bigint(20) DEFAULT NULL,
-  `cart_id` bigint(20) DEFAULT NULL
+  `cart_id` bigint(20) DEFAULT NULL,
+  `size_id` bigint(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `product`
 --
 
-INSERT INTO `product` (`id`, `description`, `discount`, `price`, `quantity`, `short_description`, `title`, `color_id`, `cart_id`) VALUES
-(1, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa.', 8, 2800000, 10, 'Mã SP: FD2292 100', 'NIKE INTERACT RUN', 5, NULL),
-(2, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 2900000, 10, 'Mã SP: CD5432 121', 'NIKE AIR MAX EXCEE', 4, NULL),
-(3, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3200000, 10, 'Mã SP: DZ5993 001', 'NIKE PEGASUS 40', 5, NULL),
-(4, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3600000, 10, 'Mã SP: FD0736 003', 'NIKE V2K RUN', 4, NULL),
-(5, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3200000, 10, 'Mã SP: CT3839 100', 'NIKE AIR FORCE 1 BLACK SWOOSH', 2, NULL),
-(6, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3900000, 10, 'Mã SP: CZ0375 100', 'AIR FORCE 1 SHADOW', NULL, NULL),
-(7, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 2800000, 10, 'Mã SP: DC3432 125', 'TENNIS NIKECOURT VAPOR LITE HC', NULL, NULL),
-(8, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3600000, 10, 'Mã SP: DZ1847 100', 'NIKE AIR FORCE 1 SHADOW \'GUNDAM', NULL, NULL),
-(9, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3200000, 10, 'Mã SP: DV3853 001', 'NIKE AIR ZOOM PEGASUS 40', NULL, NULL),
-(10, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3600000, 10, 'Mã SP: FZ3650 053', 'NIKE STRUCTURE 25 PREMIUM', NULL, NULL),
-(11, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2200000, 5, 'Mã SP: IF4317', 'ADIDAS X_PLRPHASE', NULL, NULL),
-(12, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 1950000, 5, 'Mã SP: IF4317', 'ADIDAS CLIMAWARM BOUNCE \'BLACK\'', NULL, NULL),
-(13, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2200000, 5, 'Mã SP: HP7567', 'ADIDAS RUN FALCON 3.0', NULL, NULL),
-(14, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 1850000, 5, 'Mã SP:  IF4311', 'ADIDAS CLIMAWARM BOUNCE \'BLACK WHITE\'', NULL, NULL),
-(15, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2900000, 5, 'Mã SP:  ID0544', 'ADIDAS PROPHERE GREY', NULL, NULL),
-(16, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2900000, 5, 'Mã SP:  FZ6294', 'ADIDAS FORUM 84 LOW', NULL, NULL),
-(17, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2800000, 5, 'Mã SP:  IG8660', 'ADIDAS CAMPUS 00S', NULL, NULL),
-(18, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 1800000, 5, 'Mã SP:  IG7347', 'ADIDAS RACER TR23', NULL, NULL),
-(19, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2200000, 5, 'Mã SP:  IF5416', 'ADIDAS SUPERSTAR', NULL, NULL),
-(20, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2700000, 5, 'Mã SP:  IG8660', 'ADIDAS CAMPUS 00S', NULL, NULL),
-(21, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 4800000, 5, 'Mã SP: FN8903 111', 'AIR JORDAN 1 LOW \'JADE SMOKE\'', NULL, NULL),
-(22, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3200000, 5, 'Mã SP: FN8903 111', 'JORDAN 1 LOW NU RETRO', NULL, NULL),
-(23, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3500000, 5, 'Mã SP:  DV5141 102', 'JORDAN 1 LOW NU RETRO', NULL, NULL),
-(24, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3900000, 5, 'Mã SP: FB2269 106', 'JORDAN STADIUM 90', NULL, NULL),
-(25, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 4200000, 5, 'Mã SP: 553560 140', 'AIR JORDAN 1 LOW', NULL, NULL),
-(26, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 5800000, 5, 'Mã SP: 554725 078', 'JORDAN 1 MID LIGHT SMOKE GREY', NULL, NULL),
-(27, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 4200000, 5, 'Mã SP: FV3622 141', 'JORDAN 1 LOW SASHIKO', NULL, NULL),
-(28, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3600000, 5, 'Mã SP:  553560 515', 'JORDAN 1 LOW SKY J PURPLE', NULL, NULL),
-(29, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3600000, 5, 'Mã SP: FD9092 300', 'AIR JORDAN 1 LOW SE CRAFT', NULL, NULL),
-(30, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3500000, 5, 'Mã SP: AR1002 100 - AR1000 100', 'AIR JORDAN COURTSIDE 23', NULL, NULL),
-(31, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 20, 15000000, 5, 'Mã SP: EF2829', 'YEEZY BOOST 350 PIRATE BLACK', NULL, NULL),
-(32, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 20, 12000000, 5, 'Mã SP: EF2829', 'YEEZY BOOST 700 V2 STATIC', NULL, NULL),
-(33, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 20, 9000000, 5, 'Mã SP: FZ5240', 'YEEZY BOOST 350 V2 SAND TAUPE', NULL, NULL),
-(34, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 8000000, 5, 'Mã SP: GY4109', 'YEEZY BOOST 700 V3', NULL, NULL),
-(35, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 12000000, 5, 'Mã SP: GW1229', 'YEEZY BOOST 350 V2 BELUGA REFLECTIVE', NULL, NULL),
-(36, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 13000000, 5, 'Mã SP: BY1604', 'YEEZY BOOST 350 V2 OREO', NULL, NULL),
-(37, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 10000000, 5, 'Mã SP: GY7164', 'YEEZY BOOST 350 V2 DAZZLING BLUE', NULL, NULL),
-(38, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 8000000, 5, 'Mã SP: GZ8668', 'YEEZY BOOST 380', NULL, NULL),
-(39, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 9000000, 5, 'Mã SP: HQ4540', 'YEEZY BOOST 350 V2 ONYX', NULL, NULL),
-(40, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 20, 12000000, 5, 'Mã SP: CP9654', 'YEEZY BOOST 350 V2 ZEBRA', NULL, NULL),
-(41, 'Tại Kingshoes, chúng tôi cung cấp một bộ sưu tập phụ kiện giày đa dạng và chất lượng, giúp bạn bảo quản, nâng cao sự thoải mái và tăng thêm phong cách cho đôi giày của mình.', 5, 550000, 2, 'Mã SP: lót-giày-sport', 'CREP INSOLE SPORT | LÓT GIÀY THỂ THAO', NULL, NULL),
-(42, 'KING SHOES đơn vị cung cấp bộ vệ sinh giày CREP PROTECT CURE | Bộ kit vệ sinh giày là một bộ sản phẩm cao cấp làm sạch, chăm sóc và bảo vệ giày một cách TUYỆT VỜI - NHANH CHÓNG', 5, 490000, 2, 'Mã SP: Bộ-kit-vệ-sinh-giày', 'CREP CURE KIT | BỘ KIT VỆ SINH GIÀY', NULL, NULL),
-(43, 'KING SHOES đơn vị cung cấp bộ vệ sinh giày CREP MARK ON - Bút lông  là một bộ sản phẩm cao cấp làm sạch, chăm sóc và bảo vệ giày một cách TUYỆT VỜI', 5, 480000, 2, 'Mã SP: DAFW12', 'CREP MARK ON | BÚT TÔ ĐẾ GIÀY', NULL, NULL),
-(44, 'KING SHOES đơn vị cung cấp bộ vệ sinh giày CREP ERASER - Gôm tẩy vết bẩn là một bộ sản phẩm cao cấp làm sạch, chăm sóc và bảo vệ giày một cách TUYỆT VỜI', 5, 320, 2, 'Mã SP: Gôm-tẩy-vết-bẩn', 'CREP ERASER | GÔM TẨY VẾT BẨN', NULL, NULL),
-(45, 'Tại Kingshoes, chúng tôi cung cấp một bộ sưu tập phụ kiện giày đa dạng và chất lượng, giúp bạn bảo quản, nâng cao sự thoải mái và tăng thêm phong cách cho đôi giày của mình.', 5, 1250000, 2, 'Mã SP: Crep-Protect-Box-Pack', 'CREP PROTECT BOX PACK | BỘ KIT HỘP 4 Ô', NULL, NULL);
+INSERT INTO `product` (`id`, `description`, `discount`, `price`, `quantity`, `short_description`, `title`, `color_id`, `cart_id`, `size_id`) VALUES
+(1, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa.', 8, 2800000, 10, 'Mã SP: FD2292 100', 'NIKE INTERACT RUN', 5, NULL, 3),
+(2, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 2900000, 10, 'Mã SP: CD5432 121', 'NIKE AIR MAX EXCEE', 4, NULL, 4),
+(3, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3200000, 10, 'Mã SP: DZ5993 001', 'NIKE PEGASUS 40', 5, NULL, NULL),
+(4, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3600000, 10, 'Mã SP: FD0736 003', 'NIKE V2K RUN', 4, NULL, NULL),
+(5, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3200000, 10, 'Mã SP: CT3839 100', 'NIKE AIR FORCE 1 BLACK SWOOSH', 2, NULL, NULL),
+(6, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3900000, 10, 'Mã SP: CZ0375 100', 'AIR FORCE 1 SHADOW', NULL, NULL, NULL),
+(7, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 2800000, 10, 'Mã SP: DC3432 125', 'TENNIS NIKECOURT VAPOR LITE HC', NULL, NULL, NULL),
+(8, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3600000, 10, 'Mã SP: DZ1847 100', 'NIKE AIR FORCE 1 SHADOW \'GUNDAM', NULL, NULL, NULL),
+(9, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3200000, 10, 'Mã SP: DV3853 001', 'NIKE AIR ZOOM PEGASUS 40', NULL, NULL, NULL),
+(10, 'Sản phẩm giày Nike là biểu tượng của phong cách, sự thoải mái và hiệu suất. Với một lịch sử dày đặc trong ngành thể thao và thời trang, giày Nike không chỉ là một phần của trang phục mà còn là biểu tượng văn hóa. ', 10, 3600000, 10, 'Mã SP: FZ3650 053', 'NIKE STRUCTURE 25 PREMIUM', NULL, NULL, NULL),
+(11, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2200000, 5, 'Mã SP: IF4317', 'ADIDAS X_PLRPHASE', NULL, NULL, NULL),
+(12, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 1950000, 5, 'Mã SP: IF4317', 'ADIDAS CLIMAWARM BOUNCE \'BLACK\'', NULL, NULL, NULL),
+(13, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2200000, 5, 'Mã SP: HP7567', 'ADIDAS RUN FALCON 3.0', NULL, NULL, NULL),
+(14, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 1850000, 5, 'Mã SP:  IF4311', 'ADIDAS CLIMAWARM BOUNCE \'BLACK WHITE\'', NULL, NULL, NULL),
+(15, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2900000, 5, 'Mã SP:  ID0544', 'ADIDAS PROPHERE GREY', NULL, NULL, NULL),
+(16, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2900000, 5, 'Mã SP:  FZ6294', 'ADIDAS FORUM 84 LOW', NULL, NULL, NULL),
+(17, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2800000, 5, 'Mã SP:  IG8660', 'ADIDAS CAMPUS 00S', NULL, NULL, NULL),
+(18, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 1800000, 5, 'Mã SP:  IG7347', 'ADIDAS RACER TR23', NULL, NULL, NULL),
+(19, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2200000, 5, 'Mã SP:  IF5416', 'ADIDAS SUPERSTAR', NULL, NULL, NULL),
+(20, 'Giày Adidas là biểu tượng của phong cách và hiệu suất, kết hợp giữa thiết kế đẹp mắt và công nghệ tiên tiến.Giày Adidas không chỉ là một sản phẩm thời trang mà còn là sự lựa chọn hoàn hảo cho mọi hoạt động từ thể thao đến hàng ngày.', 20, 2700000, 5, 'Mã SP:  IG8660', 'ADIDAS CAMPUS 00S', NULL, NULL, NULL),
+(21, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 4800000, 5, 'Mã SP: FN8903 111', 'AIR JORDAN 1 LOW \'JADE SMOKE\'', NULL, NULL, NULL),
+(22, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3200000, 5, 'Mã SP: FN8903 111', 'JORDAN 1 LOW NU RETRO', NULL, NULL, NULL),
+(23, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3500000, 5, 'Mã SP:  DV5141 102', 'JORDAN 1 LOW NU RETRO', NULL, NULL, NULL),
+(24, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3900000, 5, 'Mã SP: FB2269 106', 'JORDAN STADIUM 90', NULL, NULL, NULL),
+(25, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 4200000, 5, 'Mã SP: 553560 140', 'AIR JORDAN 1 LOW', NULL, NULL, NULL),
+(26, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 5800000, 5, 'Mã SP: 554725 078', 'JORDAN 1 MID LIGHT SMOKE GREY', NULL, NULL, NULL),
+(27, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 4200000, 5, 'Mã SP: FV3622 141', 'JORDAN 1 LOW SASHIKO', NULL, NULL, NULL),
+(28, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3600000, 5, 'Mã SP:  553560 515', 'JORDAN 1 LOW SKY J PURPLE', NULL, NULL, NULL),
+(29, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3600000, 5, 'Mã SP: FD9092 300', 'AIR JORDAN 1 LOW SE CRAFT', NULL, NULL, NULL),
+(30, 'Giày Jordan không chỉ là một đôi giày, mà là biểu tượng của sự đam mê, phong cách và sự độc đáo. Giày Jordan không chỉ mang lại sự thoải mái và hỗ trợ cho mọi hoạt động thể thao mà còn là biểu tượng của phong cách đường phố và cái mới mẻ.', 20, 3500000, 5, 'Mã SP: AR1002 100 - AR1000 100', 'AIR JORDAN COURTSIDE 23', NULL, NULL, NULL),
+(31, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 20, 15000000, 5, 'Mã SP: EF2829', 'YEEZY BOOST 350 PIRATE BLACK', NULL, NULL, NULL),
+(32, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 20, 12000000, 5, 'Mã SP: EF2829', 'YEEZY BOOST 700 V2 STATIC', NULL, NULL, NULL),
+(33, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 20, 9000000, 5, 'Mã SP: FZ5240', 'YEEZY BOOST 350 V2 SAND TAUPE', NULL, NULL, NULL),
+(34, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 8000000, 5, 'Mã SP: GY4109', 'YEEZY BOOST 700 V3', NULL, NULL, NULL),
+(35, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 12000000, 5, 'Mã SP: GW1229', 'YEEZY BOOST 350 V2 BELUGA REFLECTIVE', NULL, NULL, NULL),
+(36, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 13000000, 5, 'Mã SP: BY1604', 'YEEZY BOOST 350 V2 OREO', NULL, NULL, NULL),
+(37, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 10000000, 5, 'Mã SP: GY7164', 'YEEZY BOOST 350 V2 DAZZLING BLUE', NULL, NULL, NULL),
+(38, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 8000000, 5, 'Mã SP: GZ8668', 'YEEZY BOOST 380', NULL, NULL, NULL),
+(39, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 15, 9000000, 5, 'Mã SP: HQ4540', 'YEEZY BOOST 350 V2 ONYX', NULL, NULL, NULL),
+(40, 'Giày YEEzy không chỉ là một sản phẩm thời trang, mà còn là biểu tượng của phong cách và sự cá nhân hóa. Với thiết kế độc đáo và hiện đại, giày YEEzy đem lại cảm giác thoải mái và phong cách cho người mặc.', 20, 12000000, 5, 'Mã SP: CP9654', 'YEEZY BOOST 350 V2 ZEBRA', NULL, NULL, NULL),
+(41, 'Tại Kingshoes, chúng tôi cung cấp một bộ sưu tập phụ kiện giày đa dạng và chất lượng, giúp bạn bảo quản, nâng cao sự thoải mái và tăng thêm phong cách cho đôi giày của mình.', 5, 550000, 2, 'Mã SP: lót-giày-sport', 'CREP INSOLE SPORT | LÓT GIÀY THỂ THAO', NULL, NULL, NULL),
+(42, 'KING SHOES đơn vị cung cấp bộ vệ sinh giày CREP PROTECT CURE | Bộ kit vệ sinh giày là một bộ sản phẩm cao cấp làm sạch, chăm sóc và bảo vệ giày một cách TUYỆT VỜI - NHANH CHÓNG', 5, 490000, 2, 'Mã SP: Bộ-kit-vệ-sinh-giày', 'CREP CURE KIT | BỘ KIT VỆ SINH GIÀY', NULL, NULL, NULL),
+(43, 'KING SHOES đơn vị cung cấp bộ vệ sinh giày CREP MARK ON - Bút lông  là một bộ sản phẩm cao cấp làm sạch, chăm sóc và bảo vệ giày một cách TUYỆT VỜI', 5, 480000, 2, 'Mã SP: DAFW12', 'CREP MARK ON | BÚT TÔ ĐẾ GIÀY', NULL, NULL, NULL),
+(44, 'KING SHOES đơn vị cung cấp bộ vệ sinh giày CREP ERASER - Gôm tẩy vết bẩn là một bộ sản phẩm cao cấp làm sạch, chăm sóc và bảo vệ giày một cách TUYỆT VỜI', 5, 320, 2, 'Mã SP: Gôm-tẩy-vết-bẩn', 'CREP ERASER | GÔM TẨY VẾT BẨN', NULL, NULL, NULL),
+(45, 'Tại Kingshoes, chúng tôi cung cấp một bộ sưu tập phụ kiện giày đa dạng và chất lượng, giúp bạn bảo quản, nâng cao sự thoải mái và tăng thêm phong cách cho đôi giày của mình.', 5, 1250000, 2, 'Mã SP: Crep-Protect-Box-Pack', 'CREP PROTECT BOX PACK | BỘ KIT HỘP 4 Ô', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -683,6 +688,45 @@ INSERT INTO `product_tags` (`product_id`, `tag_id`) VALUES
 (43, 1),
 (44, 2),
 (45, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `sizes`
+--
+
+CREATE TABLE `sizes` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `sizes`
+--
+
+INSERT INTO `sizes` (`id`, `name`) VALUES
+(1, '37'),
+(2, '38'),
+(3, '39'),
+(4, '40'),
+(5, '41');
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `sizes_seq`
+--
+
+CREATE TABLE `sizes_seq` (
+  `next_val` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `sizes_seq`
+--
+
+INSERT INTO `sizes_seq` (`next_val`) VALUES
+(101);
 
 -- --------------------------------------------------------
 
@@ -1195,7 +1239,21 @@ INSERT INTO `visitor` (`id`, `visit_date`, `visitor_count`) VALUES
 (429, '2024-06-04', 4),
 (430, '2024-06-04', 4),
 (431, '2024-06-04', 4),
-(432, '2024-06-04', 4);
+(432, '2024-06-04', 4),
+(433, '2024-06-10', 4),
+(434, '2024-06-10', 5),
+(435, '2024-06-10', 6),
+(436, '2024-06-10', 7),
+(437, '2024-06-10', 8),
+(438, '2024-06-10', 9),
+(439, '2024-06-10', 10),
+(440, '2024-06-10', 11),
+(441, '2024-06-10', 12),
+(442, '2024-06-10', 13),
+(443, '2024-06-10', 14),
+(444, '2024-06-10', 15),
+(445, '2024-06-10', 16),
+(446, '2024-06-10', 17);
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -1205,7 +1263,9 @@ INSERT INTO `visitor` (`id`, `visit_date`, `visitor_count`) VALUES
 -- Chỉ mục cho bảng `carts`
 --
 ALTER TABLE `carts`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FKabiusefg4pyfvhylukflf0a9n` (`color_id`),
+  ADD KEY `FKsmgakq64ai8l9b2igmgwfspb8` (`size_id`);
 
 --
 -- Chỉ mục cho bảng `category`
@@ -1254,7 +1314,8 @@ ALTER TABLE `order_items`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FKbioxgbv59vetrxe0ejfubep1w` (`order_id`),
   ADD KEY `FKlf6f9q956mt144wiv6p1yko16` (`product_id`),
-  ADD KEY `FKchffs58x14kwi90r55o0c5vub` (`color_id`);
+  ADD KEY `FKchffs58x14kwi90r55o0c5vub` (`color_id`),
+  ADD KEY `FK9t2qyxv7hnjv24ox49t7oyga2` (`size_id`);
 
 --
 -- Chỉ mục cho bảng `payment`
@@ -1268,7 +1329,8 @@ ALTER TABLE `payment`
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK7j8aci4xn0sahyhxk0fvqql6e` (`color_id`),
-  ADD KEY `FKcphshtyvovyumdtro57d7rndt` (`cart_id`);
+  ADD KEY `FKcphshtyvovyumdtro57d7rndt` (`cart_id`),
+  ADD KEY `FKo7berm1iw3swyrjasyt17ttup` (`size_id`);
 
 --
 -- Chỉ mục cho bảng `product_categories`
@@ -1283,6 +1345,12 @@ ALTER TABLE `product_categories`
 ALTER TABLE `product_tags`
   ADD PRIMARY KEY (`product_id`,`tag_id`),
   ADD KEY `FKpur2885qb9ae6fiquu77tcv1o` (`tag_id`);
+
+--
+-- Chỉ mục cho bảng `sizes`
+--
+ALTER TABLE `sizes`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Chỉ mục cho bảng `tags`
@@ -1310,7 +1378,7 @@ ALTER TABLE `visitor`
 -- AUTO_INCREMENT cho bảng `carts`
 --
 ALTER TABLE `carts`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1256;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1355;
 
 --
 -- AUTO_INCREMENT cho bảng `category`
@@ -1358,7 +1426,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT cho bảng `visitor`
 --
 ALTER TABLE `visitor`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=433;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=447;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
@@ -1368,7 +1436,8 @@ ALTER TABLE `visitor`
 -- Các ràng buộc cho bảng `carts`
 --
 ALTER TABLE `carts`
-  ADD CONSTRAINT `FKabiusefg4pyfvhylukflf0a9n` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`);
+  ADD CONSTRAINT `FKabiusefg4pyfvhylukflf0a9n` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`),
+  ADD CONSTRAINT `FKsmgakq64ai8l9b2igmgwfspb8` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`);
 
 --
 -- Các ràng buộc cho bảng `category`
@@ -1393,6 +1462,7 @@ ALTER TABLE `order_cart_items`
 -- Các ràng buộc cho bảng `order_items`
 --
 ALTER TABLE `order_items`
+  ADD CONSTRAINT `FK9t2qyxv7hnjv24ox49t7oyga2` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`),
   ADD CONSTRAINT `FKbioxgbv59vetrxe0ejfubep1w` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`),
   ADD CONSTRAINT `FKchffs58x14kwi90r55o0c5vub` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`),
   ADD CONSTRAINT `FKlf6f9q956mt144wiv6p1yko16` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`);
@@ -1402,7 +1472,8 @@ ALTER TABLE `order_items`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `FK7j8aci4xn0sahyhxk0fvqql6e` FOREIGN KEY (`color_id`) REFERENCES `color` (`id`),
-  ADD CONSTRAINT `FKcphshtyvovyumdtro57d7rndt` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`);
+  ADD CONSTRAINT `FKcphshtyvovyumdtro57d7rndt` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`id`),
+  ADD CONSTRAINT `FKo7berm1iw3swyrjasyt17ttup` FOREIGN KEY (`size_id`) REFERENCES `sizes` (`id`);
 
 --
 -- Các ràng buộc cho bảng `product_categories`

@@ -16,6 +16,7 @@ import com.haminhtrung.backend.repository.ColorRepository;
 import com.haminhtrung.backend.repository.OrderItemRepository;
 import com.haminhtrung.backend.repository.OrderRepository;
 import com.haminhtrung.backend.repository.ProductRepository;
+import com.haminhtrung.backend.repository.SizeRepository;
 import com.haminhtrung.backend.service.OrderService;
 import java.util.*;
 
@@ -36,6 +37,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ColorRepository colorRepository;
+
+    @Autowired
+    private SizeRepository sizeRepository;
 
     // get by id
     @Override
@@ -91,6 +95,7 @@ public class OrderServiceImpl implements OrderService {
                     orderItem.setOrder(savedOrder);
                     orderItem.setProduct(product);
                     orderItem.setColor(colorRepository.findByName(orderItemDto.getColorName()).orElse(null));
+                    orderItem.setSize(sizeRepository.findByName(orderItemDto.getSizeName()).orElse(null));
                     orderItem.setPriceOrder(orderItemDto.getPriceOrder());
                     orderItem.setQuantity(orderItemDto.getQuantity());
                     orderItemRepository.save(orderItem);

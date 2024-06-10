@@ -66,16 +66,18 @@ public class CartServiceImpl implements CartService {
         cartProductDto.setQuantity(cart.getQuantity());
         cartProductDto.setProductDTO(dtoMapper.getProductDTO(productService.getProductById(cart.getProductId())));
         cartProductDto.setColor(cart.getColor());
+        cartProductDto.setSize(cart.getSize());
         return cartProductDto;
     }
 
     // hàm add cart
     @Override
     public Cart addCart(Cart cart) {
-        List<Cart> existingCarts = cartRepository.findAllByProductIdAndUserIdAndColorId(
+        List<Cart> existingCarts = cartRepository.findAllByProductIdAndUserIdAndColorIdAndSizeId(
                 cart.getProductId(),
                 cart.getUserId(),
-                cart.getColor().getId());
+                cart.getColor().getId(),
+                cart.getSize().getId());
         if (!existingCarts.isEmpty()) {
             Cart existingCart = existingCarts.get(0);
             existingCart.setQuantity(existingCart.getQuantity() + cart.getQuantity());
@@ -105,6 +107,7 @@ public class CartServiceImpl implements CartService {
             existingCart.setProductId(updatedCart.getProductId());
             existingCart.setQuantity(updatedCart.getQuantity());
             existingCart.setColor(updatedCart.getColor());
+            existingCart.setSize(updatedCart.getSize());
             existingCart.setUserId(updatedCart.getUserId());
             return cartRepository.save(existingCart);
         }

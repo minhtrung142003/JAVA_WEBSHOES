@@ -132,3 +132,8 @@ export function getAllVisitors(endpoint) {
 export function getAllColors(endpoint) {
   return callApi(endpoint, "GET");
 }
+
+// size
+export function getAllSizes(endpoint) {
+  return callApi(endpoint, "GET");
+}

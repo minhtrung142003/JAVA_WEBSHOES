@@ -6,10 +6,11 @@ import { delCart, getListCart, updateQuanlityOrder } from './CartApi';
 const Cart = () => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser")); // để lấy thông tin user từ localstorage
     const [stateValue, setStateValue] = useState({}); // lưu trữ thông tin về ds sp trong cart
+    const [selectedItems, setSelectedItems] = useState([]);
     const navigate = useNavigate();
 
     // gửi yêu cầu đến api để lấy ra ds sp trong cart
-    const search = async () => {
+    const fetchCartItems  = async () => {
         try {
             const data = await getListCart(currentUser?.id);
             setStateValue((pre) => ({
@@ -38,9 +39,15 @@ const Cart = () => {
     // hàm payment
     const handlePayment = () => {
         if (!currentUser) {
-            navigate("/login")
+            navigate("/login");
         } else {
-            navigate("/checkout")
+            const itemsToPurchase = stateValue.listData.filter(item => selectedItems.includes(item.cartId));
+            if (itemsToPurchase.length > 0) {
+                localStorage.setItem("selectedItems", JSON.stringify(itemsToPurchase));
+                navigate("/checkout", { state: { items: itemsToPurchase } });
+            } else {
+                alert("Vui lòng chọn ít nhất một sản phẩm để mua.");
+            }
         }
     }
 
@@ -71,11 +78,23 @@ const Cart = () => {
         let itemEdit = newList.find(i => i?.cartId === rowData?.cartId);
         handleUpdateQiantity(itemEdit)
         setStateValue((pre) => ({ ...pre, listData: newList }))
+        
+    }
+
+    // handle click item product
+    const handleSelectItem = (cartId) => {
+        if (selectedItems.includes(cartId)) // check cartId đã có chưa
+        {
+            setSelectedItems(selectedItems.filter(id => id !== cartId));
+        } else {
+            setSelectedItems([...selectedItems, cartId]);
+        }
     }
 
     // hàm tính total price
     const countTotalPrice = (list = []) => {
-        return list?.reduce((sum, i) => (i?.price * i?.quantity) + sum, 0)
+        const selectedProducts = list.filter(item => selectedItems.includes(item.cartId));
+        return selectedProducts.reduce((sum, i) => (i?.price * i?.quantity) + sum, 0);
     }
 
     // hàm tính price
@@ -84,7 +103,7 @@ const Cart = () => {
     }
     // hàm render ra UI  
     useEffect(() => {
-        search();
+        fetchCartItems ();
         window.scrollTo(0, 0)
     }, [])
     {
@@ -114,6 +133,7 @@ const Cart = () => {
                                                     <table>
                                                         <thead>
                                                             <tr>
+                                                            <th className="product_click">Chọn sản phẩm</th>
                                                                 <th className="product_remove">Xoá</th>
                                                                 <th className="product_thumb">Hình ảnh</th>
                                                                 <th className="product_name">Sản phẩm</th>
@@ -127,6 +147,9 @@ const Cart = () => {
                                                         <tbody>
                                                             {stateValue?.listData?.map((i, x) => (
                                                                 <tr key={x}>
+                                                                    <td className="product_select">
+                                                                        <input type="checkbox" checked={selectedItems.includes(i.cartId)} onChange={() => handleSelectItem(i.cartId)} />
+                                                                    </td>
                                                                     <td className="product_remove"><a href="#"><i className="fa fa-trash-o" onClick={() => handleDelete(i)} ></i></a></td>
                                                                     <td className="product_thumb"><a href={`/detailproduct?productId=${i.id}`}>
                                                                         <img src={`http://localhost:8080/upload/${i?.galleries[0]?.imagePath}`} className="img-sm" alt={i?.title} />
@@ -136,7 +159,7 @@ const Cart = () => {
                                                                     <td className="product_color"><a href="#">{i?.color?.name}</a></td>
                                                                     <td className="product_size"><a href="#">{i?.size?.name}</a></td>
                                                                     <td className="product-price">{i?.price.toLocaleString()}</td>
-                                                                    <td className="product_quantity"> <input min="1" max="5" value={i?.quantity} type="number" onChange={(e) => handleChangeQuantity(i, e.target.value)} /></td>
+                                                                    <td className="product_quantity"> <input min="1" max="10" value={i?.quantity} type="number" onChange={(e) => handleChangeQuantity(i, e.target.value)} /></td>
                                                                     <td className="product_total">{countPrice(i).toLocaleString()}</td>
                                                                 </tr>
                                                             ))}

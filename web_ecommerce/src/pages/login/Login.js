@@ -39,15 +39,15 @@ const Login = () => {
                 loginType: 'google'
             };
             localStorage.setItem('currentUser', JSON.stringify(userData));
-            window.location.reload();
             navigate("/");
+            window.location.reload();
         } catch (error) {
             console.error("Error JWT:", error);
         }
     };
 
     return (
-        <GoogleOAuthProvider clientId="1052161616352-p77in4fnbvg90mfda2eipe7a33sjpo15.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId="1036911977171-blm1vqkfvn0p1ho7f34pkmut32dq1s70.apps.googleusercontent.com">
             <div className="login-container">
                 <h2>Đăng nhập</h2>
                 <form onSubmit={handleLogin}>

@@ -71,7 +71,7 @@ public class OrderController {
                 Color color = orderItem.getColor();
                 Size size = orderItem.getSize();
                 orderItemDto.setProductId(product.getId());
-                orderItemDto.setQuantity(orderItem.getQuantity());
+                orderItemDto.setQuantity(product.getQuantity());
                 orderItemDto.setPriceOrder(orderItem.getPriceOrder());
                 orderItemDto.setTitle(product.getTitle());
                 orderItemDto.setDescription(product.getDescription());
@@ -83,7 +83,8 @@ public class OrderController {
                 orderItemDto.setTags(product.getTags());
                 orderItemDto.setGalleries(product.getGalleries());
                 orderItemDto.setColorName(color.getName());            
-                orderItemDto.setSizeName(size.getName());            
+                orderItemDto.setSizeName(size.getName());      
+                orderItemDto.setProducts(product);       
                 orderItemDtos.add(orderItemDto);
             }
             orderDto.setOrderItemDto(orderItemDtos);

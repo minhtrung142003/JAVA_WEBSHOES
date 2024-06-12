@@ -43,7 +43,7 @@ const Checkout = () => {
                     email: state?.email,
                     orderItemDto: listProduct?.map(i => ({
                         productId: i?.productDTO?.id,
-                        price: i?.productDTO?.price,
+                        price: i?.productDTO.price * i?.quantity,
                         quantity: i?.quantity,
                         colorName: i?.color?.name,
                         sizeName: i?.size?.name,
@@ -58,10 +58,11 @@ const Checkout = () => {
                     approvedAt: convertToMidnight(new Date()),
                     status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán',
                 }
-                console.log("Payload before sending:", searchObj);
+
+                console.log("Payload before sending:", searchObj.totalPrice);
                 await addOrder(searchObj);
                 console.log(searchObj);
-                window.location.href = "/history"
+                // window.location.href = "/history"
 
             } catch (error) {
                 console.log(error);
@@ -75,7 +76,9 @@ const Checkout = () => {
     const getAllProduct = async () => {
         try {
             const data = await getListCart(currentUser?.id);
-            setListProduct(data?.data);
+            const selectedItems = JSON.parse(localStorage.getItem("selectedItems")) || [];
+            const filteredProducts = data?.data?.filter(item => selectedItems.some(selected => selected.cartId === item.cartId));
+            setListProduct(filteredProducts);
         } catch (error) {
             console.log(error);
         }
@@ -157,15 +160,15 @@ const Checkout = () => {
                                                     <tbody>
                                                         {listProduct.map((item, index) => (
                                                             <tr key={index}>
-                                                                <td>{item?.productDTO?.title}</td>
-                                                                <td>{item?.productDTO?.price}</td>
+                                                                <td>{item?.productDTO?.title.toLocaleString()} </td>
+                                                                <td>{(item?.productDTO.price * item?.quantity).toLocaleString()} </td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
                                                     <tfoot>
                                                         <tr className="order_total">
                                                             <th>Tổng tiền thanh toán:</th>
-                                                            <td><strong>{listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0)}</strong></td>
+                                                            <td><strong>{listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0).toLocaleString()} </strong></td>
                                                         </tr>
                                                     </tfoot>
                                                 </table>

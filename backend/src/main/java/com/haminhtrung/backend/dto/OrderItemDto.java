@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import com.haminhtrung.backend.entity.Category;
 import com.haminhtrung.backend.entity.Gallery;
+import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.entity.Tag;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,4 +27,5 @@ public class OrderItemDto {
     private Set<Gallery> galleries  = new HashSet<>();
     private String colorName;
     private String sizeName;
+    private Product products;
 }

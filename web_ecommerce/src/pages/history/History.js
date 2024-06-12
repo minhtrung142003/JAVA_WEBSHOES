@@ -78,8 +78,10 @@ function History() {
                                                         <img src={item?.galleries?.length && `http://localhost:8080/upload/${item?.galleries[0]?.imagePath}`} className="img-xs border" alt={item?.productName} />
                                                     </td>
                                                     <td>
-                                                        <p className="title mb-0">{item?.productName}</p>
-                                                        <var className="price text-muted"> {item?.price.toLocaleString()}đ</var>
+                                                  <p>{item?.title}</p>
+                                                  </td>
+                                                    <td>
+                                                        <var className="price text-muted"> {(item?.price * item?.quantity).toLocaleString()}đ</var>
                                                         
                                                     </td>
                                                   <td>

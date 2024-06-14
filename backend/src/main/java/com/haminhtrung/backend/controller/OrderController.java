@@ -3,6 +3,8 @@ package com.haminhtrung.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.haminhtrung.backend.dto.CartProductDto;
 import com.haminhtrung.backend.dto.OrderDto;
 import com.haminhtrung.backend.dto.OrderItemDto;
 import com.haminhtrung.backend.entity.Cart;
@@ -12,6 +14,7 @@ import com.haminhtrung.backend.entity.OrderItem;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.entity.Size;
 import com.haminhtrung.backend.service.OrderService;
+import com.haminhtrung.backend.service.CartService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private CartService cartService;
 
     // get all orders
     @GetMapping
@@ -46,6 +52,7 @@ public class OrderController {
     public ResponseEntity<List<OrderDto>> getOrdersByUserId(@PathVariable("userId") String userId) {
         List<Order> orders = orderService.getOrdersByUserId(userId);
         List<OrderDto> ordersDto = new ArrayList<>();
+
         for (Order order : orders) {
             OrderDto orderDto = new OrderDto();
             orderDto.setTotalPrice(order.getTotalPrice());
@@ -63,7 +70,7 @@ public class OrderController {
             orderDto.setCreatedAt(order.getCreatedAt());
             orderDto.setUserId(order.getUserId());
 
-            // lấy danh sách order and change thành DTO
+            // Convert OrderItem to OrderItemDto
             List<OrderItemDto> orderItemDtos = new ArrayList<>();
             for (OrderItem orderItem : order.getItems()) {
                 OrderItemDto orderItemDto = new OrderItemDto();
@@ -71,29 +78,32 @@ public class OrderController {
                 Color color = orderItem.getColor();
                 Size size = orderItem.getSize();
                 orderItemDto.setProductId(product.getId());
-                orderItemDto.setQuantity(product.getQuantity());
-                orderItemDto.setPriceOrder(orderItem.getPriceOrder());
+                orderItemDto.setQuantity(orderItem.getQuantity()); // Corrected line
                 orderItemDto.setTitle(product.getTitle());
                 orderItemDto.setDescription(product.getDescription());
                 orderItemDto.setDiscount(product.getDiscount());
-                orderItemDto.setQuantity(product.getQuantity());
                 orderItemDto.setPrice(product.getPrice());
                 orderItemDto.setShortDescription(product.getShortDescription());
                 orderItemDto.setCategories(product.getCategories());
                 orderItemDto.setTags(product.getTags());
                 orderItemDto.setGalleries(product.getGalleries());
-                orderItemDto.setColorName(color.getName());            
-                orderItemDto.setSizeName(size.getName());      
-                orderItemDto.setProducts(product);       
+                orderItemDto.setColorName(color.getName());
+                orderItemDto.setSizeName(size.getName());
                 orderItemDtos.add(orderItemDto);
             }
             orderDto.setOrderItemDto(orderItemDtos);
-            // get all id cart
+
+            // Get all id cart
             List<Long> listIdCart = new ArrayList<>();
             for (Cart cart : order.getCarts()) {
                 listIdCart.add(cart.getId());
             }
             orderDto.setListIdCart(listIdCart);
+
+            // Get CartProductDtos
+            List<CartProductDto> cartProductDtos = cartService.getAllProductsInCartByUserId(userId);
+            orderDto.setCartProductDtos(cartProductDtos);
+
             ordersDto.add(orderDto);
         }
         return ResponseEntity.ok(ordersDto);

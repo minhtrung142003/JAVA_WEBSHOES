@@ -57,19 +57,17 @@ const Checkout = () => {
                     deliveredCustomerAt: convertToMidnight(new Date()),
                     approvedAt: convertToMidnight(new Date()),
                     status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán',
-                }
-
-                console.log("Payload before sending:", searchObj.totalPrice);
+                }   
                 await addOrder(searchObj);
                 console.log(searchObj);
-                // window.location.href = "/history"
-
+                window.location.href = "/history"
             } catch (error) {
                 console.log(error);
             }
         } else {
             alert('Vui lòng nhập đầy đủ thông tin thanh toán');
         }
+        
     }
 
     // get all product cart
@@ -249,7 +247,6 @@ function convertToMidnight(dateTime) {
         const day = ('0' + dateTime.getDate()).slice(-2);
         return `${year}-${month}-${day}T00:00:00`;
     } else {
-        // Nếu không phải cả hai trường hợp trên, trả về null hoặc giá trị mặc định khác
         return null;
     }
 }

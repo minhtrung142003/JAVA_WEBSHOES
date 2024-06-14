@@ -16,17 +16,31 @@ import { getAllOrders, deleteOrderById } from '../../api/apiService'
 import TablePagination from '@mui/material/TablePagination'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { LiaEdit } from 'react-icons/lia'
+import { TextField } from '@mui/material'
 
 const Order = () => {
     const [orders, setOrders] = useState([])
     const [checkDeleteOrder, setCheckDeleteOrder] = useState(false)
+    const [filteredOrders, setFilteredOrders] = useState([]);
     const [page, setPage] = useState(0) // Thêm state cho trang hiện tại
     const [rowsPerPage, setRowsPerPage] = useState(5) // Thêm state cho số hàng trên mỗi trang
     const navigate = useNavigate()
     const [dataChanged, setDataChanged] = useState(false);
     useEffect(() => {
-        getAllOrders('orders').then((item) => setOrders(item.data))
+        getAllOrders('orders').then((item) => {
+            setOrders(item.data)
+            setFilteredOrders(item.data)
+        })
     }, [dataChanged, navigate])
+
+    // search
+    const handleSearchChange = (searchValue) => {
+        const filteredOrders = orders.filter(order =>
+            order.userName.toLowerCase().includes(searchValue.toLowerCase())
+        );
+        setFilteredOrders(filteredOrders);
+    };
+
 
     // update page when user change page
     const handleChangePage = (event, newPage) => {
@@ -54,6 +68,13 @@ const Order = () => {
     return (
         <div style={{ flexGrow: 1, marginTop: 20 }}>
             <div className="flex items-center gap-3 my-2 text-end">
+                <TextField
+                    label="Tìm kiếm đơn hàng"
+                    variant="outlined"
+                    size="small"
+                    onChange={(e) => handleSearchChange(e.target.value)} 
+
+                />
                 <Link to={`/Order/add-order`} style={{ textDecoration: 'none' }}>
                     <button
                         style={{
@@ -109,8 +130,8 @@ const Order = () => {
                                 </TableHead>
                                 <TableBody>
                                     {(rowsPerPage > 0
-                                        ? orders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        : orders
+                                        ? filteredOrders.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                        : filteredOrders
                                     ).map((row) => {
                                         return (
                                             <TableRow key={row.id}>

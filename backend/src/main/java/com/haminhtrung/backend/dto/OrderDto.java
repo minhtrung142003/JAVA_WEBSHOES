@@ -26,5 +26,6 @@ public class OrderDto {
     private String userId;
     private List<OrderItemDto> orderItemDto;
     private List<Long> listIdCart;
+    private List<CartProductDto> cartProductDtos;
 
 }

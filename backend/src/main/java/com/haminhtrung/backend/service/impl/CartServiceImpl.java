@@ -60,6 +60,7 @@ public class CartServiceImpl implements CartService {
         }
         return cartProductDtos;
     }
+    // Hàm chuyển đổi thông tin từ Cart sang CartProductDto
     CartProductDto cartProductDTO(Cart cart) {
         CartProductDto cartProductDto = new CartProductDto();
         cartProductDto.setCartId(cart.getId());

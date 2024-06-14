@@ -96,7 +96,6 @@ public class OrderServiceImpl implements OrderService {
                     orderItem.setProduct(product);
                     orderItem.setColor(colorRepository.findByName(orderItemDto.getColorName()).orElse(null));
                     orderItem.setSize(sizeRepository.findByName(orderItemDto.getSizeName()).orElse(null));
-                    orderItem.setPriceOrder(orderItemDto.getPriceOrder());
                     orderItem.setQuantity(orderItemDto.getQuantity());
                     orderItemRepository.save(orderItem);
                 }

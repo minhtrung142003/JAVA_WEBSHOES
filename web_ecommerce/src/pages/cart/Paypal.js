@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 const style = { "layout": "vertical" };
 // component con
 const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
+    console.log(payload);
     const [{ isPending, options }, dispatch] = usePayPalScriptReducer(); // quản lý trạng thái và update option khi currency change
     const navigate = useNavigate();
     useEffect(() => {
@@ -20,14 +21,13 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
             }
         });
     }, [currency, showSpinner]);
-
+    console.log('Payload here:', payload);
     // hanle add order
     const handleSaveOrder = async () => {
         try {
-            console.log('Payload being sent:', payload);
             const response = await addOrder(payload);
             console.log(response);
-            navigate("/");
+            // navigate("/");
         } catch (error) {
             console.error('Error saving order:', error);
         }
@@ -37,6 +37,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
         actions.order.capture().then(async (response) => {
             if (response.status === 'COMPLETED') {
                 await handleSaveOrder();
+                console.log(data);
             }
         })
     }
@@ -61,6 +62,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
 
 // component cha, nhận payload từ component checkout
 export default function Paypal({ amount, payload }) {
+    console.log(payload);
     return (
         <div style={{ maxWidth: "750px", minHeight: "200px" }}>
             <PayPalScriptProvider options={{ clientId: "AQ1YTvSyS7gwu2dJVeiQ8Ks3SFjtI3AH0mGhYLRTZMt0BzLgUQbCGT1vlPQKHGOHuCemDa7Zma-X46tq", components: "buttons", currency: "USD" }}>

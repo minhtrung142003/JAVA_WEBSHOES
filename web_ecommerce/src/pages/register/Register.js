@@ -94,30 +94,30 @@ const Register = () => {
                 <div className="form-group">
 
                     <input onChange={handleChange} type="text" id="fullname" name="fullname" placeholder="Họ và tên" />
-                    {errors.fullname && <p className="error">{errors.fullname}</p>}
+                    {errors.fullname && <p style={{color:'red'}} className="error">{errors.fullname}</p>}
                 </div>
                 <div className="form-group">
 
                     <input onChange={handleChange} type="email" id="email" name="email" placeholder="Email" />
-                    {errors.email && <p className="error">{errors.email}</p>}
+                    {errors.email && <p style={{color:'red'}} className="error">{errors.email}</p>}
                 </div>
                 <div className="form-group">
 
                     <input onChange={handleChange} type="text" id="phone_number" name="phone_number" placeholder="Số điện thoại" />
 
-                    {errors.phone_number && <p className="error">{errors.phone_number}</p>}
+                    {errors.phone_number && <p style={{color:'red'}} className="error">{errors.phone_number}</p>}
 
                 </div>
                 <div className="form-group">
 
                     <input onChange={handleChange} type="text" id="address" name="address" placeholder="Địa chỉ" />
 
-                    {errors.address && <p className="error">{errors.address}</p>}
+                    {errors.address && <p style={{color:'red'}} className="error">{errors.address}</p>}
                 </div>
                 <div className="form-group">
 
                     <input onChange={handleChange} type="password" id="password" name="password" placeholder="Mật khẩu" />
-                    {errors.password && <p className="error">{errors.password}</p>}
+                    {errors.password && <p  style={{color:'red'}}className="error">{errors.password}</p>}
                 </div>
                 <div className="form-group">
                     <button type="submit22">Đăng ký</button>

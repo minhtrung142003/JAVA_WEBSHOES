@@ -12,7 +12,7 @@ const Header = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const [stateValue, setStateValue] = useState({});
+    const [stateValue, setStateValue] = useState({ listData: [],});
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(currentUser !== null); // check thử đã login chưa
     const [isFocused, setIsFocused] = useState(false); // follow focus click
@@ -30,7 +30,7 @@ const Header = () => {
             return;
         }
         try {
-            const response = await axios.get(`http://localhost:8080/api/products/search?search=${searchTerm}`);
+            const response = await axios.get(`${baseURL}products/search?search=${searchTerm}`);
             window.location.href = `/search?searchTerm=${searchTerm}`;
             console.log(response);
             setSearchTerm('');
@@ -42,7 +42,7 @@ const Header = () => {
     // Fetch search results for dropdown
     const fetchSearchResults = async (term) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/products/search?search=${term}`);
+            const response = await axios.get(`${baseURL}products/search?search=${term}`);
             setSearchResults(response.data);
         } catch (error) {
             console.error('Error fetching search results:', error);
@@ -75,7 +75,9 @@ const Header = () => {
         try {
             const data = await getListCart(currentUser?.id);
             setStateValue((pre) => ({ ...pre, listData: data?.data }));
-        } catch (error) { }
+        } catch (error) { 
+            console.error("Error fetching cart items:", error);
+        }
     };
 
     // categories
@@ -99,7 +101,7 @@ const Header = () => {
         fetchCartUpdate();
         fetchCategories();
        
-    }, []);
+    }, [stateValue]);
     return (
         <>
             <header>

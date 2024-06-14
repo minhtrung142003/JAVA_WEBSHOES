@@ -240,7 +240,7 @@ const DetailProduct = () => {
                                     <label style={{ padding: "10px", float: "left" }}>Số lượng</label>
                                     <input
                                         min="1"
-                                        max="5"
+                                        max="10"
                                         value={product?.quantity}
                                         type="number"
                                         name="quantity"

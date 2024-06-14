@@ -105,7 +105,7 @@ const Cart = () => {
     useEffect(() => {
         fetchCartItems ();
         window.scrollTo(0, 0)
-    }, [])
+    }, [currentUser?.id])
     {
         return (
             <div>

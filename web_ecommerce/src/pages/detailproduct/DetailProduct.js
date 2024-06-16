@@ -3,9 +3,12 @@ import './DetailProduct.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import baseURL from '../../api/BaseUrl';
-import { addCard } from "./DetailApi";
+import Swal from 'sweetalert2';
+import { addToCart } from '../cart/cartSlice';
+import { useDispatch } from 'react-redux';
 
 const DetailProduct = () => {
+    const dispatch = useDispatch();
     const navigate = useNavigate();
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
     const [product, setProduct] = useState({});
@@ -17,7 +20,7 @@ const DetailProduct = () => {
     const [selectedSize, setSelectedSize] = useState(null);
     const [colors, setColors] = useState([]);
     const [selectedColor, setSelectedColor] = useState(null);
-    const colorMap = {  // create colors filter click choose color
+    const colorMap = {
         "xanh": "blue",
         "Đỏ": "#FF0000",
         "Vàng": "#FFFF00",
@@ -81,34 +84,47 @@ const DetailProduct = () => {
         let { name, value } = e.target;
         setProduct((pre) => ({ ...pre, [name]: value }));
     };
-
-    // prepare data product cho hàm addtocart
-    const convertDataSubmit = (value) => {
-        return {
-            productId: value?.id,
-            quantity: value?.quantity,
-            userId: currentUser?.id,
-            color: selectedColor,
-            size: selectedSize,
-        };
-    };
-    // hàm addCart
-    const handleAddToCard = async () => {
+    // Handle adding to cart
+    const handleAddToCart = async () => {
         try {
             if (!currentUser?.id) {
-                alert("Chưa có tài khoản đăng nhập!");
-                navigate("/login");
-                return;
+                return Swal.fire({
+                    title: "Bạn chưa đăng nhập!",
+                    text: "Bạn cần đăng nhập để thực hiện chức năng này!",
+                    icon: "info",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Đăng nhập"
+                }).then((response) => {
+                    if (response.isConfirmed) {
+                        navigate('/login')
+                    }
+                });
             }
+
             if (product.quantity > 0 && currentUser?.id && selectedColor && selectedSize) {
-                const response = await addCard(convertDataSubmit(product));
-                console.log(response);
-                alert("Thêm vào giỏ hàng thành công!");
+                const payload = {
+                    productId: product?.id,
+                    quantity: product?.quantity,
+                    userId: currentUser?.id,
+                    color: selectedColor,
+                    size: selectedSize,
+                };
+                await dispatch(addToCart(payload)); // Dispatch addToCart action
+                Swal.fire({
+                    title: 'Đã thêm vào giỏ hàng!',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 1000 // Đóng thông báo sau 2 giây
+                }).then(() => {
+                    // Có thể thực hiện các hành động khác sau khi thông báo đóng
+                });
             } else {
                 alert("Bạn chưa chọn đủ thông tin!");
             }
-        } catch (e) {
-            console.log("Error adding card", e)
+        } catch (error) {
+            console.log("Error adding to cart:", error);
         }
     };
 
@@ -215,13 +231,14 @@ const DetailProduct = () => {
                                     <ul>
                                         {sizes.map((size, index) => (
                                             <li key={index}
-                                                style={{ 
-                                                    padding: '21px', 
-                                                    border: '2px solid #333', 
+                                                style={{
+                                                    padding: '21px',
+                                                    border: '2px solid #333',
                                                     marginRight: '10px',
                                                     textAlign: 'center',
                                                     transition: 'border-color 0.3s ease',
-                                                    backgroundColor: selectedSize === size ? '#A9A9A9' : '' }}
+                                                    backgroundColor: selectedSize === size ? '#A9A9A9' : ''
+                                                }}
                                                 onMouseEnter={(e) => (e.currentTarget.style.borderColor = '#ff6b00')}
                                                 onMouseLeave={(e) => (e.currentTarget.style.borderColor = '#333')}
                                                 className={selectedSize === size ? 'selected-size' : ''}
@@ -248,7 +265,7 @@ const DetailProduct = () => {
                                         onChange={handleChange}
                                         style={{ width: 800, marginTop: "5px" }}
                                     />
-                                    <button className="button" style={{ marginTop: "5px" }} type="submit" onClick={(e) => { e.preventDefault(); handleAddToCard(); }}>Thêm vào giỏ hàng</button>
+                                    <button className="button" style={{ marginTop: "5px" }} type="submit" onClick={(e) => { e.preventDefault(); handleAddToCart(); }}>Thêm vào giỏ hàng</button>
                                 </div>
                             </form>
                         </div>

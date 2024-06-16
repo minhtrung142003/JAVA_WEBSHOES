@@ -67,6 +67,7 @@ const New = () => {
                                                         id={product.id}
                                                         name={product.title}
                                                         tagName={"moi"}
+                                                        loading = "lazy"
                                                     />
                                                 </Link>
                                                 <Link className="secondary_img" to={`/detailproduct?productId=${product.id}`}>
@@ -74,6 +75,7 @@ const New = () => {
                                                         id={product.id}
                                                         name={product.title}
                                                         tagName={"moi"}
+                                                        loading = "lazy"
                                                     />
                                                 </Link>
                                                 <div className="label_product">

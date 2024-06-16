@@ -29,6 +29,7 @@ function ImageProduct({ id, name, tagName }) {
                 alt={name}
                 className="showcase-img"
                 width={70}
+                loading = "lazy"
             />
         );
     }
@@ -39,6 +40,7 @@ function ImageProduct({ id, name, tagName }) {
                 alt={name}
                 className="showcase-img"
                 style={{ width: '300px', height: '300px' }}
+                loading = "lazy"
             />
         );
     }
@@ -50,6 +52,7 @@ function ImageProduct({ id, name, tagName }) {
                 alt={name}
                 className="showcase-img"
                 style={{ width: '300px', height: '300px' }}
+                loading = "lazy"
             />
         );
     }
@@ -62,6 +65,7 @@ function ImageProduct({ id, name, tagName }) {
                 alt={name}
                 className="showcase-img"
                 style={{ width: '300px', height: '300px' }}
+                loading = "lazy"
             />
         );
     }

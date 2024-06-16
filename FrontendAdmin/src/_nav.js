@@ -57,12 +57,7 @@ const _nav = [
     icon: <MdOutlineProductionQuantityLimits    customClassName="nav-icon" />,
   },
 
-  {
-    component: CNavItem,
-    name: 'Chi Tiết Đơn Hàng',
-    to: '/OrderItem/all-orderItem',
-    icon: <MdOutlineProductionQuantityLimits    customClassName="nav-icon" />,
-  },
+ 
 ]
 
 export default _nav

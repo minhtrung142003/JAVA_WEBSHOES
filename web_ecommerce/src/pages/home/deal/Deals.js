@@ -98,6 +98,7 @@ const Deals = () => {
                                                             id={product.id}
                                                             name={product.title}
                                                             tagName={"banchay"}
+                                                             loading = "lazy"
                                                         />
                                                     </Link>
                                                     <Link className="secondary_img" to={`/detailproduct?productId=${product.id}`}>
@@ -105,7 +106,7 @@ const Deals = () => {
                                                             id={product.id}
                                                             name={product.title}
                                                             tagName={"banchay"}
-
+                                                             loading = "lazy"
                                                         />
                                                     </Link>
                                                 </div>

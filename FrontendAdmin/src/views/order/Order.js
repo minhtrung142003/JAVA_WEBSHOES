@@ -17,7 +17,7 @@ import TablePagination from '@mui/material/TablePagination'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { LiaEdit } from 'react-icons/lia'
 import { TextField } from '@mui/material'
-
+import ReceiptIcon from '@mui/icons-material/Receipt';
 const Order = () => {
     const [orders, setOrders] = useState([])
     const [checkDeleteOrder, setCheckDeleteOrder] = useState(false)
@@ -124,6 +124,7 @@ const Order = () => {
                                         <TableCell >Địa chỉ: </TableCell>
                                         <TableCell >Tổng tiền: </TableCell>
                                         <TableCell >Trạng thái đặt hàng: </TableCell>
+                                        <TableCell >Chi tiết đơn hàng </TableCell>
                                         <TableCell align="center">Cập nhật</TableCell>
                                         <TableCell align="center">Xoá</TableCell>
                                     </TableRow>
@@ -164,8 +165,18 @@ const Order = () => {
                                                     {row.paymentMethod === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán'}
                                                 </TableCell>
 
-
-
+                                                <TableCell align="center">
+                                                    <Link to={`/OrderItem/all-orderItem/${row.id}`}>
+                                                        <Button
+                                                            size="small"
+                                                            variant="contained"
+                                                            color="primary"
+                                                            style={{ backgroundColor: '#66FF99', color: 'white', height: '40px' }}
+                                                        >
+                                                            <ReceiptIcon  size={20} />
+                                                        </Button>
+                                                    </Link>
+                                                </TableCell>
                                                 <TableCell align="center">
                                                     <Link to={`/Order/edit/order/${row.id}`}>
                                                         <Button

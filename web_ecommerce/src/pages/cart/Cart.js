@@ -3,12 +3,15 @@ import React, { useEffect, useState } from 'react';
 import "./Cart.css";
 import { useNavigate } from 'react-router-dom';
 import { delCart, getListCart, updateQuanlityOrder } from './CartApi';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFromCart } from './cartSlice';
 const Cart = () => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser")); // để lấy thông tin user từ localstorage
-    const [stateValue, setStateValue] = useState({}); // lưu trữ thông tin về ds sp trong cart
+    const [stateValue, setStateValue] = useState({ listData: [] });// lưu trữ thông tin về ds sp trong cart
     const [selectedItems, setSelectedItems] = useState([]);
     const navigate = useNavigate();
-
+    const dispatch = useDispatch();
+    const cartItems = useSelector(state => state.cart.cartItems);
     // gửi yêu cầu đến api để lấy ra ds sp trong cart
     const fetchCartItems  = async () => {
         try {
@@ -28,12 +31,18 @@ const Cart = () => {
         }
     }
     // hàm delete
-    const handleDelete = async (value) => {
+   const handleDelete = (itemToDelete) => {
         try {
-            await delCart(value?.cartId);
-            window.location.reload()
+            // Remove item from local state immediately
+            const updatedListData = stateValue.listData.filter(item => item.cartId !== itemToDelete.cartId);
+            setStateValue((prev) => ({
+                ...prev,
+                listData: updatedListData
+            }));
+            // Dispatch action to remove item from Redux store
+            dispatch(removeFromCart(itemToDelete.cartId));
         } catch (error) {
-
+            console.error("Error deleting item:", error);
         }
     }
     // hàm payment
@@ -52,34 +61,59 @@ const Cart = () => {
     }
 
     // hàm update quantity
-    const handleUpdateQiantity = async (itemEdit) => {
+    const handleUpdateQuantity = async (itemToUpdate, newQuantity) => {
         try {
-            let searchObj = {
+            const searchObj = {
                 userId: currentUser?.id,
-                productId: itemEdit?.id
-            }
-            let formData = new FormData();
-            formData.append("newQuantity", itemEdit?.quantity)
-            const data = await updateQuanlityOrder(searchObj, formData);
-
-            console.log(data)
+                productId: itemToUpdate?.id
+            };
+            
+            const formData = new FormData();
+            formData.append("newQuantity", newQuantity);
+    
+            const response = await updateQuanlityOrder(searchObj, formData);
+            console.log("Update quantity response:", response);
+    
+            // Update local state immediately
+            const updatedListData = stateValue.listData.map(item =>
+                item.cartId === itemToUpdate.cartId ? { ...item, quantity: newQuantity } : item
+            );
+            setStateValue((prev) => ({
+                ...prev,
+                listData: updatedListData
+            }));
         } catch (error) {
-            console.log(error)
+            console.error("Error updating quantity:", error);
+            if (error.response) {
+                console.error("Response data:", error.response.data);
+            }
         }
     }
+    
     // hàm khi user change quantity 
-    const handleChangeQuantity = (rowData, value) => {
-        const newList = stateValue.listData?.map(i => {
-            return {
-                ...i,
-                quantity: i?.cartId === rowData?.cartId ? value : i.quantity
-            }
-        })
-        let itemEdit = newList.find(i => i?.cartId === rowData?.cartId);
-        handleUpdateQiantity(itemEdit)
-        setStateValue((pre) => ({ ...pre, listData: newList }))
-        
+    const handleChangeQuantity = async (rowData, value) => {
+        try {
+            // Create a new list with updated quantity
+            const newList = stateValue.listData.map(item =>
+                item.cartId === rowData.cartId ? { ...item, quantity: value } : item
+            );
+    
+            // Find the item that was updated
+            const updatedItem = newList.find(item => item.cartId === rowData.cartId);
+    
+            // Update quantity through API
+            await handleUpdateQuantity(updatedItem, value);
+    
+            // Update local state with the new list
+            setStateValue(prev => ({
+                ...prev,
+                listData: newList
+            }));
+        } catch (error) {
+            console.error("Error handling quantity change:", error);
+        }
     }
+    
 
     // handle click item product
     const handleSelectItem = (cartId) => {
@@ -103,7 +137,7 @@ const Cart = () => {
     }
     // hàm render ra UI  
     useEffect(() => {
-        fetchCartItems ();
+        fetchCartItems();
         window.scrollTo(0, 0)
     }, [currentUser?.id])
     {

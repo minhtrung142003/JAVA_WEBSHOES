@@ -71,7 +71,7 @@ const App = () => {
           <Route path="/all-order" name="Tag" element={<Order />} />
           <Route path="/add-order" element={<AddOrder />} />
           <Route path="/edit/order/:id" element={<EditOrder />} />
-          <Route path="/all-orderItem" name="OrderItem" element={<OrderItem />} />
+          <Route path="/all-orderItem/:orderId" name="OrderItem" element={<OrderItem />} />
         </Routes>
       </Suspense>
     </HashRouter>

@@ -43,7 +43,7 @@ const routes = [
   { path: '/Order/add-order', name: 'Order', element: AddOrder },
   { path: '/Order/edit/order/:id', name: 'Order', element: EditOrder },
 
-  { path: '/OrderItem/all-orderItem', name: 'OrderItem', element: OrderItem },
+  { path: '/OrderItem/all-orderItem/:orderId', name: 'OrderItem', element: OrderItem },
   { path: '/OrderItem/add-orderItem', name: 'OrderItem', element: AddOrderItem },
 
 

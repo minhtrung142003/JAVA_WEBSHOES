@@ -48,6 +48,7 @@ const Phukien = () => {
                                                         id={product.id}
                                                         name={product.title}
                                                         tagName={"PHỤ KIỆN"}
+                                                         loading = "lazy"
                                                     />
                                                 </Link>
                                                 <div className="label_product">

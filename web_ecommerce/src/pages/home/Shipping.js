@@ -13,7 +13,7 @@ const Shipping = () => {
                     <div className="shipping_inner">
                         <div className="single_shipping">
                             <div className="shipping_icone">
-                                <img src={ship1} alt="" />
+                                <img src={ship1} alt=""  loading = "lazy"/>
                             </div>
                             <div className="shipping_content">
                                 <h4>Giao hàng miễn phí</h4>
@@ -23,7 +23,7 @@ const Shipping = () => {
                         </div>
                         <div className="single_shipping">
                             <div className="shipping_icone">
-                                <img src={ship2} alt="" />
+                                <img src={ship2} alt=""  loading = "lazy"/>
                             </div>
                             <div className="shipping_content">
                                 <h4>Giao hàng miễn phí</h4>
@@ -33,18 +33,7 @@ const Shipping = () => {
                         </div>
                         <div className="single_shipping">
                             <div className="shipping_icone">
-                                <img src={ship3} alt="" />
-                            </div>
-                            <div className="shipping_content">
-                                <h4>Giao hàng miễn phí</h4>
-                                <p>Đơn hàng từ 1 triệu đồng</p>
-
-
-                            </div>
-                        </div>
-                        <div className="single_shipping">
-                            <div className="shipping_icone">
-                                <img src={ship4} alt="" />
+                                <img src={ship3} alt=""  loading = "lazy"/>
                             </div>
                             <div className="shipping_content">
                                 <h4>Giao hàng miễn phí</h4>
@@ -55,7 +44,18 @@ const Shipping = () => {
                         </div>
                         <div className="single_shipping">
                             <div className="shipping_icone">
-                                <img src={ship5} alt="" />
+                                <img src={ship4} alt=""  loading = "lazy"/>
+                            </div>
+                            <div className="shipping_content">
+                                <h4>Giao hàng miễn phí</h4>
+                                <p>Đơn hàng từ 1 triệu đồng</p>
+
+
+                            </div>
+                        </div>
+                        <div className="single_shipping">
+                            <div className="shipping_icone">
+                                <img src={ship5} alt=""  loading = "lazy"/>
                             </div>
                             <div className="shipping_content">
                                 <h4>Giao hàng miễn phí</h4>

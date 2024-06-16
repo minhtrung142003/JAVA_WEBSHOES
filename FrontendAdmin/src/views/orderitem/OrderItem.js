@@ -11,12 +11,13 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getAllOrderItems, deleteOrderItemById } from '../../api/apiService'
 import TablePagination from '@mui/material/TablePagination'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { LiaEdit } from 'react-icons/lia'
 const OrderItem = () => {
+    const { orderId } = useParams();
     const [orderItems, setOrderItems] = useState([])
     const [checkDeleteOrderItem, setCheckDeleteOrderItem] = useState(false)
     const [page, setPage] = useState(0)
@@ -24,17 +25,11 @@ const OrderItem = () => {
     const navigate = useNavigate()
     const [dataChanged, setDataChanged] = useState(false);
     useEffect(() => {
-        getAllOrderItems('orderItems').then((item) => setOrderItems(item.data))
-    }, [dataChanged, navigate])
-
-    const RawHTML = (body, className) => (
-        <div
-            className={className}
-            dangerouslySetInnerHTML={{
-                __html: body ? body.replace(/\n/g, '<br />') : '',
-            }}
-        />
-    )
+        getAllOrderItems('orderItems').then((item) => {
+            const filteredOrderItems = item.data.filter((item) => item.order.id === parseInt(orderId));
+            setOrderItems(filteredOrderItems)
+        })
+    }, [dataChanged, navigate, orderId])
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage)

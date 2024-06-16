@@ -126,7 +126,7 @@ const Product = () => {
                     <TableCell align="center">Màu</TableCell>
                     <TableCell align="center">Kích thước</TableCell>
                     <TableCell align="center">Danh mục</TableCell>
-                    <TableCell align="center">Nhãn hiệu</TableCell>
+                    <TableCell align="center">Thương hiệu</TableCell>
                     <TableCell align="center">Cập nhật</TableCell>
                     <TableCell align="center">Xoá</TableCell>
                   </TableRow>

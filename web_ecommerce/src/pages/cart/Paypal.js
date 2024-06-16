@@ -27,7 +27,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
         try {
             const response = await addOrder(payload);
             console.log(response);
-            // navigate("/");
+            navigate("/");
         } catch (error) {
             console.error('Error saving order:', error);
         }

@@ -6,7 +6,10 @@ import baseURL from '../../api/BaseUrl';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 const Login = () => {
-    const [state, setState] = useState();
+    const [state, setState] = useState({
+        fullname: '',
+        password: ''
+    });
     const navigate = useNavigate();
 
     // handle input change
@@ -23,7 +26,16 @@ const Login = () => {
             const userData = response.data;
 
             // localStorage là 1 đối tượng trong js, dùng để lưu trữ thông tin dưới dạng cặp key, value
-            localStorage.setItem("currentUser", JSON.stringify({id: userData?.id, loginType: 'normal' }));
+            localStorage.setItem("currentUser", JSON.stringify({
+                id: userData?.id,
+                loginType: 'normal',
+                fullname: userData?.fullname,
+                email: userData?.email,
+                phone_number: userData?.phone_number,
+                address: userData?.address,
+                password: userData?.password
+            }));
+            
             window.location.href = "/"
             console.log(userData);
         } catch (error) {

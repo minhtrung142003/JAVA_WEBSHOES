@@ -6,10 +6,10 @@ import axios from 'axios';
 import baseURL from '../api/BaseUrl';
 import "./Header.css";
 import { useDispatch, useSelector } from 'react-redux';
-import { updateCartItems } from '../pages/cart/cartSlice';
+import { updateCartItems, resetCart } from '../pages/cart/cartSlice';
 const Header = () => {
     const dispatch = useDispatch();
-    const [isActive, setIsActive] = useState(false);
+    const [isActive, setIsActive] = useState(false); // active category 
     const [categories, setCategories] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -19,12 +19,12 @@ const Header = () => {
     const [isFocused, setIsFocused] = useState(false); // follow focus click
     const cartItemsCount = useSelector((state) => state.cart.cartItems.length);
 
-    // handle toogle
+    // change trạng thái hiển thị của category
     const handleToggle = () => {
         setIsActive(!isActive);
     };
 
-    // Hàm search
+    // Hàm search và chuyển hướng đến trang search
     const handleSearch = async (event) => {
         event.preventDefault();
         if (searchTerm.trim() === '') { // check seacrh != null
@@ -40,7 +40,7 @@ const Header = () => {
         }
     };
 
-    // Fetch search results for dropdown
+    // hàm bộ lọc search 
     const fetchSearchResults = async (term) => {
         try {
             const response = await axios.get(`${baseURL}products/search?search=${term}`);
@@ -50,7 +50,7 @@ const Header = () => {
         }
     };
 
-    // Handle search input change
+    // hàm search input change
     const handleSearchInputChange = (event) => {
         const value = event.target.value;
         setSearchTerm(value);
@@ -61,17 +61,17 @@ const Header = () => {
         }
     };
 
-    // Handle onFocus 
+    // hàm onFocus 
     const handleFocus = () => {
         setIsFocused(true);
     };
 
-    // Handle onBlur 
+    // hàm onBlur 
     const handleBlur = () => {
         setIsFocused(false);
     };
 
-    // categories
+    // get categories
     const fetchCategories = async () => {
         try {
             const response = await axios(baseURL + "categories");
@@ -84,10 +84,11 @@ const Header = () => {
     // logout
     const handleLogout = () => {
         localStorage.removeItem("currentUser");
+        dispatch(resetCart());
         window.location.href = "/login";
     };
 
-    // render component
+    // render component categories
     useEffect(() => {
         fetchCategories();
     }, []);

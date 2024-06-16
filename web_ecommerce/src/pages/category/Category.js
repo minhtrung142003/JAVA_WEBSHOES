@@ -162,7 +162,7 @@ function Category() {
                                                 </aside>
                                                 <div className="col-md-6">
                                                     <div className="info-main">
-                                                        <Link to={`/detailproduct?productId={i.id}`} className="h5 title">{i?.title}</Link>
+                                                        <Link to={`/detailproduct?productId=${i.id}`} className="h5 title">{i?.title}</Link>
                                                         <div className="rating-wrap mb-2">
                                                             <ul className="rating-stars">
                                                                 <li style={{ width: "100%" }} className="stars-active">

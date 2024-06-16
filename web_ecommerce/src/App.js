@@ -1,5 +1,3 @@
-
-import './App.css';
 import './assets/css/plugins.css'
 import './assets/css/style.css'
 import Header from './layouts/Header';

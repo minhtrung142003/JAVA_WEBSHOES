@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from 'react';
 import "./Cart.css";
 import { useNavigate } from 'react-router-dom';
-import { delCart, getListCart, updateQuanlityOrder } from './CartApi';
-import { useDispatch, useSelector } from 'react-redux';
+import { getListCart, updateQuanlityOrder } from './CartApi';
+import { useDispatch } from 'react-redux';
 import { removeFromCart } from './cartSlice';
 const Cart = () => {
     const currentUser = JSON.parse(localStorage.getItem("currentUser")); // để lấy thông tin user từ localstorage
@@ -11,9 +11,9 @@ const Cart = () => {
     const [selectedItems, setSelectedItems] = useState([]);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const cartItems = useSelector(state => state.cart.cartItems);
+    
     // gửi yêu cầu đến api để lấy ra ds sp trong cart
-    const fetchCartItems  = async () => {
+    const fetchCartItems = async () => {
         try {
             const data = await getListCart(currentUser?.id);
             setStateValue((pre) => ({
@@ -31,15 +31,13 @@ const Cart = () => {
         }
     }
     // hàm delete
-   const handleDelete = (itemToDelete) => {
+    const handleDelete = (itemToDelete) => {
         try {
-            // Remove item from local state immediately
             const updatedListData = stateValue.listData.filter(item => item.cartId !== itemToDelete.cartId);
             setStateValue((prev) => ({
                 ...prev,
                 listData: updatedListData
             }));
-            // Dispatch action to remove item from Redux store
             dispatch(removeFromCart(itemToDelete.cartId));
         } catch (error) {
             console.error("Error deleting item:", error);
@@ -67,14 +65,12 @@ const Cart = () => {
                 userId: currentUser?.id,
                 productId: itemToUpdate?.id
             };
-            
             const formData = new FormData();
             formData.append("newQuantity", newQuantity);
-    
+
             const response = await updateQuanlityOrder(searchObj, formData);
             console.log("Update quantity response:", response);
-    
-            // Update local state immediately
+
             const updatedListData = stateValue.listData.map(item =>
                 item.cartId === itemToUpdate.cartId ? { ...item, quantity: newQuantity } : item
             );
@@ -89,22 +85,15 @@ const Cart = () => {
             }
         }
     }
-    
+
     // hàm khi user change quantity 
     const handleChangeQuantity = async (rowData, value) => {
         try {
-            // Create a new list with updated quantity
             const newList = stateValue.listData.map(item =>
                 item.cartId === rowData.cartId ? { ...item, quantity: value } : item
             );
-    
-            // Find the item that was updated
             const updatedItem = newList.find(item => item.cartId === rowData.cartId);
-    
-            // Update quantity through API
             await handleUpdateQuantity(updatedItem, value);
-    
-            // Update local state with the new list
             setStateValue(prev => ({
                 ...prev,
                 listData: newList
@@ -113,7 +102,7 @@ const Cart = () => {
             console.error("Error handling quantity change:", error);
         }
     }
-    
+
 
     // handle click item product
     const handleSelectItem = (cartId) => {
@@ -167,7 +156,7 @@ const Cart = () => {
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                            <th className="product_click">Chọn sản phẩm</th>
+                                                                <th className="product_click">Chọn sản phẩm</th>
                                                                 <th className="product_remove">Xoá</th>
                                                                 <th className="product_thumb">Hình ảnh</th>
                                                                 <th className="product_name">Sản phẩm</th>

@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { addCard } from '../detailproduct/DetailApi';
 import { delCart, getListCart } from './CartApi';
 
-// Async thunk để thêm sản phẩm vào giỏ hàng
+// thêm sản phẩm vào giỏ hàng
 export const addToCart = createAsyncThunk(
   'cart/addToCart',
   async (payload, thunkAPI) => {
@@ -17,25 +17,25 @@ export const addToCart = createAsyncThunk(
   }
 );
 
-// Async thunk để xoá sản phẩm khỏi giỏ hàng
+//  xoá sản phẩm khỏi giỏ hàng
 export const removeFromCart = createAsyncThunk(
   'cart/removeFromCart',
   async (cartId, thunkAPI) => {
     try {
-      await delCart(cartId); // Gọi API để xoá sản phẩm
-      return cartId; // Trả về cartId của sản phẩm đã xoá để cập nhật state
+      await delCart(cartId); 
+      return cartId;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-// Async thunk để cập nhật giỏ hàng
+// cập nhật giỏ hàng
 export const updateCartItems = createAsyncThunk(
   'cart/updateCartItems',
   async (userId, thunkAPI) => {
     try {
-      const response = await getListCart(userId); // Gọi API để lấy danh sách giỏ hàng
+      const response = await getListCart(userId); 
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
@@ -44,7 +44,7 @@ export const updateCartItems = createAsyncThunk(
 );
 
 const initialState = {
-  cartItems: JSON.parse(localStorage.getItem('cart')) || [], // Lấy giỏ hàng từ localStorage
+  cartItems: JSON.parse(localStorage.getItem('cart')) || [], 
   status: 'idle',
   error: null,
 };
@@ -53,7 +53,10 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // Thêm reducers nếu cần thiết
+    resetCart(state) {
+      state.cartItems = [];
+      localStorage.setItem('cart', JSON.stringify([]));
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -74,7 +77,6 @@ const cartSlice = createSlice({
       })
       .addCase(removeFromCart.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        // Xoá sản phẩm khỏi giỏ hàng trong state
         state.cartItems = state.cartItems.filter(item => item.cartId !== action.payload);
         localStorage.setItem('cart', JSON.stringify(state.cartItems));
       })
@@ -87,7 +89,7 @@ const cartSlice = createSlice({
       })
       .addCase(updateCartItems.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.cartItems = action.payload; // Cập nhật lại giỏ hàng với dữ liệu mới từ API
+        state.cartItems = action.payload; 
         localStorage.setItem('cart', JSON.stringify(state.cartItems));
       })
       .addCase(updateCartItems.rejected, (state, action) => {
@@ -98,4 +100,4 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { } = cartSlice.actions;
+export const {resetCart} = cartSlice.actions;

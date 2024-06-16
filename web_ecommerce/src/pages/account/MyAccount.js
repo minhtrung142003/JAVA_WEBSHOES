@@ -1,12 +1,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { resetCart } from '../cart/cartSlice';
+import { useDispatch } from 'react-redux';
 
 const MyAccount = () => {
     const [userInfo, setUserInfo] = useState([]);
-
+    const [passwordError, setPasswordError] = useState('');
+    const [passwordChange, setPasswordChange] = useState(false);
+    const dispatch = useDispatch();
     // lấy thông tin user từ localstorage
     useEffect(() => {
-        const user = JSON.parse(localStorage.getItem("currentUser")); 
+        const user = JSON.parse(localStorage.getItem("currentUser"));
         console.log(user);
         if (user) {
             setUserInfo({
@@ -15,25 +19,45 @@ const MyAccount = () => {
                 email: user.email,
                 phone_number: user.phone_number,
                 address: user.address,
-                password: user.password
+                password: user.password,
+                confirmPassword: user.confirmPassword
             });
-        console.log(user);
+            console.log(user);
         }
     }, []);
+
     // hàm input change thông tin user
     const handleChange = async (e) => {
         let { name, value } = e.target;
         setUserInfo((pre) => ({ ...pre, [name]: value }));
+        if (name === 'password') {
+            setPasswordChange(true);
+        }
+    }
+
+    const validatePasswords = () => {
+        if (passwordChange && userInfo.password !== userInfo.confirmPassword) {
+            setPasswordError("Mật khẩu không trùng khớp");
+            return false;
+        }
+        else {
+            setPasswordError("");
+            return true;
+        }
     }
 
     // hàm update
     const handleUpdate = async (e) => {
         e.preventDefault();
+        if (passwordChange && !validatePasswords()) {
+            return;
+        }
         try {
             const updatedUser = { ...userInfo };
             const response = await axios.put(`http://localhost:8080/api/users/${userInfo.id}`, updatedUser);
+            console.log(response);
             alert("Thông tin của bạn đã được cập nhật thành công!");
-            localStorage.setItem("currentUser", JSON.stringify(response.data));   // Cập nhật lại localStorage 
+            localStorage.setItem("currentUser", JSON.stringify(updatedUser));
         } catch (error) {
             alert("Cập nhật thông tin thất bại, vui lòng thử lại!");
         }
@@ -42,6 +66,7 @@ const MyAccount = () => {
     // logout
     const handleLogout = () => {
         localStorage.removeItem("currentUser");
+        dispatch(resetCart());
         window.location.href = "/login";
     };
     return (
@@ -68,7 +93,7 @@ const MyAccount = () => {
                                 <div className="col-sm-12 col-md-3 col-lg-3">
                                     <div className="dashboard_tab_button">
                                         <ul role="tablist" className="nav flex-column dashboard-list">
-                                            <li><a href="#account-details" data-bs-toggle="tab" className="nav-link">Thông Tin Cá Nhân</a></li>
+                                            <li><a href="#" data-bs-toggle="tab" className="nav-link">Thông Tin Cá Nhân</a></li>
                                             <div onClick={handleLogout}>
                                                 <li><a href="#" className="nav-link">Đăng xuất</a></li>
                                             </div>
@@ -92,9 +117,12 @@ const MyAccount = () => {
                                                             <input type="text" name="phone_number" value={userInfo.phone_number} onChange={handleChange} />
                                                             <label style={{ display: 'flex' }}>Địa chỉ</label>
                                                             <input type="text" name="address" value={userInfo.address} onChange={handleChange} />
-                                                            <label style={{ display: 'flex' }} value={userInfo.password} onChange={handleChange}>Mật khẩu</label>
-                                                            <input type="password" name="password" />
-                                                            <span className="custom_checkbox">
+                                                            <label style={{ display: 'flex' }} >Thay đổi mật khẩu</label>
+                                                            <input type="password" name="password" onChange={handleChange} />
+                                                            <label style={{ display: 'flex' }} >Xác nhận mật khẩu</label>
+                                                            <input type="password" name="confirmPassword" onChange={handleChange} style={{marginBottom:'-1px',}} />
+                                                            {passwordError && <span className='error' style={{color:'red'}} >{passwordError}</span>}
+                                                            <span className="custom_checkbox" style={{marginTop:'10px'}}>
                                                                 <input type="checkbox" value="1" name="optin" style={{ marginTop: '-3px' }} />
                                                                 <label>Nhận ưu đãi từ các đối tác của chúng tôi</label>
                                                             </span>

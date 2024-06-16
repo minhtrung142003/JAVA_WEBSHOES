@@ -258,10 +258,9 @@ const DetailProduct = () => {
                                     <input
                                         min="1"
                                         max="10"
-                                        value={product?.quantity}
+                                        value={product.quantity}
                                         type="number"
-                                        name="quantity"
-                                        defaultValue="1"
+                                        name="quantity"         
                                         onChange={handleChange}
                                         style={{ width: 800, marginTop: "5px" }}
                                     />

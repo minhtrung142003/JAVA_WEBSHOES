@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import "./Register.css"; 
+import "./Register.css";
 import axios from 'axios';
 import baseURL from '../../api/BaseUrl';
 const Register = () => {
-    const [state, setState] = useState({  
+    const [state, setState] = useState({
         fullname: '',
         email: '',
         phone_number: '',
         address: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
 
     // khởi tạo validation
@@ -18,11 +19,12 @@ const Register = () => {
         email: '',
         phone_number: '',
         address: '',
-        password: ''
+        password: '',
+        confirmPassword: ''
     });
 
     // hàm input change
-    const handleChange = (e) => { 
+    const handleChange = (e) => {
         let { name, value } = e.target;
         setState((pre) => ({ ...pre, [name]: value }));
     }
@@ -43,7 +45,7 @@ const Register = () => {
         if (!state.email) {
             newErrors.email = "Vui lòng nhập email.";
             isValid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(state.email)) {
+        } else if (!/^[^\s@]+@[^\s@]+\.[a-zA-Z]{3}$/.test(state.email)) {
             newErrors.email = "Email không hợp lệ.";
             isValid = false;
         }
@@ -66,6 +68,13 @@ const Register = () => {
 
         if (!state.password) {
             newErrors.password = "Vui lòng nhập mật khẩu.";
+            isValid = false;
+        }
+        if (!state.confirmPassword) {
+            newErrors.confirmPassword = "Vui lòng xác nhận mật khẩu.";
+            isValid = false;
+        } else if(state.confirmPassword !== state.password) {
+            newErrors.confirmPassword = "Mật khẩu xác nhận không khớp.";
             isValid = false;
         }
         setErrors(newErrors);
@@ -94,30 +103,28 @@ const Register = () => {
                 <div className="form-group">
 
                     <input onChange={handleChange} type="text" id="fullname" name="fullname" placeholder="Họ và tên" />
-                    {errors.fullname && <p style={{color:'red'}} className="error">{errors.fullname}</p>}
+                    {errors.fullname && <p style={{ color: 'red' }} className="error">{errors.fullname}</p>}
                 </div>
                 <div className="form-group">
-
                     <input onChange={handleChange} type="email" id="email" name="email" placeholder="Email" />
-                    {errors.email && <p style={{color:'red'}} className="error">{errors.email}</p>}
+                    {errors.email && <p style={{ color: 'red' }} className="error">{errors.email}</p>}
                 </div>
                 <div className="form-group">
-
                     <input onChange={handleChange} type="text" id="phone_number" name="phone_number" placeholder="Số điện thoại" />
-
-                    {errors.phone_number && <p style={{color:'red'}} className="error">{errors.phone_number}</p>}
+                    {errors.phone_number && <p style={{ color: 'red' }} className="error">{errors.phone_number}</p>}
 
                 </div>
                 <div className="form-group">
-
                     <input onChange={handleChange} type="text" id="address" name="address" placeholder="Địa chỉ" />
-
-                    {errors.address && <p style={{color:'red'}} className="error">{errors.address}</p>}
+                    {errors.address && <p style={{ color: 'red' }} className="error">{errors.address}</p>}
                 </div>
                 <div className="form-group">
-
                     <input onChange={handleChange} type="password" id="password" name="password" placeholder="Mật khẩu" />
-                    {errors.password && <p  style={{color:'red'}}className="error">{errors.password}</p>}
+                    {errors.password && <p style={{ color: 'red' }} className="error">{errors.password}</p>}
+                </div>
+                <div className="form-group">
+                    <input onChange={handleChange} type="password" id="confirmPassword" name="confirmPassword" placeholder="Xác nhận mật khẩu" />
+                    {errors.confirmPassword && <p style={{ color: 'red' }} className="error">{errors.confirmPassword}</p>}
                 </div>
                 <div className="form-group">
                     <button type="submit22">Đăng ký</button>

@@ -1,6 +1,8 @@
 package com.haminhtrung.backend.service;
 
 import java.util.List;
+
+import com.haminhtrung.backend.dto.OrderItemDto;
 import com.haminhtrung.backend.entity.OrderItem;
 
 public interface OrderItemService {
@@ -14,5 +16,5 @@ public interface OrderItemService {
 
     void deleteOrderItem(Long orderItemId);
 
-    List<OrderItem> getOrderItemsByOrderId(Long orderId);
+    List<OrderItemDto> getOrderItemsByOrderId(Long orderId);
 }

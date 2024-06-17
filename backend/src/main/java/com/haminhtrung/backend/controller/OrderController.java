@@ -55,6 +55,7 @@ public class OrderController {
 
         for (Order order : orders) {
             OrderDto orderDto = new OrderDto();
+            orderDto.setId(order.getId());
             orderDto.setTotalPrice(order.getTotalPrice());
             orderDto.setUserName(order.getUserName());
             orderDto.setAddress(order.getAddress());
@@ -77,6 +78,7 @@ public class OrderController {
                 Product product = orderItem.getProduct();
                 Color color = orderItem.getColor();
                 Size size = orderItem.getSize();
+                
                 orderItemDto.setProductId(product.getId());
                 orderItemDto.setQuantity(orderItem.getQuantity()); // Corrected line
                 orderItemDto.setTitle(product.getTitle());

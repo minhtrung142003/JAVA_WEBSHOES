@@ -80,6 +80,7 @@ public class OrderServiceImpl implements OrderService {
         order.setDeliveredCustomerAt(orderDto.getDeliveredCustomerAt());
         order.setCreatedAt(orderDto.getCreatedAt());
         order.setUserId(orderDto.getUserId());
+        order.setStatus(orderDto.getStatus());
 
         // add status theo method payment
         String paymentMethod = orderDto.getPaymentMethod();
@@ -114,7 +115,6 @@ public class OrderServiceImpl implements OrderService {
         Order existingOrder = orderRepository.findById(orderId).orElse(null);
 
         if (existingOrder != null) {
-            existingOrder.setUserId(updatedOrder.getUserId());
             existingOrder.setFirstName(updatedOrder.getFirstName());
             existingOrder.setLastName(updatedOrder.getLastName());
             existingOrder.setUserName(updatedOrder.getUserName());

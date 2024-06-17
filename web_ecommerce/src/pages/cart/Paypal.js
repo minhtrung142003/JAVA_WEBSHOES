@@ -1,11 +1,13 @@
 import {
     PayPalScriptProvider,
-    PayPalButtons, 
+    PayPalButtons,
     usePayPalScriptReducer
 } from "@paypal/react-paypal-js";
 import { useEffect } from "react";
 import { addOrder } from "./CartApi";
 import { useNavigate } from "react-router-dom";
+import { resetCart } from "./cartSlice";
+import { useDispatch } from "react-redux";
 
 const style = { "layout": "vertical" };
 // component con
@@ -13,6 +15,7 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
     console.log(payload);
     const [{ isPending, options }, dispatch] = usePayPalScriptReducer(); // quản lý trạng thái và update option khi currency change
     const navigate = useNavigate();
+    const dispatchh = useDispatch();
     useEffect(() => {
         dispatch({
             type: "resetOptions",
@@ -21,25 +24,25 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
             }
         });
     }, [currency, showSpinner]);
+
     console.log('Payload here:', payload);
-    // hanle add order
-    const handleSaveOrder = async () => {
-        try {
-            const response = await addOrder(payload);
-            console.log(response);
-            navigate("/");
-        } catch (error) {
-            console.error('Error saving order:', error);
-        }
-    }
     // hàm phê duyệt thanh toán
-    const handleOnApprove = (data, actions) => {
-        actions.order.capture().then(async (response) => {
-            if (response.status === 'COMPLETED') {
-                await handleSaveOrder();
-                console.log(data);
+    const handleOnApprove = async (data, actions) => {
+        const response = await actions.order.capture()
+        if (response.status === 'COMPLETED') {
+            try {
+                const response = await addOrder(payload);
+                console.log(response);
+                dispatchh(resetCart());
+
+                navigate("/history");
             }
-        })
+            catch (e) {
+                console.error('Error saving order:', e);
+            }
+            console.log(data);
+        }
+
     }
     return (
         <>

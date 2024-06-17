@@ -12,7 +12,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { getAllOrderItems, deleteOrderItemById } from '../../api/apiService'
+import { getAllOrderItems, deleteOrderItemById, IMAGE_URL } from '../../api/apiService'
 import TablePagination from '@mui/material/TablePagination'
 import { AiTwotoneDelete } from 'react-icons/ai'
 import { LiaEdit } from 'react-icons/lia'
@@ -46,14 +46,16 @@ const OrderItem = () => {
             if (item.status === 204) {
                 setCheckDeleteOrderItem(true)
                 setDataChanged(!dataChanged);
+                item.preventDefault();
                 setOrderItems(orderItems.filter((key) => key.id !== id))
+               
             }
         })
     }
 
     return (
         <div style={{ flexGrow: 1, marginTop: 20 }}>
-            <div className="flex items-center gap-3 my-2 text-end">
+            {/* <div className="flex items-center gap-3 my-2 text-end">
                 <Link to={`/OrderItem/add-orderItem`} style={{ textDecoration: 'none' }}>
                     <button
                         style={{
@@ -67,7 +69,7 @@ const OrderItem = () => {
                         Thêm Chi Tiết Đơn Hàng
                     </button>
                 </Link>
-            </div>
+            </div> */}
 
             <Grid container spacing={3}>
                 <Grid item xs={12}>
@@ -94,11 +96,16 @@ const OrderItem = () => {
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell >Id: </TableCell>
+                                        <TableCell align="center" >Id: </TableCell>
                                         <TableCell align="center">Id đơn hàng: </TableCell>
-                                        <TableCell >Id sản phẩm: </TableCell>
-                                        <TableCell >Tổng tiền: </TableCell>
-                                        <TableCell align="center">Cập nhật</TableCell>
+                                        <TableCell align="center" >Id sản phẩm: </TableCell>
+                                        <TableCell align="center" >Tên sản phẩm: </TableCell>
+                                        <TableCell align="center" >Hình ảnh </TableCell>
+                                        <TableCell align="center">Màu </TableCell>
+                                        <TableCell align="center" >Kích thước </TableCell>
+                                        <TableCell align="center" >Số lượng: </TableCell>
+                                        <TableCell align="center" >Giá: </TableCell>
+                                        <TableCell align="center" >Tổng cộng: </TableCell>
                                         <TableCell align="center">Xoá</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -112,21 +119,52 @@ const OrderItem = () => {
                                         return (
                                             <TableRow key={row.id}>
 
-                                                <TableCell component="th" scope="row">
+                                                <TableCell component="th" scope="row" align="center">
                                                     {row.id}
                                                 </TableCell>
-                                                <TableCell align="center">
+                                                <TableCell align="center" >
                                                     {row.order?.id || ''}
                                                 </TableCell>
 
-                                                <TableCell component="th" scope="row">
+                                                <TableCell component="th" scope="row" align="center">
                                                     {row.product?.id}
                                                 </TableCell>
-
-                                                <TableCell >
-                                                    {row.order?.totalPrice || ''}
+                                                <TableCell component="th" scope="row" align="center">
+                                                    {row.product?.title}
                                                 </TableCell>
-                                                <TableCell align="center">
+
+                                                <TableCell align="left">
+                                                    <div>
+                                                        {row.product?.galleries && row.product?.galleries.length > 0 && (
+                                                            <img
+                                                                src={IMAGE_URL + row.product?.galleries[0].imagePath}
+                                                                style={{ width: 100 }}
+                                                                alt={row.product?.galleries[0].imagePath}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                </TableCell>
+
+                                                <TableCell component="th" scope="row" align="center">
+                                                    {row.color?.name}
+                                                </TableCell>
+
+                                                <TableCell component="th" scope="row" align="center">
+                                                    {row.size?.name}
+                                                </TableCell>
+
+                                                <TableCell component="th" scope="row" align="center">
+                                                    {row?.quantity}
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {row?.product?.price.toLocaleString()}VNĐ
+                                                </TableCell>
+                                                <TableCell component="th" scope="row">
+                                                    {(row.product?.price * row?.quantity).toLocaleString()}VNĐ
+                                                </TableCell>
+
+
+                                                {/* <TableCell align="center">
                                                     <Link to={`/OrderItem/edit/orderItem/${row.id}`}>
                                                         <Button
                                                             size="small"
@@ -137,7 +175,7 @@ const OrderItem = () => {
                                                             <LiaEdit size={20} />
                                                         </Button>
                                                     </Link>
-                                                </TableCell>
+                                                </TableCell> */}
                                                 <TableCell align="center">
                                                     <Button
                                                         size="small"

@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
-import { makeStyles } from '@mui/styles'
-import Paper from '@mui/material/Paper'
-import Grid from '@mui/material/Grid'
-import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
-import Button from '@mui/material/Button'
-import { useNavigate, useParams } from 'react-router-dom'
-import { editOrder, getOrderById } from '../../api/apiService'
-import { MenuItem, Select } from '@mui/material'
+import React, { useEffect, useState } from 'react';
+import { makeStyles } from '@mui/styles';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { useNavigate, useParams } from 'react-router-dom';
+import { editOrder, getOrderById } from '../../api/apiService';
+import { MenuItem, Select } from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -30,12 +30,12 @@ const useStyles = makeStyles((theme) => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
-}))
+}));
 
 const EditOrder = () => {
-    const classes = useStyles()
-    const [checkUpdate, setCheckUpdate] = useState(false)
-    const { id: idOrder } = useParams()
+    const classes = useStyles();
+    const [checkUpdate, setCheckUpdate] = useState(false);
+    const { id: idOrder } = useParams();
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [userName, setUserName] = useState("");
@@ -43,34 +43,34 @@ const EditOrder = () => {
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [totalPrice, setTotalPrice] = useState("");
-    const [status, setStatus] = useState("true");
-    const navigate = useNavigate()
+    const [status, setStatus] = useState("");
+    const navigate = useNavigate();
 
     // get data
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const order = await getOrderById('orders', idOrder)
-                console.log(order.data)
-                setFirstName(order.data.firstName)
-                setLastName(order.data.lastName)
-                setUserName(order.data.userName)
-                setEmail(order.data.email)
-                setPhone(order.data.phone)
-                setAddress(order.data.address)
-                setTotalPrice(order.data.totalPrice)
-                setStatus(order.data.status)
+                const order = await getOrderById('orders', idOrder);
+                console.log(order.data);
+                setFirstName(order.data.firstName);
+                setLastName(order.data.lastName);
+                setUserName(order.data.userName);
+                setEmail(order.data.email);
+                setPhone(order.data.phone);
+                setAddress(order.data.address);
+                setTotalPrice(order.data.totalPrice);
+                setStatus(order.data.status);
             } catch (error) {
-                console.error('Error fetching data:', error)
+                console.error('Error fetching data:', error);
             }
-        }
+        };
 
-        fetchData()
-    }, [idOrder])
+        fetchData();
+    }, [idOrder]);
 
     // handle edit order
     const handleEditOrder = async (event) => {
-        event.preventDefault()
+        event.preventDefault();
         if (
             firstName !== "" &&
             lastName !== "" &&
@@ -79,7 +79,6 @@ const EditOrder = () => {
             phone !== "" &&
             address !== "" &&
             totalPrice !== ""
-
         ) {
             const order = {
                 firstName,
@@ -89,31 +88,31 @@ const EditOrder = () => {
                 phone,
                 address,
                 totalPrice,
-                status: status,
-            }
-            console.log(order)
+                status,
+            };
+            console.log(order);
             try {
-                const editedOrder = await editOrder(`orders/${idOrder}`, order)
+                const editedOrder = await editOrder(`orders/${idOrder}`, order);
                 if (editedOrder.status === 200) {
-                    setCheckUpdate(true)
+                    setCheckUpdate(true);
                 } else {
-                    alert('Bạn chưa nhập đủ thông tin!')
+                    alert('Bạn chưa nhập đủ thông tin!');
                 }
             } catch (error) {
-                console.error('Error editing order:', error)
+                console.error('Error editing order:', error);
             }
         }
-    }
+    };
 
     // navigate after update
     useEffect(() => {
         if (checkUpdate) {
             const timeout = setTimeout(() => {
-                navigate('/Order/all-order')
-            }, 1000)
-            return () => clearTimeout(timeout)
+                navigate('/Order/all-order');
+            }, 1000);
+            return () => clearTimeout(timeout);
         }
-    }, [checkUpdate, navigate])
+    }, [checkUpdate, navigate]);
 
     return (
         <div className={classes.root}>
@@ -174,7 +173,7 @@ const EditOrder = () => {
                                 <TextField
                                     id="phone"
                                     onChange={(e) => setPhone(e.target.value)}
-                                    value={[phone]}
+                                    value={phone}
                                     name="phone"
                                     variant="outlined"
                                     className={classes.txtInput}
@@ -194,7 +193,6 @@ const EditOrder = () => {
                                     variant="outlined"
                                     className={classes.txtInput}
                                     size="small"
-
                                 />
                             </Grid>
 
@@ -241,11 +239,11 @@ const EditOrder = () => {
                                     size="small"
                                     fullWidth
                                 >
-                                    <MenuItem value="true">Chưa thanh toán</MenuItem>
-                                    <MenuItem value="false">Đã thanh toán</MenuItem>
+                                    <MenuItem value="Chưa thanh toán">Chưa thanh toán</MenuItem>
+                                    <MenuItem value="Đã thanh toán">Đã thanh toán</MenuItem>
                                 </Select>
                             </Grid>
-                            
+
                             <Grid item xs={12} style={{ marginTop: '30px' }}>
                                 <Button
                                     type="button"
@@ -263,7 +261,7 @@ const EditOrder = () => {
                 </Grid>
             </Grid>
         </div>
-    )
-}
+    );
+};
 
-export default EditOrder
+export default EditOrder;

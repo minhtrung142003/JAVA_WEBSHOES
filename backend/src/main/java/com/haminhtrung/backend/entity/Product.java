@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Getter
 @Setter
@@ -41,7 +40,6 @@ public class Product {
     private Set<Tag> tags = new HashSet<>();
 
     @OneToMany(mappedBy = "product")
-    @JsonIgnore
     private Set<Gallery> galleries = new HashSet<>();
 
     @ManyToOne

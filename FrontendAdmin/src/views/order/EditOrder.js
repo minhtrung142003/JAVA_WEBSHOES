@@ -36,8 +36,6 @@ const EditOrder = () => {
     const classes = useStyles();
     const [checkUpdate, setCheckUpdate] = useState(false);
     const { id: idOrder } = useParams();
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
@@ -52,8 +50,6 @@ const EditOrder = () => {
             try {
                 const order = await getOrderById('orders', idOrder);
                 console.log(order.data);
-                setFirstName(order.data.firstName);
-                setLastName(order.data.lastName);
                 setUserName(order.data.userName);
                 setEmail(order.data.email);
                 setPhone(order.data.phone);
@@ -72,8 +68,6 @@ const EditOrder = () => {
     const handleEditOrder = async (event) => {
         event.preventDefault();
         if (
-            firstName !== "" &&
-            lastName !== "" &&
             userName !== "" &&
             email !== "" &&
             phone !== "" &&
@@ -81,8 +75,6 @@ const EditOrder = () => {
             totalPrice !== ""
         ) {
             const order = {
-                firstName,
-                lastName,
                 userName,
                 email,
                 phone,
@@ -123,34 +115,6 @@ const EditOrder = () => {
                             Cập Nhật Đơn Hàng
                         </Typography>
                         <Grid item xs={12} container>
-                            <Grid item xs={12}>
-                                <Typography gutterBottom variant="subtitle1">
-                                    Họ
-                                </Typography>
-                                <TextField
-                                    id="lastName"
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    value={lastName}
-                                    name="lastName"
-                                    variant="outlined"
-                                    className={classes.txtInput}
-                                    size="small"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography gutterBottom variant="subtitle1">
-                                    Tên
-                                </Typography>
-                                <TextField
-                                    id="firstName"
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    value={firstName}
-                                    name="firstName"
-                                    variant="outlined"
-                                    className={classes.txtInput}
-                                    size="small"
-                                />
-                            </Grid>
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
                                     Họ và tên

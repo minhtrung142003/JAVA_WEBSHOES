@@ -102,7 +102,6 @@ const DetailProduct = () => {
                     }
                 });
             }
-
             if (product.quantity > 0 && currentUser?.id && selectedColor && selectedSize) {
                 const payload = {
                     productId: product?.id,
@@ -116,9 +115,8 @@ const DetailProduct = () => {
                     title: 'Đã thêm vào giỏ hàng!',
                     icon: 'success',
                     showConfirmButton: false,
-                    timer: 1000 // Đóng thông báo sau 2 giây
+                    timer: 1000 
                 }).then(() => {
-                    // Có thể thực hiện các hành động khác sau khi thông báo đóng
                 });
             } else {
                 alert("Bạn chưa chọn đủ thông tin!");

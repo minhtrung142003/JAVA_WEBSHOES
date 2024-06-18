@@ -2,9 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { resetCart } from '../cart/cartSlice';
 import { useDispatch } from 'react-redux';
-
+import { Link } from 'react-router-dom';
 const MyAccount = () => {
-    const [userInfo, setUserInfo] = useState([]);
+    const [userInfo, setUserInfo] = useState(null);
     const [passwordError, setPasswordError] = useState('');
     const [passwordChange, setPasswordChange] = useState(false);
     const dispatch = useDispatch();
@@ -69,6 +69,15 @@ const MyAccount = () => {
         dispatch(resetCart());
         window.location.href = "/login";
     };
+    if (!userInfo) {
+        return (
+            <div className="alert-container" style={{marginTop:'20px'}}>
+                <div className="alert alert-danger " role="alert">
+                    <p >Bạn chưa đăng nhập. Vui lòng <Link to="/login" style={{fontWeight:'bold'}}>đăng nhập</Link> để xem thông tin cá nhân.</p>
+                </div>
+            </div>
+        );
+    }
     return (
         <div>
             <div className="breadcrumbs_area">
@@ -108,7 +117,6 @@ const MyAccount = () => {
                                                 <div className="login_form_container">
                                                     <div className="account_login_form">
                                                         <form onSubmit={handleUpdate} >
-
                                                             <label style={{ display: 'flex' }}>Họ và tên</label>
                                                             <input type="text" name="fullname" value={userInfo.fullname} onChange={handleChange} />
                                                             <label style={{ display: 'flex' }}>Email</label>
@@ -120,9 +128,9 @@ const MyAccount = () => {
                                                             <label style={{ display: 'flex' }} >Thay đổi mật khẩu</label>
                                                             <input type="password" name="password" onChange={handleChange} />
                                                             <label style={{ display: 'flex' }} >Xác nhận mật khẩu</label>
-                                                            <input type="password" name="confirmPassword" onChange={handleChange} style={{marginBottom:'-1px',}} />
-                                                            {passwordError && <span className='error' style={{color:'red'}} >{passwordError}</span>}
-                                                            <span className="custom_checkbox" style={{marginTop:'10px'}}>
+                                                            <input type="password" name="confirmPassword" onChange={handleChange} style={{ marginBottom: '-1px', }} />
+                                                            {passwordError && <span className='error' style={{ color: 'red' }} >{passwordError}</span>}
+                                                            <span className="custom_checkbox" style={{ marginTop: '10px' }}>
                                                                 <input type="checkbox" value="1" name="optin" style={{ marginTop: '-3px' }} />
                                                                 <label>Nhận ưu đãi từ các đối tác của chúng tôi</label>
                                                             </span>

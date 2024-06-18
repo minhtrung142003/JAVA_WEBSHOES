@@ -34,7 +34,6 @@ const ButtonWrapper = ({ currency, showSpinner, amount, payload }) => {
                 const response = await addOrder(payload);
                 console.log(response);
                 dispatchh(resetCart());
-
                 navigate("/history");
             }
             catch (e) {

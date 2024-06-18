@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Link } from 'react-router-dom'
 import "./css/bootstrap.css"
@@ -7,16 +7,19 @@ import "./css/bootstrap.css.map"
 import "./css/responsive.css"
 import "./css/ui.css"
 import "./css/ui.css.map"
+import { getAllProducts, searchByCateName } from '../category/CateApi';
 
 const SearchResults = () => {
     const location = useLocation();
+    const queryParams = new URLSearchParams(location.search);
+    const searchCate = queryParams.get("searchTerm");
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [state, setState] = useState({
         listItems: [], // lưu trữ danh sách sp
         currentPage: 1 // trang hiện tại và tổng trang
     })
-
+    const navigate = useNavigate();
     // tạo và lưu tổng trang
     const [totalPages, setTotalPages] = useState(0);
     const ITEMS_PER_PAGE = 5;
@@ -49,6 +52,7 @@ const SearchResults = () => {
             }
         };
         fetchSearchResults();
+        handleSearch();
     }, [location.search]);
 
     // hiển thị kết quả tìm kiếm với page
@@ -56,6 +60,23 @@ const SearchResults = () => {
         (state.currentPage - 1) * ITEMS_PER_PAGE,
         state.currentPage * ITEMS_PER_PAGE
     );
+
+    
+    // hàm filter by categoryName
+    const handleSearch = async () => {
+        try {
+            const data = await searchByCateName(searchCate); 
+            setState((pre) => ({ ...pre, listItems: data?.data, currentPage: 1 }));
+            setTotalPages(Math.ceil(data?.data.length / ITEMS_PER_PAGE));
+        } catch (error) {
+            console.log("Error:", error);
+        }
+    };
+
+     // filter by cateogryName
+     const handleCategoryClick = (search) => {
+        navigate(`/search?searchTerm=${search}`);
+    };
     return (
         <div>
             <section className="section-content padding-y">
@@ -70,66 +91,25 @@ const SearchResults = () => {
                         </div>
                     </div>
                     <div className="row">
-                        <aside className="col-md-2">
+                    <aside className="col-md-2">
                             <article className="filter-group">
-                                <h6 className="title">
-                                    <a href="#" className="dropdown-toggle" data-toggle="collapse" data-target="#collapse_2"> DANH MỤC SẢN PHẨM </a>
+                                <h6 className="title" style={{textAlign:'center'}}>
+                                    <a href="#"  data-toggle="collapse" data-target="#collapse_1"  >Danh mục sản phẩm </a>
                                 </h6>
-                                <div className="filter-content collapse show" id="collapse_2">
+                                <div className="filter-content collapse show" id="collapse_1">
                                     <div className="inner">
-                                        <label className="custom-control custom-checkbox">
-                                            <input type="checkbox" checked="" className="custom-control-input" />
-                                            <div className="custom-control-label">Nike
-                                                <b className="badge badge-pill badge-light float-right">120</b>
-                                            </div>
-                                        </label>
-                                        <label className="custom-control custom-checkbox">
-                                            <input type="checkbox" checked="" className="custom-control-input" />
-                                            <div className="custom-control-label">Adidas
-                                                <b className="badge badge-pill badge-light float-right">15</b>
-                                            </div>
-                                        </label>
-                                        <label className="custom-control custom-checkbox">
-                                            <input type="checkbox" checked="" className="custom-control-input" />
-                                            <div className="custom-control-label">Jordan
-                                                <b className="badge badge-pill badge-light float-right">35</b>
-                                            </div>
-                                        </label>
-                                        <label className="custom-control custom-checkbox">
-                                            <input type="checkbox" checked="" className="custom-control-input" />
-                                            <div className="custom-control-label">Yeezy
-                                                <b className="badge badge-pill badge-light float-right">89</b>
-                                            </div>
-                                        </label>
+                                        <ul className="list-menu" style={{textAlign:'center'}}>
+                                            <li><a href="#" onClick={() => handleCategoryClick('NIKE')}>NIKE</a></li>
+                                            <li><a href="#" onClick={() => handleCategoryClick('ADIDAS')}>ADIDAS</a></li>
+                                            <li><a href="#" onClick={() => handleCategoryClick('JORDAN')}>JORDAN</a></li>
+                                            <li><a href="#" onClick={() => handleCategoryClick('YEEZY')}>YEEZY</a></li>
+                                            <li><a href="#" onClick={() => handleCategoryClick('PHỤ KIỆN')}>PHỤ KIỆN</a></li>
+                                        </ul>
                                     </div>
                                 </div>
                             </article>
 
-                            <article className="filter-group">
-                                <h6 className="title">
-                                    <a href="#" className="dropdown-toggle" data-toggle="collapse" data-target="#collapse_4"> Size giày </a>
-                                </h6>
-                                <div className="filter-content collapse show" id="collapse_4">
-                                    <div className="inner">
-                                        <label className="checkbox-btn">
-                                            <input type="checkbox" />
-                                            <span className="btn btn-light"> 39 </span>
-                                        </label>
-                                        <label className="checkbox-btn">
-                                            <input type="checkbox" />
-                                            <span className="btn btn-light"> 40 </span>
-                                        </label>
-                                        <label className="checkbox-btn">
-                                            <input type="checkbox" />
-                                            <span className="btn btn-light"> 41 </span>
-                                        </label>
-                                        <label className="checkbox-btn">
-                                            <input type="checkbox" />
-                                            <span className="btn btn-light"> 42 </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </article>
+                         
                         </aside>
 
                         <main className="col-md-10">

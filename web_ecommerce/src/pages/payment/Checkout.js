@@ -2,18 +2,60 @@ import React, { useEffect, useState } from 'react';
 import { addOrder, getListCart } from '../cart/CartApi';
 import Paypal from '../cart/Paypal';
 import "./Payment.css"
+import Swal from 'sweetalert2';
 const Checkout = () => {
     const [state, setState] = useState({
         userName: '',
-        firstName: '',
-        lastName: '',
         email: '',
         phone: '',
         address: ''
     });
+    // khởi tạo validation
+    const [errors, setErrors] = useState({
+        userName: '',
+        email: '',
+        phone: '',
+        address: '',
+    });
     const [listProduct, setListProduct] = useState([]);
     const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const [paymentMethod, setPaymentMethod] = useState('paypal');
+    const [paymentMethod, setPaymentMethod] = useState('shipcod');
+
+    const validate = () => {
+        let isValid =
+            state.userName &&
+            state.email &&
+            state.phone &&
+            state.address;
+        let newErrors = {};
+        if (!state.userName) {
+            newErrors.userName = "Vui lòng nhập họ và tên.";
+        } else if (/\d/.test(state.userName)) {
+            newErrors.userName = "Họ và tên không được chứa số.";
+            isValid = false;
+        }
+        if (!state.email) {
+            newErrors.email = "Vui lòng nhập email.";
+        } else if (!/^[^\s@]+@[^\s@]+\.[a-zA-Z]{3}$/.test(state.email)) {
+            newErrors.email = "Email không hợp lệ.";
+            isValid = false;
+        }
+
+        if (!state.phone) {
+            newErrors.phone = "Vui lòng nhập số điện thoại.";
+            isValid = false;
+        } else if (!/^\d{10}$/.test(state.phone)) {
+            newErrors.phone = "Số điện thoại chỉ có đúng 10 số.";
+            isValid = false;
+        }
+
+        if (!state.address) {
+            newErrors.address = "Vui lòng nhập địa chỉ.";
+            isValid = false;
+        }
+        setErrors(newErrors);
+        return isValid;
+    }
 
     // hàm change input
     const handleChange = (e) => {
@@ -28,17 +70,17 @@ const Checkout = () => {
     const handlePaymentChange = (e) => {
         setPaymentMethod(e.target.value);
     }
+
     // hàm submit payment shipcod
     const handleFormSubmit = async (event) => {
-        event.preventDefault(); 
-        if (state.address && state.userName && state.firstName && state.lastName && state.email && state.phone) {
+        event.preventDefault();
+        const isValid = validate();
+        if (isValid) {
             try {
                 const searchObj = {
                     userId: currentUser?.id,
                     address: state?.address,
                     userName: state?.userName,
-                    firstName: state?.firstName,
-                    lastName: state?.lastName,
                     phone: state?.phone,
                     email: state?.email,
                     orderItemDto: listProduct?.map(i => ({
@@ -57,7 +99,7 @@ const Checkout = () => {
                     deliveredCustomerAt: convertToMidnight(new Date()),
                     approvedAt: convertToMidnight(new Date()),
                     status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán',
-                }   
+                }
                 await addOrder(searchObj);
                 console.log(searchObj);
                 window.location.href = "/history"
@@ -65,9 +107,14 @@ const Checkout = () => {
                 console.log(error);
             }
         } else {
-            alert('Vui lòng nhập đầy đủ thông tin thanh toán');
+            Swal.fire({
+                title: 'Vui lòng nhập đầy đủ thông tin!',
+                icon: 'warning',
+                showConfirmButton: false,
+                timer: 1000
+            })
         }
-        
+
     }
 
     // get all product cart
@@ -112,29 +159,25 @@ const Checkout = () => {
                                         <form onSubmit={handleFormSubmit} >
                                             <h3>Thông tin thanh toán</h3>
                                             <div className="row">
-                                                <div className="col-lg-6 mb-20">
-                                                    <label> Họ <span>*</span></label>
-                                                    <input type="text" id="lastName" name="lastName" required value={state?.lastName} onChange={handleChange} />
-                                                </div>
-                                                <div className="col-lg-6 mb-20">
-                                                    <label>Tên <span>*</span></label>
-                                                    <input type="text" id="firstName" name="firstName" required value={state?.firstName} onChange={handleChange} />
-                                                </div>
                                                 <div className="col-12 mb-20">
                                                     <label style={{ display: 'flex' }}>Họ và tên  <span>*</span></label>
                                                     <input type="text" id="userName" name="userName" required value={state?.userName} onChange={handleChange} />
+                                                    {errors.userName && <p style={{ color: 'red' }} className="error">{errors.userName}</p>}
                                                 </div>
                                                 <div className="col-12 mb-20">
                                                     <label style={{ display: 'flex' }}>Email <span>*</span></label>
                                                     <input type="text" id="email" name="email" required value={state?.email} onChange={handleChange} />
+                                                    {errors.email && <p style={{ color: 'red' }} className="error">{errors.email}</p>}
                                                 </div>
                                                 <div className="col-12 mb-20">
                                                     <label style={{ display: 'flex' }}>Số điện thoại <span>*</span></label>
                                                     <input type="text" id="phone" name="phone" required value={state?.phone} onChange={handleChange} />
+                                                    {errors.phone && <p style={{ color: 'red' }} className="error">{errors.phone}</p>}
                                                 </div>
                                                 <div className="col-12 mb-20">
                                                     <label style={{ display: 'flex' }}>Địa chỉ <span>*</span></label>
                                                     <input type="text" id="address" name="address" required value={state?.address} onChange={handleChange} />
+                                                    {errors.address && <p style={{ color: 'red' }} className="error">{errors.address}</p>}
                                                 </div>
                                             </div>
                                             {paymentMethod === 'shipcod' && (
@@ -182,15 +225,16 @@ const Checkout = () => {
                                                     <label htmlFor="payment_paypal">Thanh toán bằng Paypal <img src="assets/img/icon/papyel.png" alt="" /></label>
                                                 </div>
                                             </div>
-                                            {paymentMethod === 'paypal' &&
+                                            {paymentMethod === 'paypal' && !(state.userName && state.email && state.phone && state.address) && (
+                                                <p style={{ color: 'red' }}>Vui lòng nhập đủ thông tin trước khi chọn thanh toán bằng Paypal.</p>
+                                            )}
+                                            {paymentMethod === 'paypal' && state.userName && state.email && state.phone && state.address &&
                                                 (
                                                     <Paypal
                                                         payload={{
                                                             userId: currentUser?.id,
                                                             address: state?.address,
                                                             userName: state?.userName,
-                                                            firstName: state?.firstName,
-                                                            lastName: state?.lastName,
                                                             phone: state?.phone,
                                                             email: state?.email,
                                                             orderItemDto: listProduct?.map(i => ({

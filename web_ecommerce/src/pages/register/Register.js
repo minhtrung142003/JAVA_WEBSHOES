@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import "./Register.css";
 import axios from 'axios';
 import baseURL from '../../api/BaseUrl';
+import Swal from 'sweetalert2';
 const Register = () => {
     const [state, setState] = useState({
         fullname: '',
@@ -35,12 +36,27 @@ const Register = () => {
         let isValid = true;
 
         if (!state.fullname) {
-            newErrors.fullname = "Vui lòng nhập họ và tên.";
+            newErrors.fullname = "Vui lòng nhập tên đăng nhập.";
             isValid = false;
         } else if (/\d/.test(state.fullname)) {
-            newErrors.fullname = "Họ và tên không được chứa số.";
+            newErrors.fullname = "Tên không được chứa số.";
+            isValid = false;
+        } else if (state.fullname.length < 5) {
+            newErrors.fullname = "Tên đăng nhập phải ít nhất 5 kí tự.";
             isValid = false;
         }
+        // Thực hiện kiểm tra tên người dùng đã tồn tại
+        axios.post(baseURL + "users/check-fullname", { fullname: state.fullname })
+            .then(response => {
+                if (response.data.exists) {
+                    newErrors.fullname = "Tên người dùng đã tồn tại.";
+                    setErrors(newErrors);
+                    isValid = false; 
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            });
 
         if (!state.email) {
             newErrors.email = "Vui lòng nhập email.";
@@ -73,7 +89,7 @@ const Register = () => {
         if (!state.confirmPassword) {
             newErrors.confirmPassword = "Vui lòng xác nhận mật khẩu.";
             isValid = false;
-        } else if(state.confirmPassword !== state.password) {
+        } else if (state.confirmPassword !== state.password) {
             newErrors.confirmPassword = "Mật khẩu xác nhận không khớp.";
             isValid = false;
         }
@@ -89,7 +105,12 @@ const Register = () => {
         try {
             const data = await axios.post(baseURL + "users/register", state);
             console.log(data)
-            alert("Đăng ký thành công !.");
+            await Swal.fire({
+                title: 'Đăng ký thành công!',
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 500
+            })
             window.location.href = "/login";
         } catch (error) {
             alert("Đăng ký thất bại, vui lòng thử lại!");
@@ -102,8 +123,9 @@ const Register = () => {
             <form onSubmit={handleRegister}>
                 <div className="form-group">
 
-                    <input onChange={handleChange} type="text" id="fullname" name="fullname" placeholder="Họ và tên" />
+                    <input onChange={handleChange} type="text" id="fullname" name="fullname" placeholder="Tên đăng nhập" />
                     {errors.fullname && <p style={{ color: 'red' }} className="error">{errors.fullname}</p>}
+
                 </div>
                 <div className="form-group">
                     <input onChange={handleChange} type="email" id="email" name="email" placeholder="Email" />

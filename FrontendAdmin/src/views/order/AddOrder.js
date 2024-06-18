@@ -3,13 +3,12 @@ import { makeStyles } from "@mui/styles";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
-import { CheckBox } from "@mui/icons-material";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
-import { getAllOrders, addOrder } from "../../api/apiService";
+import { addOrder } from "../../api/apiService";
 import MenuItem from "@mui/material/MenuItem";
-import { Select, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Select } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,8 +36,6 @@ const useStyles = makeStyles((theme) => ({
 export default function AddOrder() {
     const classes = useStyles();
     const [checkAdd, setCheckAdd] = useState(false);
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
     const [userName, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [phone, setPhone] = useState("");
@@ -52,8 +49,6 @@ export default function AddOrder() {
     const handleAddOrder = (event) => {
         event.preventDefault();
         if (
-            lastName !== "" &&
-            firstName !== "" &&
             userName !== "" &&
             email !== "" &&
             phone !== "" &&
@@ -65,8 +60,6 @@ export default function AddOrder() {
             // Chuyển đổi mỗi id giỏ hàng thành số nguyên
             const idCartIntegers = idCartArray.map(id => parseInt(id.trim(), 10));
             const order = {
-                lastName,
-                firstName,
                 userName,
                 email,
                 phone,
@@ -105,34 +98,7 @@ export default function AddOrder() {
                         <Typography className={classes.title} variant="h4">
                             Thêm Đơn Hàng
                         </Typography>
-
                         <Grid item xs={12} container>
-                            <Grid item xs={12}>
-                                <Typography gutterBottom variant="subtitle1">
-                                    Họ
-                                </Typography>
-                                <TextField
-                                    id="lastName"
-                                    onChange={(e) => setLastName(e.target.value)}
-                                    name="lastName"
-                                    variant="outlined"
-                                    className={classes.txtInput}
-                                    size="small"
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Typography gutterBottom variant="subtitle1">
-                                    Tên
-                                </Typography>
-                                <TextField
-                                    id="firstName"
-                                    onChange={(e) => setFirstName(e.target.value)}
-                                    name="firstName"
-                                    variant="outlined"
-                                    className={classes.txtInput}
-                                    size="small"
-                                />
-                            </Grid>
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
                                     Họ và tên
@@ -146,7 +112,6 @@ export default function AddOrder() {
                                     size="small"
                                 />
                             </Grid>
-
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
                                     Số điện thoại
@@ -173,7 +138,6 @@ export default function AddOrder() {
                                     size="small"
                                 />
                             </Grid>
-
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
                                     Địa chỉ
@@ -201,8 +165,6 @@ export default function AddOrder() {
                                     size="small"
                                 />
                             </Grid>
-
-                            {/* Other fields */}
                             <Grid item xs={12}>
                                 <Typography gutterBottom variant="subtitle1">
                                     Trạng thái đơn hàng

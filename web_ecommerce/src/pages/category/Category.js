@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { searchByCateName } from './CateApi';
+import { getAllProducts, searchByCateName } from './CateApi';
 
 function Category() {
     const location = useLocation();
@@ -12,13 +12,13 @@ function Category() {
         currentPage: 1,
     });
     const [totalPages, setTotalPages] = useState(0);
-    const [priceRange, setPriceRange] = useState([0, 20000000]); // khoảng giá
+    const [priceRange, setPriceRange] = useState([0, 15000000]); // khoảng giá
     const ITEMS_PER_PAGE = 5;
 
     // hàm filter by categoryName
     const handleSearch = async () => {
         try {
-            const data = await searchByCateName(cateName);
+            const data = cateName === "ALL" ? await getAllProducts() : await searchByCateName(cateName); 
             setState((pre) => ({ ...pre, listItems: data?.data, currentPage: 1 }));
             setTotalPages(Math.ceil(data?.data.length / ITEMS_PER_PAGE));
         } catch (error) {
@@ -74,7 +74,12 @@ function Category() {
             }
         });
     };
-    
+
+    // Lấy danh sách sản phẩm đã được lọc
+    const filteredItems = state.listItems.filter(item =>
+        item.price >= priceRange[0] && item.price <= priceRange[1]
+    );
+
     return (
         <>
             <section className="section-content padding-y">
@@ -97,10 +102,12 @@ function Category() {
                                 <div className="filter-content collapse show" id="collapse_1">
                                     <div className="inner">
                                         <ul className="list-menu">
+                                            <li><a href="#" onClick={() => handleCategoryClick('ALL')}>TẤT CẢ SẢN PHẨM</a></li>
                                             <li><a href="#" onClick={() => handleCategoryClick('NIKE')}>NIKE</a></li>
                                             <li><a href="#" onClick={() => handleCategoryClick('ADIDAS')}>ADIDAS</a></li>
                                             <li><a href="#" onClick={() => handleCategoryClick('JORDAN')}>JORDAN</a></li>
                                             <li><a href="#" onClick={() => handleCategoryClick('YEEZY')}>YEEZY</a></li>
+                                            <li><a href="#" onClick={() => handleCategoryClick('PHỤ KIỆN')}>PHỤ KIỆN</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -111,7 +118,7 @@ function Category() {
                                 </h6>
                                 <div className="filter-content collapse show" id="collapse_3">
                                     <div className="inner">
-                                        <input type="range" className="custom-range" min="0" max="20000000" name="maxPrice" onChange={handlePriceRangeChange} value={priceRange[1]} />
+                                        <input type="range" className="custom-range" min="0" max="15000000" name="maxPrice" onChange={handlePriceRangeChange} value={priceRange[1]} />
                                         <div className="form-row">
                                             <div className="form-group col-md-6">
                                                 <label>Nhỏ</label>
@@ -129,7 +136,7 @@ function Category() {
                         <main className="col-md-10">
                             <header className="mb-3">
                                 <div className="form-inline">
-                                    <strong className="mr-md-auto">{state?.listItems?.length} Sản phẩm </strong>
+                                    <strong className="mr-md-auto">{filteredItems?.length} Sản phẩm </strong>
                                     <select className="mr-2 form-control">
                                         <option>Mục mới nhất</option>
                                         <option>Bán chạy</option>

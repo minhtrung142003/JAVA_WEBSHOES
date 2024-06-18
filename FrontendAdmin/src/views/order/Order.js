@@ -116,8 +116,6 @@ const Order = () => {
                                 <TableHead>
                                     <TableRow>
                                         <TableCell >Id: </TableCell>
-                                        <TableCell >Họ: </TableCell>
-                                        <TableCell >Tên: </TableCell>
                                         <TableCell >Họ và tên: </TableCell>
                                         <TableCell >Số điện thoại: </TableCell>
                                         <TableCell >email: </TableCell>
@@ -140,13 +138,7 @@ const Order = () => {
                                                 <TableCell width={260} component="th" scope="row">
                                                     {row.id}
                                                 </TableCell>
-                                                <TableCell width={260} component="th" scope="row">
-                                                    {row.lastName}
-                                                </TableCell>
-
-                                                <TableCell width={260} component="th" scope="row">
-                                                    {row.firstName}
-                                                </TableCell>
+                                              
                                                 <TableCell width={260} component="th" scope="row">
                                                     {row.userName}
                                                 </TableCell>

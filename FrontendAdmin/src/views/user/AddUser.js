@@ -77,7 +77,7 @@ export default function AddUser() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  const handleAddUser = (event) => {
+  const handleAddUser = async (event) => {
     event.preventDefault();
     if (
       validateFields()
@@ -90,14 +90,15 @@ export default function AddUser() {
         password,
       };
       console.log(user);
-      addUser("users", user).then((item) => {
-        console.log("added", item);
-        if (item.status === 201) {
-          setCheckAdd(true);
-        } else {
-          alert("Bạn chưa nhập đủ thông tin!");
-        }
-      });
+      try {
+        const registeredUser = await addUser('users/register', user);
+        navigate("/User/all-user");
+        console.log('Registered user:', registeredUser);
+        // Handle success: Redirect, show success message, etc.
+      } catch (error) {
+        console.error('Error registering user:', error);
+        // Handle error: Display error message, etc.
+      }
     }
   };
   useEffect(() => {

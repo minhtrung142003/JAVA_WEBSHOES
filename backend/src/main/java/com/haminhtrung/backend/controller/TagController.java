@@ -9,7 +9,6 @@ import com.haminhtrung.backend.service.TagService;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:3001" }, exposedHeaders = "Content-Range")
 @RequestMapping("api/tags")
 public class TagController {
     @Autowired

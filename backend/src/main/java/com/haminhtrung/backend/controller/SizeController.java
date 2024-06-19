@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/sizes")
-@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:3001" }, exposedHeaders = "Content-Range")
 public class SizeController {
 
     @Autowired

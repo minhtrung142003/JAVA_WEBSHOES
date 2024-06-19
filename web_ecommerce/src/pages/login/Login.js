@@ -5,6 +5,7 @@ import axios from 'axios';
 import baseURL from '../../api/BaseUrl';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2';
 const Login = () => {
     const [state, setState] = useState({
         fullname: '',
@@ -24,7 +25,6 @@ const Login = () => {
         try {
             const response = await axios.post(baseURL + "users/login", state);
             const userData = response.data;
-
             // localStorage là 1 đối tượng trong js, dùng để lưu trữ thông tin dưới dạng cặp key, value
             localStorage.setItem("currentUser", JSON.stringify({
                 id: userData?.id,
@@ -35,11 +35,16 @@ const Login = () => {
                 address: userData?.address,
                 password: userData?.password
             }));
-            
             window.location.href = "/"
             console.log(userData);
         } catch (error) {
-            alert("Đăng nhập thất bại, vui lòng thử lại!");
+            Swal.fire({
+                icon: "error",
+                title: "Đăng nhập thất bại.Vui lòng thử lại!",
+                showConfirmButton: false,
+                timer: 1000 
+            });
+            console.clear(error);
         }
     }
     // login google
@@ -59,7 +64,7 @@ const Login = () => {
     };
 
     return (
-        <GoogleOAuthProvider clientId="1036911977171-blm1vqkfvn0p1ho7f34pkmut32dq1s70.apps.googleusercontent.com">
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
             <div className="login-container">
                 <h2>Đăng nhập</h2>
                 <form onSubmit={handleLogin}>

@@ -3,7 +3,6 @@ package com.haminhtrung.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.haminhtrung.backend.dto.CartProductDto;
 import com.haminhtrung.backend.dto.OrderDto;
 import com.haminhtrung.backend.dto.OrderItemDto;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@CrossOrigin({ "http://localhost:3000", "http://localhost:3001" })
 @RequestMapping("api/orders")
 public class OrderController {
 

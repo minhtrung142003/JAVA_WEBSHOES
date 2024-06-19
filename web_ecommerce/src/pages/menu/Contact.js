@@ -25,7 +25,7 @@ const Contact = () => {
               width="1500"
               height="550"
               style={{ border: 0 }}
-              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
 
@@ -84,7 +84,7 @@ const Contact = () => {
         </div>
       </div>
 
-      <style jsx>{`
+      <style jsx = "true">{`
         .breadcrumbs_area {
           background: #f6f6f6;
           padding: 20px 0;

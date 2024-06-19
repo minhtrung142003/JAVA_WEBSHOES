@@ -67,7 +67,7 @@ export default function Paypal({ amount, payload }) {
     console.log(payload);
     return (
         <div style={{ maxWidth: "750px", minHeight: "200px" }}>
-            <PayPalScriptProvider options={{ clientId: "AQ1YTvSyS7gwu2dJVeiQ8Ks3SFjtI3AH0mGhYLRTZMt0BzLgUQbCGT1vlPQKHGOHuCemDa7Zma-X46tq", components: "buttons", currency: "USD" }}>
+            <PayPalScriptProvider options={{ clientId: process.env.REACT_APP_PAYPAL_CLIENT_ID, components: "buttons", currency: "USD" }}>
                 <ButtonWrapper payload={payload} currency={'USD'} amount={amount} showSpinner={false} />
             </PayPalScriptProvider>
         </div>

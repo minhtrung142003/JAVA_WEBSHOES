@@ -112,14 +112,18 @@ const DetailProduct = () => {
                 };
                 await dispatch(addToCart(payload)); // Dispatch addToCart action
                 Swal.fire({
+                    position: "top-end",
                     title: 'Đã thêm vào giỏ hàng!',
                     icon: 'success',
                     showConfirmButton: false,
-                    timer: 1000 
+                    timer: 800 
                 }).then(() => {
                 });
             } else {
-                alert("Bạn chưa chọn đủ thông tin!");
+                Swal.fire({
+                    title: "Vui lòng chọn Phân loại hàng!",
+                    icon: "warning"
+                  });
             }
         } catch (error) {
             console.log("Error adding to cart:", error);
@@ -256,7 +260,7 @@ const DetailProduct = () => {
                                     <input
                                         min="1"
                                         max="10"
-                                        value={product.quantity}
+                                        value={product.quantity || ""}
                                         type="number"
                                         name="quantity"         
                                         onChange={handleChange}

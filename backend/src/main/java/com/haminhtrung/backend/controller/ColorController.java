@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/colors")
-@CrossOrigin(origins = { "http://localhost:3000", "http://localhost:3001" }, exposedHeaders = "Content-Range")
 public class ColorController {
 
     @Autowired

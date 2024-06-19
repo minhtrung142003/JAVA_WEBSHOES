@@ -35,6 +35,7 @@ const Register = () => {
         let newErrors = {};
         let isValid = true;
 
+        // check name
         if (!state.fullname) {
             newErrors.fullname = "Vui lòng nhập tên đăng nhập.";
             isValid = false;
@@ -45,19 +46,8 @@ const Register = () => {
             newErrors.fullname = "Tên đăng nhập phải ít nhất 5 kí tự.";
             isValid = false;
         }
-        // Thực hiện kiểm tra tên người dùng đã tồn tại
-        axios.post(baseURL + "users/check-fullname", { fullname: state.fullname })
-            .then(response => {
-                if (response.data.exists) {
-                    newErrors.fullname = "Tên người dùng đã tồn tại.";
-                    setErrors(newErrors);
-                    isValid = false; 
-                }
-            })
-            .catch(error => {
-                console.log(error);
-            });
 
+        // check email
         if (!state.email) {
             newErrors.email = "Vui lòng nhập email.";
             isValid = false;
@@ -66,6 +56,7 @@ const Register = () => {
             isValid = false;
         }
 
+        // check phone
         if (!state.phone_number) {
             newErrors.phone_number = "Vui lòng nhập số điện thoại.";
             isValid = false;
@@ -77,11 +68,13 @@ const Register = () => {
             isValid = false;
         }
 
+        // check address
         if (!state.address) {
             newErrors.address = "Vui lòng nhập địa chỉ.";
             isValid = false;
         }
 
+        // check password
         if (!state.password) {
             newErrors.password = "Vui lòng nhập mật khẩu.";
             isValid = false;

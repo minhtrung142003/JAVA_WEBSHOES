@@ -194,7 +194,7 @@ const Header = () => {
                                     <div className="main_menu menu_four menu_position text-center">
                                         <nav>
                                             <ul>
-                                                <li><a className="active" href="/">Trang chủ<i className="fa fa-angle-down"></i></a>
+                                                <li><a href="/">Trang chủ</a>
                                                 </li>
 
                                                 <li><a href="/about">GIỚI THIỆU</a></li>

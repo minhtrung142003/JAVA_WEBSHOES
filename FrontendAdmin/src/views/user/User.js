@@ -57,7 +57,6 @@ const User = () => {
         setCheckDeleteUser(true)
         setDataChanged(!dataChanged);
         setUsers(users.filter((key) => key.id !== id))
-        // window.location.reload();
       }
     })
   }
@@ -76,9 +75,9 @@ const User = () => {
           <button
             style={{
               border: '2px solid #33FF66',
-              color: '#fff', // Chữ màu trắng
-              padding: '5px 10px', // Tùy chỉnh padding
-              borderRadius: '5px', // Bo góc
+              color: '#fff',
+              padding: '5px 10px',
+              borderRadius: '5px', 
               backgroundColor: '#339966',
             }}
           >

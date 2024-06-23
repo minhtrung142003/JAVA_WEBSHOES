@@ -8,7 +8,6 @@ import Button from '@mui/material/Button'
 import { useNavigate, useParams } from 'react-router-dom'
 import {  editTag, getTagById } from '../../api/apiService'
 
-
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -85,9 +84,7 @@ const EditTag = () => {
     if (checkUpdate) {
       const timeout = setTimeout(() => {
         navigate('/Tag/all-tag')
-      }, 1000) // Thời gian chờ trước khi chuyển hướng (miliseconds)
-
-      // Xóa timeout khi component unmount hoặc khi checkUpdate thay đổi
+      }, 1000) 
       return () => clearTimeout(timeout)
     }
   }, [checkUpdate, navigate])
@@ -132,7 +129,6 @@ const EditTag = () => {
                 />
               </Grid>
      
-
               <Grid item xs={12} style={{ marginTop: '30px' }}>
                 <Button
                   type="button"

@@ -80,7 +80,7 @@ function History() {
                                                 {order?.orderItemDto?.map((item, id) => (
                                                     <tr key={id}>
                                                         <td width={65}>
-                                                            <Link to = {`/detailproduct?productId=${item.productId}`}>
+                                                            <Link to={`/detailproduct?productId=${item.productId}`}>
                                                                 <img src=
                                                                     {item?.galleries?.length && `http://localhost:8080/upload/${item?.galleries[0]?.imagePath}`}
                                                                     className="img-xs border"
@@ -88,7 +88,9 @@ function History() {
                                                             </Link>
                                                         </td>
                                                         <td>
-                                                            <p>{item?.title}</p>
+                                                            <Link to={`/detailproduct?productId=${item.productId}`}>
+                                                                <p>{item?.title}</p>
+                                                            </Link>
                                                         </td>
                                                         <td>
                                                             <var className="price text-muted"> {(item?.price * item?.quantity).toLocaleString()}đ</var>

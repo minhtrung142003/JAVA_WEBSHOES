@@ -225,35 +225,48 @@ const Checkout = () => {
                                                     <label htmlFor="payment_paypal">Thanh toán bằng Paypal <img src="assets/img/icon/papyel.png" alt="" /></label>
                                                 </div>
                                             </div>
-                                            {paymentMethod === 'paypal' && !(state.userName && state.email && state.phone && state.address) && (
-                                                <p style={{ color: 'red' }}>Vui lòng nhập đủ thông tin trước khi chọn thanh toán bằng Paypal.</p>
+                                            {paymentMethod === 'paypal' && (
+                                                <>
+                                                    {!(state.userName && state.email && state.phone && state.address) ? (
+                                                        <p style={{ color: 'red' }}>Vui lòng nhập đủ thông tin trước khi chọn thanh toán bằng Paypal.</p>
+                                                    ) : (
+                                                        !/^\d{10}$/.test(state.phone) ? (
+                                                            <p style={{ color: 'red' }}>Số điện thoại phải là số và gồm đủ 10 chữ số.</p>
+                                                        ) : (
+                                                            !/^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/.test(state.email) ? (
+                                                                <p style={{ color: 'red' }}>Email không hợp lệ.</p>
+                                                            ) : (
+                                                                /\d/.test(state.userName) ? (
+                                                                    <p style={{ color: 'red' }}>Tên người dùng không được chứa số.</p>
+                                                                ) : (
+                                                                    <Paypal
+                                                                        payload={{
+                                                                            userId: currentUser?.id,
+                                                                            address: state?.address,
+                                                                            userName: state?.userName,
+                                                                            phone: state?.phone,
+                                                                            email: state?.email,
+                                                                            orderItemDto: listProduct?.map(i => ({
+                                                                                productId: i?.productDTO?.id,
+                                                                                price: i?.productDTO?.price,
+                                                                                quantity: i?.quantity,
+                                                                                colorName: i?.color?.name,
+                                                                                sizeName: i?.size?.name,
+                                                                            })),
+                                                                            listIdCart: listProduct?.map(i => i?.cartId),
+                                                                            totalPrice: Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000),
+                                                                            status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : 'Đã thanh toán',
+                                                                            createdAt: convertToMidnight(new Date())
+                                                                        }}
+                                                                        amount={Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000)}
+                                                                    />
+                                                                )
+                                                            )
+                                                        )
+                                                    )}
+                                                </>
                                             )}
-                                            {paymentMethod === 'paypal' && state.userName && state.email && state.phone && state.address &&
-                                                (
-                                                    <Paypal
-                                                        payload={{
-                                                            userId: currentUser?.id,
-                                                            address: state?.address,
-                                                            userName: state?.userName,
-                                                            phone: state?.phone,
-                                                            email: state?.email,
-                                                            orderItemDto: listProduct?.map(i => ({
-                                                                productId: i?.productDTO?.id,
-                                                                price: i?.productDTO?.price,
-                                                                quantity: i?.quantity,
-                                                                colorName: i?.color?.name,
-                                                                sizeName: i?.size?.name,
-                                                            })),
-                                                            listIdCart: listProduct?.map(i => i?.cartId),
-                                                            totalPrice: Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000),
-                                                            status: paymentMethod === 'shipcod' ? 'Chưa thanh toán' : paymentMethod === 'paypal' ? 'Đã thanh toán' : 'Chưa thanh toán',
-                                                            createdAt: convertToMidnight(new Date())
 
-                                                        }}
-                                                        amount={Math.round(listProduct?.reduce((sum, i) => (i?.productDTO?.price * i?.quantity) + sum, 0) / 24000)}
-                                                    />
-
-                                                )}
                                         </form>
                                     </div>
                                 </div>

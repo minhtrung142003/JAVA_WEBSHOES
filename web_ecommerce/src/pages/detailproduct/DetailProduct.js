@@ -102,6 +102,12 @@ const DetailProduct = () => {
                     }
                 });
             }
+            if (product.quantity < 1) {
+                return Swal.fire({
+                    title: "Số lượng không hợp lệ!",
+                    icon: "warning"
+                });
+            }
             if (product.quantity > 0 && currentUser?.id && selectedColor && selectedSize) {
                 const payload = {
                     productId: product?.id,

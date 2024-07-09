@@ -3,19 +3,22 @@ package com.haminhtrung.backend.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.haminhtrung.backend.dto.ProductDTO;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.service.ProductService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("api/products")
 public class ProductController {
-    @Autowired
-    private ProductService productService;
+    ProductService productService;
 
     // search
     @GetMapping("/search")
@@ -99,8 +102,8 @@ public class ProductController {
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
         product.setGalleries(productDTO.getGalleries());
-        product.setColors(productDTO.getColors()); 
-        product.setSizes(productDTO.getSizes()); 
+        product.setColors(productDTO.getColors());
+        product.setSizes(productDTO.getSizes());
         return product;
     }
 

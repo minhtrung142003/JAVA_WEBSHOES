@@ -1,4 +1,4 @@
-package com.haminhtrung.backend.dto.mapper;
+package com.haminhtrung.backend.mapper;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -12,8 +12,7 @@ import com.haminhtrung.backend.entity.Product;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         imports = {Instant.class, List.class, ArrayList.class})
         
-public interface ProductDtoMapper {
+public interface ProductDtooMapper {
     ProductDTO getProductDTO(Product product);
     List<ProductDTO> getProductDTOs(List<Product> products);
-    
 }

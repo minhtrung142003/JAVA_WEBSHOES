@@ -2,18 +2,21 @@ package com.haminhtrung.backend.controller;
 
 import com.haminhtrung.backend.entity.Size;
 import com.haminhtrung.backend.service.SizeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("api/sizes")
 public class SizeController {
 
-    @Autowired
-    private SizeService sizeService;
+    SizeService sizeService;
 
     // get all size
     @GetMapping

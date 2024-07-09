@@ -2,7 +2,9 @@ package com.haminhtrung.backend.controller;
 
 import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.service.ColorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,10 +12,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/colors")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ColorController {
 
-    @Autowired
-    private ColorService colorService;
+    ColorService colorService;
 
     // get all color
     @GetMapping

@@ -1,6 +1,9 @@
 package com.haminhtrung.backend.controller;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.haminhtrung.backend.service.GalleryService;
@@ -16,12 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import com.haminhtrung.backend.entity.Gallery;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("api/galleries")
-
 public class GalleryController {
 
-    private GalleryService galleryService;
+    GalleryService galleryService;
 
     // get gallery by productId
     @GetMapping("/product/{productId}")
@@ -35,7 +38,7 @@ public class GalleryController {
     public ResponseEntity<String> getImageUrl(@PathVariable String fileName) {
         try {
             String imageUrl = "/upload/" + fileName; // Tạo đường dẫn URL của ảnh
-            return ResponseEntity.ok().body(imageUrl); 
+            return ResponseEntity.ok().body(imageUrl);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -58,6 +61,7 @@ public class GalleryController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
     // post image by productid
     @PostMapping("/uploadImage/{productId}")
     public Gallery uploadImage(@PathVariable Long productId, @RequestParam("file") MultipartFile file) {
@@ -69,12 +73,13 @@ public class GalleryController {
     public List<Gallery> uploadImages(@PathVariable Long productId, @RequestParam("files") MultipartFile[] files) {
         return galleryService.saveImages(productId, files);
     }
-    
+
     // post gallery by productid
     @PostMapping("/update/{productId}")
-    public ResponseEntity<String> updateGallery(@PathVariable Long productId, @RequestParam("files") MultipartFile[] newFiles) {
+    public ResponseEntity<String> updateGallery(@PathVariable Long productId,
+            @RequestParam("files") MultipartFile[] newFiles) {
         try {
-            galleryService.deleteGallery(productId);   //  Xóa all ảnh cũ product
+            galleryService.deleteGallery(productId); // Xóa all ảnh cũ product
             galleryService.saveImages(productId, newFiles);
 
             return ResponseEntity.ok("Update gallery successfully");

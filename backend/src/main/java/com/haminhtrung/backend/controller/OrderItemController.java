@@ -1,22 +1,25 @@
 package com.haminhtrung.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.haminhtrung.backend.dto.OrderItemDto;
 import com.haminhtrung.backend.entity.OrderItem;
 import com.haminhtrung.backend.service.OrderItemService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("api/orderItems")
 public class OrderItemController {
 
-    @Autowired
-    private OrderItemService orderItemService;
+    OrderItemService orderItemService;
 
-    // get all 
+    // get all
     @GetMapping
     public ResponseEntity<List<OrderItem>> getAllOrderItems() {
         List<OrderItem> orderItems = orderItemService.getAllOrderItems();

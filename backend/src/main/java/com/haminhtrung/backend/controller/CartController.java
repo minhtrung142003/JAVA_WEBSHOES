@@ -1,7 +1,6 @@
 package com.haminhtrung.backend.controller;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,12 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.haminhtrung.backend.dto.CartProductDto;
 import com.haminhtrung.backend.entity.Cart;
 import com.haminhtrung.backend.service.CartService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RestController
 @RequestMapping("api/carts")
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CartController {
-    @Autowired
-    private CartService cartService;
+
+    CartService cartService;
 
     // get all carts
     @GetMapping
@@ -76,7 +80,7 @@ public class CartController {
         }
     }
 
-     // delete cart
+    // delete cart
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCart(@PathVariable("id") Long cartId) {
         cartService.deleteCart(cartId);

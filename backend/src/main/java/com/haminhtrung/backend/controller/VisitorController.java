@@ -2,16 +2,19 @@ package com.haminhtrung.backend.controller;
 
 import com.haminhtrung.backend.entity.Visitor;
 import com.haminhtrung.backend.service.VisitorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("/api/visitors")
 public class VisitorController {
 
-    @Autowired
-    private VisitorService visitorService;
+    VisitorService visitorService;
 
     // get all
     @GetMapping
@@ -24,14 +27,14 @@ public class VisitorController {
     public Visitor getVisitorById(@PathVariable Long id) {
         return visitorService.getVisitorById(id);
     }
-    
+
     // get count visitor
     @GetMapping("/count")
     public int getVisitorsCount() {
         return visitorService.getVisitorsCount();
     }
 
-    // post 
+    // post
     @PostMapping
     public Visitor addVisitor(@RequestBody Visitor visitor) {
         return visitorService.addVisitor(visitor);

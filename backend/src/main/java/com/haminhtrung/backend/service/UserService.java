@@ -5,7 +5,7 @@ import com.haminhtrung.backend.entity.User;
 import java.util.List;
 
 public interface UserService {
-  public User createUser(User User);
+  public User createUser(UserDto userDto);
 
   public User getUserById(Long UserId);
 

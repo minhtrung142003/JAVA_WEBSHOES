@@ -3,30 +3,31 @@ package com.haminhtrung.backend.entity;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "tags")
 public class Tag {
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id")
-  private Long id;
+  Long id;
 
   @Column(name = "tag_name")
-  private String name;
+  String name;
 
   @Column(name = "icon")
-  private String icon;
+  String icon;
 
   @ManyToMany(mappedBy = "tags")
   @JsonIgnore
-  private List<Product> products;
+  List<Product> products;
 }

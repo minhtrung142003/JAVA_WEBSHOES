@@ -11,41 +11,42 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "carts")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    Long id;
 
     @Column(name = "product_id")
-    private Long productId;
+    Long productId;
 
     @OneToMany(mappedBy = "cart")
-    private List<Product> products;
+    List<Product> products;
 
     @Column(name = "user_id")
-    private String userId;
+    String userId;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "color_id")
-    private Color color;
+    Color color;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "size_id")
-    private Size size;
+    Size size;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    Integer quantity;
 
 }

@@ -6,25 +6,29 @@ import com.haminhtrung.backend.entity.Category;
 import com.haminhtrung.backend.entity.Gallery;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.entity.Tag;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
+
 public class OrderItemDto {
-    private Long id;
-    private Long productId;
-    private Long orderId;
-    private String title;
-    private int price;
-    private int discount;
-    private int quantity;
-    private String description;
-    private String shortDescription;
-    private Set<Category> categories = new HashSet<>();
-    private Set<Tag> tags = new HashSet<>();
-    private Set<Gallery> galleries  = new HashSet<>();
-    private String colorName;
-    private String sizeName;
-    private Product product;
+    Long id;
+    Long productId;
+    Long orderId;
+    String title;
+    int price;
+    int discount;
+    int quantity;
+    String description;
+    String shortDescription;
+    Set<Category> categories = new HashSet<>();
+    Set<Tag> tags = new HashSet<>();
+    Set<Gallery> galleries = new HashSet<>();
+    String colorName;
+    String sizeName;
+    Product product;
 }

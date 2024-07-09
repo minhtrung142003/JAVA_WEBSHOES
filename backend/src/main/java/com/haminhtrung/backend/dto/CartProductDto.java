@@ -2,15 +2,18 @@ package com.haminhtrung.backend.dto;
 
 import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Size;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CartProductDto {
-    private Long cartId;
-    private Integer quantity;
-    private ProductDTO productDTO;
-    private Color color;
-    private Size size;
+    Long cartId;
+    Integer quantity;
+    ProductDTO productDTO;
+    Color color;
+    Size size;
 }

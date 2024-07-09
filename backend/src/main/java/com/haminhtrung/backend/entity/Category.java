@@ -2,37 +2,38 @@ package com.haminhtrung.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 public class Category {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY) // primary key
   @Column(name = "id")
-  private Long id;
+  Long id;
 
   @ManyToOne
   @JoinColumn(name = "parent_id") // lam khoa ngoai cho categories
-  private Category parentId;
+  Category parentId;
 
   @Column(name = "name")
-  private String categoryName;
+  String categoryName;
 
   @Column(name = "category_description")
-  private String categoryDescription;
+  String categoryDescription;
 
   @Column(name = "icon")
-  private String icon;
+  String icon;
 
   @ManyToMany(mappedBy = "categories")
   @JsonIgnore
-  private List<Product> products;
+  List<Product> products;
 }

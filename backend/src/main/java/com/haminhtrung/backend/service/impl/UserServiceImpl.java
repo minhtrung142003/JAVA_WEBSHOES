@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import com.haminhtrung.backend.repository.UserRepository;
 import com.haminhtrung.backend.dto.UserDto;
 import com.haminhtrung.backend.entity.User;
+import com.haminhtrung.backend.exception.AppException;
+import com.haminhtrung.backend.exception.ErrorCode;
 import com.haminhtrung.backend.service.UserService;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
@@ -20,7 +22,6 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
@@ -45,8 +46,8 @@ public class UserServiceImpl implements UserService {
     // get user by id
     @Override
     public User getUserById(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.get();
+      return userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
     // get all user
@@ -57,7 +58,18 @@ public class UserServiceImpl implements UserService {
 
     // add user
     @Override
-    public User createUser(User user) {
+    public User createUser(UserDto userDto) {
+        User user = new User();
+        if(userRepository.existsByUsername(userDto.getUsername())) {
+            throw new  AppException(ErrorCode.USER_EXISTED);
+        }
+        user.setUsername(userDto.getUsername());
+        user.setFullname(userDto.getFullname());
+        user.setEmail(userDto.getEmail());
+        user.setPhone_number(userDto.getPhone_number());
+        user.setAddress(userDto.getAddress());
+        user.setPassword(userDto.getPassword());
+        user.setCreatedAt(userDto.getCreatedAt());
         return userRepository.save(user);
     }
 

@@ -1,6 +1,5 @@
 package com.haminhtrung.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.haminhtrung.backend.dto.CartProductDto;
@@ -13,19 +12,22 @@ import com.haminhtrung.backend.entity.OrderItem;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.entity.Size;
 import com.haminhtrung.backend.service.OrderService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import com.haminhtrung.backend.service.CartService;
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("api/orders")
 public class OrderController {
 
-    @Autowired
-    private OrderService orderService;
+    OrderService orderService;
 
-    @Autowired
-    private CartService cartService;
+    CartService cartService;
 
     // get all orders
     @GetMapping
@@ -76,7 +78,7 @@ public class OrderController {
                 Product product = orderItem.getProduct();
                 Color color = orderItem.getColor();
                 Size size = orderItem.getSize();
-                
+
                 orderItemDto.setProductId(product.getId());
                 orderItemDto.setQuantity(orderItem.getQuantity()); // Corrected line
                 orderItemDto.setTitle(product.getTitle());

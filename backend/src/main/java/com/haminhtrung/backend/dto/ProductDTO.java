@@ -7,26 +7,25 @@ import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.entity.Gallery;
 import com.haminhtrung.backend.entity.Size;
 import com.haminhtrung.backend.entity.Tag;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProductDTO {
-    private Long id;
-    private String title;
-    private int price;
-    private int discount;
-    private int quantity;
-    private String description;
-    private String shortDescription;
-    private Set<Category> categories = new HashSet<>();
-    private Set<Gallery> galleries = new HashSet<>();
-    private Set<Tag> tags = new HashSet<>();
-    private Color colors;
-    private Size sizes;
+    Long id;
+    String title;
+    int price;
+    int discount;
+    int quantity;
+    String description;
+    String shortDescription;
+    Set<Category> categories = new HashSet<>();
+    Set<Gallery> galleries = new HashSet<>();
+    Set<Tag> tags = new HashSet<>();
+    Color colors;
+    Size sizes;
 }

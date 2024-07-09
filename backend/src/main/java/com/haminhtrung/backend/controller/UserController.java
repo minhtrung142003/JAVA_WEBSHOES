@@ -1,10 +1,13 @@
 package com.haminhtrung.backend.controller;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.haminhtrung.backend.service.UserService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +18,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.haminhtrung.backend.dto.UserDto;
+import com.haminhtrung.backend.dto.request.ApiResponse;
 import com.haminhtrung.backend.entity.User;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 @RequestMapping("api/users")
 public class UserController {
-    private UserService userService;
+    UserService userService;
 
     // get all users
     @GetMapping
@@ -41,9 +46,10 @@ public class UserController {
 
     // post user
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User savedUser = userService.createUser(user);
-        return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+    public ApiResponse<User> createUser(@RequestBody @Valid UserDto userDto) {
+        ApiResponse<User> apiResponse = new ApiResponse<>();
+        apiResponse.setResult(userService.createUser(userDto));
+        return apiResponse;
     }
 
     // put user
@@ -54,7 +60,7 @@ public class UserController {
         return new ResponseEntity<>(updateUser, HttpStatus.OK);
     }
 
-    // delete user 
+    // delete user
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId) {
         userService.deleteUser(userId);

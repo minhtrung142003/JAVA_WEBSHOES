@@ -2,26 +2,31 @@ package com.haminhtrung.backend.entity;
 
 import java.sql.Date;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String fullname;
-    private String email;
-    private String phone_number;
-    private String address;
-    private String password;
-    private Date createdAt;
+    Long id;
+    @Size(min = 3, message = "USERNAME_INVALID")
+    String username;
+    String fullname;
+    String email;
+    String phone_number;
+    String address;
+    @Size(min = 8, message = "PASSWORD_ERROR")
+    String password;
+    Date createdAt;
 
     public User(String fullname, String email, String phone_number, String address, String password) {
         this.fullname = fullname;

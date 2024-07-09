@@ -1,21 +1,28 @@
 package com.haminhtrung.backend.dto;
 
+import java.sql.Date;
+
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Getter
 @Setter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDto {
-    private Long id;
-    private String fullname;    
-    private String email;
-    private String phone_number;
-    private String address;
-    private String password;
-    private String token;
+    Long id;
+    String username;
+    String fullname;
+    String email;
+    String phone_number;
+    String address;
+    String password;
+    String token;
+    Date createdAt;
 
-    public UserDto(Long id, String fullname, String email, String phone_number, String address, String password, String token)
-    {
+    public UserDto(Long id, String fullname, String email, String phone_number, String address, String password,
+            String token) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
@@ -23,5 +30,7 @@ public class UserDto {
         this.address = address;
         this.password = password;
         this.token = token;
+        this.createdAt = new Date(System.currentTimeMillis()); // khởi tạo ngày tạo là now
+
     }
 }

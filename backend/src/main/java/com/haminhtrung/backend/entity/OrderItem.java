@@ -2,46 +2,47 @@ package com.haminhtrung.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import java.math.BigDecimal;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "order_items")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private Long id;
+    Long id;
 
     @ManyToOne
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @JsonIgnoreProperties("items")
-    private Product product;
+    Product product;
 
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     @JsonIgnoreProperties("items")
-    private Order order;
+    Order order;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "color_id")
-    private Color color;
+    Color color;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "size_id")
-    private Size size;
+    Size size;
 
     @Column(name = "price", columnDefinition = "numeric")
-    private BigDecimal priceOrder;
+    BigDecimal priceOrder;
 
     @Column(name = "quantity")
-    private int quantity;
+    int quantity;
 
 }

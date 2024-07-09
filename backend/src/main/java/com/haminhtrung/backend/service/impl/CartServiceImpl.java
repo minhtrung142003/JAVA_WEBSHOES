@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.haminhtrung.backend.dto.CartProductDto;
-import com.haminhtrung.backend.dto.mapper.ProductDtoMapper;
 import com.haminhtrung.backend.entity.Cart;
+import com.haminhtrung.backend.mapper.ProductDtooMapper;
 import com.haminhtrung.backend.repository.CartRepository;
 import com.haminhtrung.backend.service.CartService;
 import com.haminhtrung.backend.service.ProductService;
@@ -21,7 +21,7 @@ public class CartServiceImpl implements CartService {
     private ProductService productService;
 
     @Autowired
-    private ProductDtoMapper dtoMapper;
+    private ProductDtooMapper dtoMapper;
 
     // hàm get all cart
     @Override

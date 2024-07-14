@@ -1,12 +1,11 @@
 import React, { Suspense, useEffect } from 'react'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-
 import { CSpinner, useColorModes } from '@coreui/react'
 import './scss/style.scss'
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 // Containers
-const DefaultLayout = React.lazy(() => import('./layout/DefaultLayout'))
+const DefaultLayout = React.lazy(() => import('./component/DefaultLayout'))
 const Product = React.lazy(()=> import ('./views/product/Product'))
 const AddProduct = React.lazy(()=> import ('./views/product/AddProduct'))
 const EditProduct = React.lazy(()=> import ('./views/product/EditProduct'))

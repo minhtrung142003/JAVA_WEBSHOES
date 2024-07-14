@@ -1,7 +1,6 @@
 import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
-
 const Product = React.lazy(()=> import('./views/product/Product'))
 const AddProduct = React.lazy(()=> import('./views/product/AddProduct'))
 const EditProduct = React.lazy(()=> import('./views/product/EditProduct'))

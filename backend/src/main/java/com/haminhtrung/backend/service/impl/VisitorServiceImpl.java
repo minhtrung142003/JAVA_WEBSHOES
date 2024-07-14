@@ -3,17 +3,20 @@ package com.haminhtrung.backend.service.impl;
 import com.haminhtrung.backend.entity.Visitor;
 import com.haminhtrung.backend.repository.VisitorRepository;
 import com.haminhtrung.backend.service.VisitorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class VisitorServiceImpl implements VisitorService {
 
-    @Autowired
-    private VisitorRepository visitorRepository;
+    VisitorRepository visitorRepository;
 
     @Override
     public List<Visitor> getAllVisitors() {

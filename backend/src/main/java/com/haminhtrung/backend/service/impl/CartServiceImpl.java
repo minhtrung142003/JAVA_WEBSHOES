@@ -4,24 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.haminhtrung.backend.dto.CartProductDto;
 import com.haminhtrung.backend.entity.Cart;
-import com.haminhtrung.backend.mapper.ProductDtooMapper;
+import com.haminhtrung.backend.mapper.ProductDtoMapper;
 import com.haminhtrung.backend.repository.CartRepository;
 import com.haminhtrung.backend.service.CartService;
 import com.haminhtrung.backend.service.ProductService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CartServiceImpl implements CartService {
-    @Autowired
-    private CartRepository cartRepository;
 
-    @Autowired
-    private ProductService productService;
+    CartRepository cartRepository;
 
-    @Autowired
-    private ProductDtooMapper dtoMapper;
+    ProductService productService;
+
+    ProductDtoMapper dtoMapper;
 
     // hàm get all cart
     @Override
@@ -60,6 +62,7 @@ public class CartServiceImpl implements CartService {
         }
         return cartProductDtos;
     }
+
     // Hàm chuyển đổi thông tin từ Cart sang CartProductDto
     CartProductDto cartProductDTO(Cart cart) {
         CartProductDto cartProductDto = new CartProductDto();

@@ -1,21 +1,23 @@
 package com.haminhtrung.backend.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.haminhtrung.backend.dto.OrderItemDto;
 import com.haminhtrung.backend.entity.OrderItem;
 import com.haminhtrung.backend.repository.OrderItemRepository;
 import com.haminhtrung.backend.service.OrderItemService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderItemServiceImpl implements OrderItemService {
 
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+    OrderItemRepository orderItemRepository;
 
     // get by id
     @Override
@@ -25,7 +27,7 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     // get order by id
-   public List<OrderItemDto> getOrderItemsByOrderId(Long orderId) {
+    public List<OrderItemDto> getOrderItemsByOrderId(Long orderId) {
         List<OrderItem> orderItems = orderItemRepository.findByOrderId(orderId);
         return orderItems.stream()
                 .map(this::convertToDto)

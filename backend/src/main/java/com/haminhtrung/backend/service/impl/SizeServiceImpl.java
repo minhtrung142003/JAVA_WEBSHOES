@@ -3,17 +3,20 @@ package com.haminhtrung.backend.service.impl;
 import com.haminhtrung.backend.entity.Size;
 import com.haminhtrung.backend.repository.SizeRepository;
 import com.haminhtrung.backend.service.SizeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SizeServiceImpl implements SizeService {
 
-    @Autowired
-    private SizeRepository sizeRepository;
+    SizeRepository sizeRepository;
 
-    // get all 
+    // get all
     @Override
     public List<Size> getAllSizes() {
         return sizeRepository.findAll();

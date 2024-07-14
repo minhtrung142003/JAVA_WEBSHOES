@@ -3,15 +3,18 @@ package com.haminhtrung.backend.service.impl;
 import com.haminhtrung.backend.entity.Payment;
 import com.haminhtrung.backend.repository.PaymentRepository;
 import com.haminhtrung.backend.service.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PaymentServiceImpl implements PaymentService {
 
-    @Autowired
-    private PaymentRepository paymentRepository;
+    PaymentRepository paymentRepository;
 
     @Override
     public Payment capturePayPalOrder(Long orderId) {

@@ -1,6 +1,5 @@
 package com.haminhtrung.backend.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.haminhtrung.backend.repository.CategoryRepository;
 import com.haminhtrung.backend.repository.GalleryRepository;
@@ -10,24 +9,26 @@ import com.haminhtrung.backend.entity.Category;
 import com.haminhtrung.backend.entity.Product;
 import com.haminhtrung.backend.entity.Tag;
 import com.haminhtrung.backend.service.ProductService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductServiceImpl implements ProductService {
-    @Autowired
-    private ProductRepository productRepository;
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    ProductRepository productRepository;
 
-    @Autowired
-    private TagRepository tagRepository;
-    
-    @Autowired
-    private GalleryRepository galleryRepository;
+    CategoryRepository categoryRepository;
+
+    TagRepository tagRepository;
+
+    GalleryRepository galleryRepository;
 
     // search
     @Override

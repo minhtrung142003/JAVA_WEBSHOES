@@ -1,6 +1,5 @@
 package com.haminhtrung.backend.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,28 +17,27 @@ import com.haminhtrung.backend.repository.OrderRepository;
 import com.haminhtrung.backend.repository.ProductRepository;
 import com.haminhtrung.backend.repository.SizeRepository;
 import com.haminhtrung.backend.service.OrderService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class OrderServiceImpl implements OrderService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    OrderRepository orderRepository;
 
-    @Autowired
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
 
-    @Autowired
-    private OrderItemRepository orderItemRepository;
+    OrderItemRepository orderItemRepository;
 
-    @Autowired
-    private CartRepository cartRepository;
+    CartRepository cartRepository;
 
-    @Autowired
-    private ColorRepository colorRepository;
+    ColorRepository colorRepository;
 
-    @Autowired
-    private SizeRepository sizeRepository;
+    SizeRepository sizeRepository;
 
     // get by id
     @Override

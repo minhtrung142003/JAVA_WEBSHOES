@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import com.haminhtrung.backend.dto.request.ApiResponse;
 
 @ControllerAdvice // khai báo class này để spring biết rằng khi 1 lỗi xảy ra thì sẽ chạy vào class
-                  // này.
 public class GlobalExceptionHandler {
     @ExceptionHandler(value = Exception.class)
     ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException exception) {

@@ -2,19 +2,20 @@ package com.haminhtrung.backend.service.impl;
 
 import com.haminhtrung.backend.service.CategoryService;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import com.haminhtrung.backend.entity.Category;
 import com.haminhtrung.backend.repository.CategoryRepository;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryRepository categoryRepository;
+    CategoryRepository categoryRepository;
 
     // get all category
     @Override
@@ -41,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findByParentId(parentId);
     }
 
-    // post category 
+    // post category
     @Override
     public Category createCategory(Category category) {
         if (category.getId() != null) {

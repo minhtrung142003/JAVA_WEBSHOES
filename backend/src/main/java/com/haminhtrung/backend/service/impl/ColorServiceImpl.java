@@ -3,15 +3,18 @@ package com.haminhtrung.backend.service.impl;
 import com.haminhtrung.backend.entity.Color;
 import com.haminhtrung.backend.repository.ColorRepository;
 import com.haminhtrung.backend.service.ColorService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ColorServiceImpl implements ColorService {
 
-    @Autowired
-    private ColorRepository colorRepository;
+    ColorRepository colorRepository;
 
     // get all 
     @Override

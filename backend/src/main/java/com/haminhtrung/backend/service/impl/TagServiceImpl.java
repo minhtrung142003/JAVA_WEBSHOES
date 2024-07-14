@@ -1,25 +1,28 @@
 package com.haminhtrung.backend.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.haminhtrung.backend.entity.Tag;
 import com.haminhtrung.backend.repository.TagRepository;
 import com.haminhtrung.backend.service.TagService;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class TagServiceImpl implements TagService {
 
-    @Autowired
-    private TagRepository tagRepository;
+    TagRepository tagRepository;
 
     // get all tags
     @Override
     public List<Tag> getAllTags() {
         return tagRepository.findAll();
     }
-    
+
     // get id
     @Override
     public Tag getTagById(Long tagId) {
@@ -49,5 +52,4 @@ public class TagServiceImpl implements TagService {
         tagRepository.deleteById(tagId);
     }
 
-  
 }

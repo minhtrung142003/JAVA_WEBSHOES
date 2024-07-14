@@ -1,6 +1,8 @@
 package com.haminhtrung.backend.service.impl;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import com.haminhtrung.backend.repository.GalleryRepository;
@@ -18,28 +20,29 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class GalleryServiceImpl implements GalleryService {
 
-    private GalleryRepository galleryRepository;
+    GalleryRepository galleryRepository;
 
-    private ProductRepository productRepository;
+    ProductRepository productRepository;
 
-    private final String UPLOAD_DIR = "E:/WEB_REACT_JavaSpring/JAVA_WEBSHOES/backend/src/main/resources/static/upload";
+    final String UPLOAD_DIR = "E:/WEB_REACT_JavaSpring/JAVA_WEBSHOES/backend/src/main/resources/static/upload";
 
     // save 1 image
     @Override
     public Gallery saveImage(Long productId, MultipartFile file, int i) {
         try {
-            String originalFileName = file.getOriginalFilename(); 
-            String uuid = UUID.randomUUID().toString();    
-            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // get .file(jpg or png)
+            String originalFileName = file.getOriginalFilename();
+            String uuid = UUID.randomUUID().toString();
+            String fileExtension = originalFileName.substring(originalFileName.lastIndexOf(".")); // get .file(jpg or // png)
             String newFileName = i + uuid + fileExtension;
-            Path uploadPath = Paths.get(UPLOAD_DIR);    // create url tới upload
+            Path uploadPath = Paths.get(UPLOAD_DIR); // create url tới upload
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
             }
-            Path filePath = uploadPath.resolve(newFileName); 
+            Path filePath = uploadPath.resolve(newFileName);
             Files.write(filePath, file.getBytes());
             // filter by productid
             Product product = productRepository.findById(productId)
@@ -83,12 +86,12 @@ public class GalleryServiceImpl implements GalleryService {
     public List<Gallery> getImagesByProductId(Long productId) {
         return galleryRepository.findByProductId(productId);
     }
-    
+
     // update image by productid
     @Override
     public void update(Long productId, MultipartFile[] newFiles) {
-        deleteGallery(productId);    
-        saveImages(productId, newFiles);    // save image new
+        deleteGallery(productId);
+        saveImages(productId, newFiles); // save image new
     }
 
     // delete gallery
@@ -100,7 +103,7 @@ public class GalleryServiceImpl implements GalleryService {
             galleryRepository.delete(gallery);
         }
     }
-    
+
     // delete image từ folder or save image outside
     private void deleteImage(String imagePath) {
         Path imagePathToDelete = Paths.get(UPLOAD_DIR).resolve(imagePath);

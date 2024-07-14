@@ -12,7 +12,7 @@ import com.haminhtrung.backend.entity.Product;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         imports = {Instant.class, List.class, ArrayList.class})
         
-public interface ProductDtooMapper {
+public interface ProductDtoMapper {
     ProductDTO getProductDTO(Product product);
     List<ProductDTO> getProductDTOs(List<Product> products);
 }
